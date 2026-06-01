@@ -41,7 +41,7 @@ export const site = {
 };
 
 export const nav = [
-  { id: 'home', label: 'Index', href: 'index.html' },
+  { id: 'index', label: 'Index', href: 'index-of-works.html' },
   { id: 'projects', label: 'Projects', href: 'projects.html' },
   { id: 'about', label: 'Studio', href: 'about.html' },
   { id: 'blog', label: 'Journal', href: 'blog.html' },
@@ -84,6 +84,41 @@ export const projects = [
     brief: 'An eastern-India campus shaped to its climate and culture, learning from the institution it serves.' },
   { slug: 'good-shepherds', name: 'Good Shepherd’s International School', location: 'Ooty, Tamil Nadu', year: 2022, category: 'Revitalisation', sketch: 'pitched',
     brief: 'A careful revitalisation of a hill-station campus — preserving what matters, modernising what must change.' }
+];
+
+// The complete chronological record — every project, drawn from the office archive.
+// A typographic index on the home page; no detail pages or imagery required.
+// `year` is the numeric sort key; `yearLabel` is what shows (ranges, "ongoing").
+export const projectIndex = [
+  { name: 'The Mallya Aditi School',                 year: 1991, yearLabel: '1991',          location: 'Bangalore',           category: 'Education' },
+  { name: 'Sree Kanteerava Outdoor Stadium',         year: 1997, yearLabel: '1997',          location: 'Bangalore',           category: 'Sport' },
+  { name: '16 World Bank Hospitals',                 year: 1997, yearLabel: '1997–98',       location: 'Across Karnataka',    category: 'Healthcare' },
+  { name: 'National Cricket Academy',                year: 2000, yearLabel: '2000',          location: 'Bangalore',           category: 'Sport' },
+  { name: 'Anthem Biosciences',                      year: 2001, yearLabel: '2001',          location: 'Bangalore',           category: 'Campus' },
+  { name: 'Commercial Complex, Koramangala',         year: 2002, yearLabel: '2002',          location: 'Bangalore',           category: 'Commercial' },
+  { name: 'The Canadian International School',       year: 2004, yearLabel: '2004',          location: 'Bangalore',           category: 'Education' },
+  { name: 'Sri Kumarans Children’s Home',            year: 2006, yearLabel: '2006',          location: 'Bangalore',           category: 'Education' },
+  { name: 'SJRC Group — Three Schools',              year: 2006, yearLabel: '2006–2010',     location: 'HBR Layout · Kengeri · Sarjapur', category: 'Education' },
+  { name: 'Kumudvati Residential School',            year: 2006, yearLabel: '2006',          location: 'Shikaripura',         category: 'Education' },
+  { name: 'PES Engineering College & Residential School', year: 2006, yearLabel: '2006',     location: 'Shivamogga',          category: 'Campus' },
+  { name: 'Amaatra Academy',                         year: 2008, yearLabel: '2008',          location: 'Bangalore',           category: 'Education' },
+  { name: 'Chittoor Residential School, PES Institutions', year: 2009, yearLabel: '2009',     location: 'Chittoor',            category: 'Education' },
+  { name: 'Sahyadri Engineering College',            year: 2010, yearLabel: '2010',          location: 'Mangalore',           category: 'Campus' },
+  { name: 'Cathedral Vidya School',                  year: 2010, yearLabel: '2010',          location: 'Lonavala',            category: 'Education' },
+  { name: 'ARRS Residential School',                 year: 2011, yearLabel: '2011',          location: 'Salem',               category: 'Education' },
+  { name: 'Dempo Football Academy',                  year: 2011, yearLabel: '2011',          location: 'Goa',                 category: 'Sport' },
+  { name: 'Krissar Academy',                         year: 2015, yearLabel: '2015',          location: 'Arani, Tamil Nadu',   category: 'Education' },
+  { name: 'Takshashila School',                      year: 2015, yearLabel: '2015',          location: 'Veloor',              category: 'Education' },
+  { name: 'Tejas International Residential School',  year: 2015, yearLabel: '2015',          location: 'Bagalkote',           category: 'Education' },
+  { name: 'Hill Rock Academy',                       year: 2016, yearLabel: '2016',          location: 'Bangalore',           category: 'Education' },
+  { name: 'Global World Academy',                    year: 2016, yearLabel: '2016',          location: 'Bangalore',           category: 'Education' },
+  { name: 'Wisdom Tree Global School',               year: 2019, yearLabel: '2019',          location: 'Bhubaneswar',         category: 'Education' },
+  { name: 'Football Academy, Muthoot Group',         year: 2020, yearLabel: '2020 – ongoing', location: 'Palakkad',           category: 'Sport' },
+  { name: 'NPS Jalahalli',                           year: 2020, yearLabel: '2020',          location: 'Bangalore',           category: 'Education' },
+  { name: 'NPS Jakkur',                              year: 2022, yearLabel: '2022',          location: 'Bangalore',           category: 'Education' },
+  { name: 'NPS Banashankari — Extensions & New Block', year: 2022, yearLabel: '2022',         location: 'Bangalore',           category: 'Education' },
+  { name: 'Good Shepherd International School — Interiors, Artwork & Signage', year: 2023, yearLabel: '2023', location: 'Ooty', category: 'Interiors' },
+  { name: 'Mother Theresa Public School',            year: 2020, yearLabel: '2020 – ongoing', location: 'Bangalore',          category: 'Education' }
 ];
 
 export const services = [

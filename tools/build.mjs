@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { site, nav, categories, projects, services, founder, team, approach, studio, roles, posts } from './data.mjs';
+import { site, nav, categories, projects, projectIndex, services, founder, team, approach, studio, roles, posts } from './data.mjs';
 import { sketch } from './sketches.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -163,6 +163,7 @@ ${footerHtml(depth)}
 </html>`;
 }
 function pageCurrent(p) {
+  if (p.startsWith('index-of-works')) return 'index';
   if (p.startsWith('projects')) return 'projects';
   if (p.startsWith('about')) return 'about';
   if (p.startsWith('blog')) return 'blog';
@@ -259,6 +260,48 @@ function buildProjects() {
   <div class="projects__grid">${cards}</div>
 </div>`;
   w('projects.html', layout({ title: `School, Campus & Institutional Projects in Bangalore | ${site.shortName}`, description: 'Selected school, campus and institutional architecture by Kumar & Swamy Architects — 16 featured projects across Bangalore and India, plus sports infrastructure since 1969.', pathRel: 'projects.html', main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Projects', path: 'projects.html' }] }));
+}
+
+// ---------- INDEX OF WORKS (full chronological record) ----------
+function buildIndexPage() {
+  const rows = projectIndex.map((p, i) => `
+      <li class="ks-index__row">
+        <span class="ks-index__num">${String(i + 1).padStart(2, '0')}</span>
+        <span class="ks-index__name">${esc(p.name)}</span>
+        <span class="ks-index__cat">${esc(p.category)}</span>
+        <span class="ks-index__loc">${esc(p.location)}</span>
+        <span class="ks-index__year">${esc(p.yearLabel)}</span>
+      </li>`).join('');
+  const main = `<div class="subp">
+  <div class="subp__head"><h1>Index.</h1><p>Every school, campus, stadium and institution we’ve drawn since 1969 — ${projectIndex.length} projects, in the order they were built.</p></div>
+  <div class="subp__index">
+    <ol class="ks-index">
+      <li class="ks-index__row ks-index__row--head" aria-hidden="true">
+        <span class="ks-index__num">№</span>
+        <span class="ks-index__name">Project</span>
+        <span class="ks-index__cat">Type</span>
+        <span class="ks-index__loc">Location</span>
+        <span class="ks-index__year">Year</span>
+      </li>${rows}
+    </ol>
+  </div>
+</div>`;
+  const ld = {
+    '@type': 'CollectionPage', '@id': site.domain + '/index-of-works.html',
+    name: 'Index of Works — Kumar & Swamy Architects',
+    description: 'The complete chronological record of projects by Kumar & Swamy Architects since 1969.',
+    isPartOf: { '@id': site.domain + '/#website' },
+    about: { '@id': PRO_ID },
+    mainEntity: {
+      '@type': 'ItemList', numberOfItems: projectIndex.length,
+      itemListElement: projectIndex.map((p, i) => ({
+        '@type': 'ListItem', position: i + 1,
+        item: { '@type': 'CreativeWork', name: p.name, dateCreated: String(p.year), locationCreated: { '@type': 'Place', name: p.location } }
+      }))
+    },
+    _cur: 'index'
+  };
+  w('index-of-works.html', layout({ title: `Index of Works — Every Project Since 1969 | ${site.shortName}`, description: `The complete record of Kumar & Swamy Architects — ${projectIndex.length} schools, campuses, stadiums and institutions across India, built since 1969.`, pathRel: 'index-of-works.html', main, extraLd: ld, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Index', path: 'index-of-works.html' }] }));
 }
 
 // ---------- PROJECT DETAIL ----------
@@ -422,6 +465,7 @@ function buildSeoFiles() {
   const entries = [
     { u: '', p: '1.0', f: 'monthly' },
     { u: 'projects.html', p: '0.9', f: 'monthly' },
+    { u: 'index-of-works.html', p: '0.8', f: 'monthly' },
     { u: 'about.html', p: '0.7', f: 'yearly' },
     { u: 'blog.html', p: '0.7', f: 'weekly' },
     { u: 'contact.html', p: '0.6', f: 'yearly' },
@@ -446,10 +490,11 @@ ${entries.map(e => `  <url><loc>${site.domain}/${e.u}</loc><lastmod>${today}</la
 // ---------- run ----------
 buildHome();
 buildProjects();
+buildIndexPage();
 projects.forEach((p, i) => buildProjectDetail(p, i));
 buildAbout();
 buildContact();
 buildApply();
 buildBlog();
 buildSeoFiles();
-console.log('Built: index, projects (+%d details), about, contact, apply, blog (+%d posts), sitemap, robots', projects.length, posts.length);
+console.log('Built: index, projects (+%d details), index-of-works, about, contact, apply, blog (+%d posts), sitemap, robots', projects.length, posts.length);
