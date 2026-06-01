@@ -63,10 +63,13 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   align-items: center;
   gap: 40px;
   padding: 14px 32px;
-  background: var(--terracotta);
+  background: var(--ink); /* fallback for browsers without backdrop-filter */
+  background: color-mix(in srgb, var(--ink) 60%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
   color: var(--paper);
   transition: padding 0.35s, box-shadow 0.35s;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 .ks-nav.is-scrolled {
   padding: 10px 32px;
