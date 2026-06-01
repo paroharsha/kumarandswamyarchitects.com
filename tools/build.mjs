@@ -60,7 +60,7 @@ function navHtml(current, depth) {
   ).join('');
   return `<header class="ks-nav">
   <a href="${rel(depth, 'index.html')}" class="ks-nav__mark" aria-label="Kumar &amp; Swamy Architects — home">
-    <span>K</span><span class="ks-nav__and">&amp;</span><span>S</span>
+    <img class="ks-nav__logo" src="${rel(depth, 'assets/img/logo-mark.png')}" alt="Kumar &amp; Swamy Architects" width="256" height="256">
     <span class="ks-nav__full">Kumar &amp; Swamy</span>
   </a>
   <nav class="ks-nav__links" aria-label="Primary">${links}</nav>
