@@ -1,0 +1,20 @@
+{
+  "heading": "Work with us!",
+  "intro": "We are dedicated to designing innovative and inspiring school environments that foster learning. We are looking for passionate individuals who share our vision and commitment to excellence in educational architecture. Explore our current openings and join our team.",
+  "positions": [
+    {
+      "title": "Junior Architect",
+      "blurb": "For early-career architects ready to take on real design responsibility within small, mentored teams."
+    },
+    {
+      "title": "Internship",
+      "blurb": "For students and recent graduates seeking hands-on studio experience across live projects."
+    },
+    {
+      "title": "Interiors Architect",
+      "blurb": "For designers focused on education and institutional interiors that balance durability with inspiration."
+    }
+  ],
+  "formFields": ["First Name", "Last Name", "Date of Birth", "Email Address", "Phone", "Link to Your Resume"],
+  "note": "Please complete the form to apply for a position with us."
+}

@@ -1,0 +1,24 @@
+{
+  "eyebrow": "Featured Projects",
+  "heading": "Our Work",
+  "intro": "We have completed over 60 schools and institutions across the country apart from our sporting infrastructure and commercial projects. The following are a few of our featured projects.",
+  "categories": ["All", "Education", "Sports", "Commercial"],
+  "items": [
+    { "title": "Mallya Aditi International School", "location": "Bangalore, Karnataka", "year": 1990, "category": "Education" },
+    { "title": "Canadian International School", "location": "Bangalore, Karnataka", "year": 1996, "category": "Education" },
+    { "title": "Sri Kumarans Children's Home", "location": "Bangalore, Karnataka", "year": 2008, "category": "Education" },
+    { "title": "Vidya Cathedral School", "location": "Lonavala, Maharashtra", "year": 2008, "category": "Education" },
+    { "title": "PES Group of Institutions", "location": "Shimoga, Karnataka", "year": 2007, "category": "Education" },
+    { "title": "SJR Public Schools", "location": "Bangalore, Karnataka", "year": 2010, "category": "Education" },
+    { "title": "Amaatra Academy", "location": "Bangalore, Karnataka", "year": 2012, "category": "Education" },
+    { "title": "Tejas International School", "location": "Bagalkote, Karnataka", "year": 2016, "category": "Education" },
+    { "title": "National Public School, Jalahalli", "location": "Bangalore, Karnataka", "year": 2018, "category": "Education" },
+    { "title": "United World Academy", "location": "Bangalore, Karnataka", "year": 2018, "category": "Education" },
+    { "title": "Valiants Academy", "location": "Kengeri, Karnataka", "year": 2019, "category": "Education" },
+    { "title": "Wisdom Tree Global School", "location": "Bhubaneswar, Orissa", "year": 2020, "category": "Education" },
+    { "title": "Good Shepherds International School Revitalisation", "location": "Ooty, Tamil Nadu", "year": "2020–2022", "category": "Education" },
+    { "title": "Kanteerava Outdoor Stadium", "location": "Bangalore, Karnataka", "year": 1997, "category": "Sports" },
+    { "title": "Dempo Football Academy", "location": "Ella, Goa", "year": 2018, "category": "Sports" },
+    { "title": "Anthem Biosciences Campus", "location": "Bangalore, Karnataka", "year": 2005, "category": "Commercial" }
+  ]
+}

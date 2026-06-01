@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Kumar & Swamy Architects</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../colors_and_type.css">
+  <style>
+    html, body { margin: 0; padding: 0; background: #F6F9F5; font-family: 'Manrope', sans-serif; color: #091405; }
+    * { box-sizing: border-box; }
+    button { font-family: 'Manrope', sans-serif; }
+    @media (max-width: 900px) {
+      .k-projects-grid, .k-blog-grid, .k-team-grid { grid-template-columns: 1fr 1fr !important; }
+    }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" src="components.jsx"></script>
+  <script type="text/babel" src="Header.jsx"></script>
+  <script type="text/babel" src="Footer.jsx"></script>
+  <script type="text/babel" src="Hero.jsx"></script>
+  <script type="text/babel" src="ProjectsBand.jsx"></script>
+  <script type="text/babel" src="BlogSection.jsx"></script>
+  <script type="text/babel" src="GetToKnowUs.jsx"></script>
+  <script type="text/babel" src="AboutPage.jsx"></script>
+  <script type="text/babel" src="ProjectsPage.jsx"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    function App() {
+      const KEY = 'ksa-ui-kit-page';
+      const [page, setPage] = useState(() => {
+        try { return localStorage.getItem(KEY) || 'home'; } catch { return 'home'; }
+      });
+      useEffect(() => { try { localStorage.setItem(KEY, page); } catch {} }, [page]);
+      useEffect(() => { if (window.lucide) window.lucide.createIcons(); }, [page]);
+      useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, [page]);
+
+      const nav = (p) => setPage(p);
+
+      return (
+        <div data-screen-label={`KSA - ${page}`}>
+          <Header page={page} onNavigate={nav} />
+          {page === 'home' && (
+            <>
+              <Hero />
+              <ProjectsBand onViewAll={() => nav('projects')} />
+              <BlogSection onViewAll={() => nav('blog')} />
+              <GetToKnowUs onLearnMore={() => nav('about')} />
+            </>
+          )}
+          {page === 'about' && <AboutPage />}
+          {page === 'projects' && <ProjectsPage />}
+          {(page === 'blog' || page === 'contact' || page === 'apply') && (
+            <div style={{ padding: '160px 24px', textAlign: 'center', minHeight: '60vh', background: '#F6F9F5' }}>
+              <div style={{ fontSize: 11, letterSpacing: '0.14em', fontWeight: 700, textTransform: 'uppercase', color: '#626462', marginBottom: 20 }}>
+                {page === 'blog' ? 'Blog' : page === 'contact' ? 'Contact' : 'Apply'}
+              </div>
+              <h1 style={{ fontFamily: 'Manrope, sans-serif', fontWeight: 800, fontSize: 64, letterSpacing: '-0.01em', margin: 0 }}>
+                {page === 'blog' ? 'Thoughts & Articles' : page === 'contact' ? 'Get in Touch' : 'Join Our Studio'}
+              </h1>
+              <p style={{ fontFamily: 'Manrope, sans-serif', fontWeight: 300, fontSize: 18, color: '#091405', maxWidth: 560, margin: '24px auto 0' }}>
+                Placeholder page — content for this section was not part of the source brief. Navigate back to <a href="#" onClick={(e) => { e.preventDefault(); nav('home'); }} style={{ color: '#091405', textDecoration: 'underline', textUnderlineOffset: '4px' }}>Home</a>.
+              </p>
+            </div>
+          )}
+          <Footer />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

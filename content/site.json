@@ -1,0 +1,30 @@
+{
+  "name": "Kumar & Swamy Architects",
+  "shortName": "K&S Architects",
+  "established": 1969,
+  "location": "Bangalore, India",
+  "tagline": "EST. 1969 | Bangalore, India",
+  "nav": [
+    { "label": "Home", "href": "/index.html" },
+    { "label": "About us", "href": "/about.html" },
+    { "label": "Projects", "href": "/projects.html" },
+    { "label": "Blog", "href": "/blog.html" },
+    { "label": "Contact Us", "href": "/contact.html" },
+    { "label": "Apply", "href": "/apply.html" }
+  ],
+  "services": [
+    "school design", "campus design", "institution design", "masterplanning",
+    "education interiors", "sports infrastructure", "stadium design",
+    "hospital design", "hospital interiors"
+  ],
+  "contact": {
+    "email": "kumarswamy49@gmail.com",
+    "phones": ["+91 6362428416", "+91 6360757772", "+91 9880077546", "080 - 41214283"],
+    "address": "MF 2/8 BDA Building, Cambridge Layout, Bengaluru, Karnataka 560008",
+    "hours": "Mon – Fri  10:00 am – 7:00 pm"
+  },
+  "social": {
+    "facebook": "https://www.facebook.com/kumarswamy49",
+    "instagram": "https://www.instagram.com/kumar_and_swamy_architects"
+  }
+}

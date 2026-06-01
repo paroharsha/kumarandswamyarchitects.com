@@ -1,0 +1,27 @@
+{
+  "hero": {
+    "eyebrow": "EST. 1969  |  Bangalore, India",
+    "wordmark": ["Kumar", "&", "Swamy", "Architects"]
+  },
+  "projects": {
+    "heading": "Our Projects",
+    "intro": "We have completed over 60 schools and institutions across the country, in addition to our sporting infrastructure, residential and commercial projects. Come explore our work!",
+    "cta": "Check out our Projects!",
+    "featured": [
+      { "title": "Mallya Aditi International School", "location": "Bangalore, Karnataka", "year": 1990 },
+      { "title": "Canadian International School", "location": "Bangalore, Karnataka", "year": 1996 },
+      { "title": "Sri Kumarans Children's Home", "location": "Bangalore, Karnataka", "year": 2008 },
+      { "title": "Amaatra Academy", "location": "Bangalore, Karnataka", "year": 2012 }
+    ]
+  },
+  "blog": {
+    "heading": "the K&S Blog",
+    "intro": "From partners to juniors, we post thoughts and articles from as many perspectives as possible. Explore our blog and see what speaks to you!",
+    "cta": "Check out our Blog!"
+  },
+  "getToKnowUs": {
+    "heading": "Get to Know Us",
+    "body": "We are a family-owned business in our third generation, with a legacy of over 55 years. Our core philosophy has always been to create user-friendly and safe environments. While we are based in Bangalore, we have collaborated with institutions nationwide. Click “learn more” to discover our story!",
+    "cta": "Learn more"
+  }
+}

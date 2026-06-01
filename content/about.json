@@ -1,0 +1,39 @@
+{
+  "founder": {
+    "eyebrow": "Our Founder",
+    "name": "C R Shivakumar",
+    "bio": [
+      "C R Shivakumar was born in 1938 in Bangalore. After studying civil engineering at Central College Bangalore — one of India's oldest colleges — he established Kumar and Swamy in 1969, one of Bangalore's oldest architecture practices, which evolved from a civil-engineering outfit into an architecture and design house.",
+      "A remarkable human being with an indomitable passion for life, he was an avid reader and traveller who explored South India, parts of North India, and Europe. He married Uma Shivakumar, a renowned personality of the Kannada theatre and film industry. A patron of music, dance, drama and writing, he held a deep love for nature and for Bangalore — values he instilled in his family."
+    ]
+  },
+  "team": {
+    "eyebrow": "The Team",
+    "heading": "Partners & Family",
+    "members": [
+      { "name": "Sanchali Harsha", "role": "Partner" },
+      { "name": "Paromita Harsha", "role": "Partner" },
+      { "name": "Harsha Shivakumar", "role": "Partner" },
+      { "name": "Suchitra Harsha", "role": "Partner" }
+    ]
+  },
+  "approach": {
+    "eyebrow": "Our Design Approach",
+    "quote": "As one of our core principles of design, we believe that we are here to interpret the philosophy, the vision and the core ethics of an institution into a design of a building or infrastructure. Hence, we don't have any distinct style — we believe the style of the building should reflect the values of the institution.",
+    "principles": [
+      "We help our clients achieve their aspirations.",
+      "Spaces should balance aesthetic appeal with functional validity.",
+      "We incorporate indigenous cultural expressions evolved through climate, materials and customs.",
+      "Experience is enriched through discovery and anticipation.",
+      "Learning from leading institutions informs our practice.",
+      "Passion drives the creation of intellectually stimulating environments."
+    ]
+  },
+  "studio": {
+    "eyebrow": "The Studio",
+    "body": [
+      "At Kumar and Swamy, architecture extends beyond the office. We prioritise individual development: small teams of architects and interns are given real design opportunities and the freedom for creative expression.",
+      "We encourage music, film and art appreciation as essential to architectural success, and we value travel and cultural learning. Professional success, we believe, requires well-read, well-travelled, well-rounded individuals."
+    ]
+  }
+}

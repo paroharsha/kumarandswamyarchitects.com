@@ -1,0 +1,33 @@
+{
+  "heading": "the K&S Blog",
+  "intro": "From partners to juniors, we post thoughts and articles from as many perspectives as possible. Explore our blog and see what speaks to you!",
+  "posts": [
+    {
+      "slug": "designing-for-a-billion",
+      "title": "Designing for a Billion: 5 Ways India's New Building Code is Reimagining the Modern City",
+      "author": "Paromita Harsha",
+      "date": "Apr 16",
+      "readTime": "4 min read",
+      "excerpt": "India's urban population is projected to reach 820 million by 2051. A look at how the National Building Code 2016 is rethinking our cities at scale.",
+      "file": "designing-for-a-billion.md"
+    },
+    {
+      "slug": "architecture-that-teaches",
+      "title": "Architecture That Teaches: The Reality of Designing Modern Educational Spaces",
+      "author": "Kumar and Swamy Architects",
+      "date": "Apr 8",
+      "readTime": "2 min read",
+      "excerpt": "Physical space is a silent partner in every classroom. Notes on the real-world challenges and rewards of designing modern educational spaces.",
+      "file": "architecture-that-teaches.md"
+    },
+    {
+      "slug": "inclusivity-in-architecture",
+      "title": "Inclusivity in Architecture — Design Without Bias",
+      "author": "Varun Govind",
+      "date": "Aug 7, 2025",
+      "readTime": "4 min read",
+      "excerpt": "Building spaces that work in a fragmented world. A practical philosophy for bias-free, inclusive design.",
+      "file": "inclusivity-in-architecture.md"
+    }
+  ]
+}
