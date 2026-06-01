@@ -7,7 +7,7 @@ const root = path.resolve(__dirname, '..');
 const port = 4173;
 const types = {
   '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript',
-  '.json': 'application/json', '.md': 'text/plain', '.svg': 'image/svg+xml',
+  '.jsx': 'text/babel', '.json': 'application/json', '.md': 'text/plain', '.svg': 'image/svg+xml',
   '.png': 'image/png', '.jpg': 'image/jpeg', '.ico': 'image/x-icon'
 };
 

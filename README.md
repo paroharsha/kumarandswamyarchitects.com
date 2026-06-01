@@ -1,57 +1,57 @@
 # Kumar & Swamy Architects — website
 
-A static rebuild of [kumarandswamyarchitects.com](https://www.kumarandswamyarchitects.com/), designed to be hosted for free on **GitHub Pages**. No build step, no framework, no JSX — just HTML, CSS and a little vanilla JS, so GitHub Pages can serve it directly.
+The editorial redesign of [kumarandswamyarchitects.com](https://www.kumarandswamyarchitects.com/), built as a **static site for GitHub Pages** — no framework, no bundler runtime, no JSX at serve time. The HTML in the repo root is what gets served.
 
-## Pages
+**Live:** https://paroharsha.github.io/kumarandswamyarchitects.com/
 
-| File | Page |
-|------|------|
-| `index.html` | Home — hero wordmark, featured projects, blog teasers, "Get to Know Us" |
-| `about.html` | Founder story, partners & family, design approach, the studio |
-| `projects.html` | Filterable grid of 16 projects (Education / Sports / Commercial) |
-| `blog.html` | Blog index |
-| `blog/*.html` | The three full articles |
-| `contact.html` | Address, hours, phones, email, embedded map |
-| `apply.html` | Open roles + application form |
+## How it works
 
-## Structure
+The pages are generated from a tiny zero-dependency Node script so the 24 pages stay DRY, but the **output is plain static HTML** that GitHub Pages serves directly. You only re-run the generator when content or templates change.
 
 ```
-.
-├── index.html, about.html, projects.html, blog.html, contact.html, apply.html
-├── blog/                     # individual article pages
-├── assets/
-│   ├── css/styles.css        # the whole design system
-│   └── js/site.js            # nav toggle, active link, project filter
-├── content/                  # the site copy, pulled from the live site (source of truth)
-│   ├── site.json             # nav, services, contact, social
-│   ├── home.json, about.json, projects.json, contact.json, apply.json
-│   └── blog/                 # posts.json + one .md file per article
-├── prototype/                # the original React/JSX click-through prototype (archived)
-└── .nojekyll                 # tell GitHub Pages to serve files as-is
+node tools/build.mjs        # regenerate all HTML
 ```
 
-The `content/` folder is the editable catalogue of all copy (JSON + Markdown). The HTML pages render that content directly so the site is fast and works without JavaScript. When you change copy, update both the `content/` source and the matching HTML (or wire up a generator).
+### Source
+```
+tools/
+  data.mjs        # single source of truth — projects, services, team, blog meta, site config
+  sketches.mjs    # the hand-drawn architectural SVG placeholders (axonometric / plan / elevation)
+  build.mjs       # templates + SEO head + sitemap; writes the HTML below
+content/blog/*.md # full article bodies (read at build time)
+assets/
+  css/site.css    # the design system, ported from the approved editorial design + responsive
+  js/site.js      # nav scroll state, mobile menu, scroll-reveal, projects filter
+```
 
-## Hosting on GitHub Pages
+### Generated output (committed, served by Pages)
+```
+index.html                  # Home — split hero, selected works, services, journal, about
+projects.html               # filterable grid of all 16 projects
+projects/<slug>.html        # one detail page per project (×16)
+about.html                  # Studio — founder, partners, design approach, studio culture
+blog.html  +  blog/<slug>.html   # journal index + 3 full articles
+contact.html                # studio details + embedded map
+apply.html                  # open roles + application form
+sitemap.xml, robots.txt, .nojekyll
+```
 
-1. Create a repo on GitHub and push this folder.
-2. In the repo, go to **Settings → Pages**.
-3. Under **Build and deployment**, set **Source: Deploy from a branch**, branch **`main`**, folder **`/ (root)`**, then **Save**.
-4. The site goes live at `https://<username>.github.io/<repo>/` within a minute or two.
+## Design system
 
-### Custom domain (kumarandswamyarchitects.com)
+- **Type:** Inter Tight (display, 800), Instrument Serif (the italic ampersand & drop-caps), Geist (body), Geist Mono (labels) — all via Google Fonts.
+- **Palette:** paper `#F4EFE6`, ink `#1A1814`, mustard `#E8B629`, terracotta/brick `#9B3A2A`.
+- Ported verbatim from the approved editorial design, with responsive layouts and a mobile nav added for real-world use.
 
-In **Settings → Pages → Custom domain**, enter `www.kumarandswamyarchitects.com`, then add these DNS records at your registrar:
+## SEO
 
-- A `CNAME` record for `www` → `<username>.github.io`
-- (For the apex `kumarandswamyarchitects.com`) four `A` records → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+Per-page `<title>` + meta description, canonical URLs, Open Graph / Twitter cards, JSON-LD (Organization site-wide, CreativeWork on projects, BlogPosting on articles), semantic landmarks, a skip link, `sitemap.xml` and `robots.txt`.
 
-GitHub will write a `CNAME` file into the repo. All internal links are relative, so the site works on both the `github.io` subpath and a custom domain.
+## Notes / to-do
 
-## Notes
+- **Imagery:** project, team and article images currently use on-brand **SVG sketches** as placeholders. Real photography from the live site will be dropped in next — swap the `sketch(...)` calls in `build.mjs` for `<img>` tags (the design already supports a photo layer).
+- **Apply form:** static hosting has no backend; the form posts to a placeholder Formspree endpoint (`your-form-id`) — replace it, or use the email fallback already shown.
+- The original click-through prototype is archived under `prototype/`.
 
-- **Typography:** Manrope (Google Fonts), a stand-in for the original Avenir LT / DIN Next.
-- **Imagery:** project and article images are tinted placeholder tiles — no licensed photography was provided. Swap the `.tile` elements for real `<img>` tags when photos are available.
-- **Application form:** GitHub Pages is static and can't process form posts. The form on `apply.html` points to a placeholder [Formspree](https://formspree.io) endpoint (`action="https://formspree.io/f/your-form-id"`) — create a free Formspree form and replace `your-form-id`, or rely on the "email us directly" fallback already in place.
-- **Map:** the contact page embeds a Google Maps iframe centred on Cambridge Layout, Bengaluru.
+## Hosting
+
+GitHub Pages → Settings → Pages → Deploy from branch `main`, folder `/ (root)`. For the custom domain, set `www.kumarandswamyarchitects.com` and point DNS (`www` CNAME → `paroharsha.github.io`; apex A records → GitHub Pages IPs). All internal links are relative, so it works on both the project subpath and a custom domain.
