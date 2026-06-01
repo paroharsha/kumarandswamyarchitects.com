@@ -110,7 +110,7 @@ const proServiceLd = {
   geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
   areaServed: [{ '@type': 'City', name: 'Bengaluru' }, { '@type': 'AdministrativeArea', name: 'Karnataka' }, { '@type': 'Country', name: 'India' }],
   knowsAbout: site.knowsAbout,
-  sameAs: [site.social.instagram, site.social.facebook],
+  sameAs: site.sameAs,
   makesOffer: services.map(s => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.name, description: s.blurb } }))
 };
 const websiteLd = { '@type': 'WebSite', '@id': site.domain + '/#website', url: site.domain + '/', name: site.name, publisher: { '@id': PRO_ID }, inLanguage: 'en' };

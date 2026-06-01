@@ -29,7 +29,15 @@ export const site = {
   social: {
     instagram: 'https://www.instagram.com/kumar_and_swamy_architects',
     facebook: 'https://www.facebook.com/kumarswamy49'
-  }
+  },
+  // Authoritative external profiles — used as schema.org sameAs to tie the
+  // site to the Google Business Profile entity (/g/11dzw7r2x_) and directories.
+  sameAs: [
+    'https://www.instagram.com/kumar_and_swamy_architects',
+    'https://www.facebook.com/kumarswamy49',
+    'https://archinect.com/kumarandswamy',
+    'https://www.indiamart.com/kumar-swamy-architects'
+  ]
 };
 
 export const nav = [
