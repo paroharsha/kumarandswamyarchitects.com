@@ -11,6 +11,23 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const w = (rel, html) => { const p = path.join(ROOT, rel); fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, html); };
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const exists = (rel) => fs.existsSync(path.join(ROOT, rel));
+const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+// Render a real photo when present, else fall back to the on-brand SVG sketch.
+function media(src, { ratio = '4/3', alt = '', label = '', depth = 0, eager = false, fallback = 'linear' } = {}) {
+  const lab = label
+    ? `<div style="position:absolute;top:14px;left:16px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#F4EFE6;text-shadow:0 1px 6px rgba(0,0,0,0.6);z-index:2">${esc(label)}</div>`
+    : '';
+  if (src && exists(src)) {
+    return `<div class="ks-sketch" style="aspect-ratio:${ratio};position:relative;background:#EFE8DB;overflow:hidden">`
+      + `<img src="${rel(depth, src)}" alt="${esc(alt)}"${eager ? '' : ' loading="lazy"'} decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">`
+      + lab + `</div>`;
+  }
+  return sketch(fallback, { ratio, label });
+}
+const projPhoto = `assets/img/projects/`;
+const proj = (p, o = {}) => media(`${projPhoto}${p.slug}.jpg`, { alt: `${p.name}, ${p.location}`, fallback: p.sketch, ...o });
 
 // ---------- tiny markdown -> html (for blog bodies) ----------
 function md(src) {
@@ -135,7 +152,7 @@ function buildHome() {
   const featNo = String(projects.indexOf(feat) + 1).padStart(3, '0');
   const works = projects.slice(0, 10).map(p => `
     <a href="projects/${p.slug}.html" class="home-c__scroll-card">
-      ${sketch(p.sketch, { ratio: '4/3' })}
+      ${proj(p, { ratio: '4/3' })}
       <div class="meta"><span>${esc(p.location)}</span><span>${p.year}</span></div>
       <div class="name">${esc(p.name)}</div>
     </a>`).join('');
@@ -143,7 +160,7 @@ function buildHome() {
     <div class="home-c__svc-item"><div><span class="n">${s.n} / 06</span><div class="name">${esc(s.name)}</div></div><div class="blurb">${esc(s.blurb)}</div></div>`).join('');
   const journal = posts.map(p => `
     <a class="journal-card" href="blog/${p.slug}.html">
-      ${sketch(p.sketch, { ratio: '3/2' })}
+      ${media(`assets/img/blog/${p.slug}.jpg`, { ratio: '3/2', alt: p.title, fallback: p.sketch })}
       <div class="kicker"><span>${esc(p.author)}</span><span>${esc(p.date)}</span></div>
       <h3>${esc(p.title)}</h3>
       <p>${esc(p.excerpt)}</p>
@@ -165,7 +182,7 @@ function buildHome() {
     </div>
     <div class="home-c__hero-r">
       <a href="projects/${feat.slug}.html" class="home-c__hero-feat" style="text-decoration:none;color:inherit">
-        <div class="home-c__hero-feat-parallax" style="position:absolute;inset:0;z-index:0">${sketch(feat.sketch, { ratio: 'auto' })}</div>
+        <div class="home-c__hero-feat-parallax" style="position:absolute;inset:0;z-index:0">${proj(feat, { ratio: 'auto', eager: true })}</div>
         <div class="home-c__hero-feat-top"><span>Currently featured</span><span>Ref. ${featNo} / 060</span></div>
         <div class="home-c__hero-feat-bot"><div class="name">${esc(feat.name)}</div><div class="meta"><span>${esc(feat.location)}</span><span>${feat.year}</span></div></div>
       </a>
@@ -207,7 +224,7 @@ function buildProjects() {
   const filters = categories.map((c, i) => `<button class="projects__filter${i === 0 ? ' is-active' : ''}" data-filter="${c}">${c}</button>`).join('');
   const cards = projects.map(p => `
     <a class="projects__card" href="projects/${p.slug}.html" data-category="${p.category}">
-      ${sketch(p.sketch, { ratio: '4/3' })}
+      ${proj(p, { ratio: '4/3' })}
       <div class="meta-row"><span>${esc(p.location)}</span><span>${esc(p.category)}</span></div>
       <div class="name">${esc(p.name)}</div>
       <div class="meta-row" style="margin-top:6px"><span>${p.year}</span></div>
@@ -240,7 +257,7 @@ function buildProjectDetail(p, i) {
       <div class="item"><div class="lbl">Ref</div><div class="val">${ref} / 060</div></div>
     </div>
   </section>
-  <div class="detail__bigimg">${sketch(p.sketch, { ratio: '16/7', label: p.category })}</div>
+  <div class="detail__bigimg">${proj(p, { ratio: '16/7', label: p.category, depth: 1, eager: true })}</div>
   <section class="detail__overview">
     <div><span class="ks-label">Overview</span></div>
     <div><p>${esc(p.brief)}</p><p>${esc(overview2)}</p></div>
@@ -258,7 +275,7 @@ function buildProjectDetail(p, i) {
   </section>
   <section class="detail__next">
     <div class="detail__next-l"><span class="ks-label">Next project</span><h3>${esc(next.name)} <em>→</em></h3></div>
-    <div class="detail__next-r"><a href="${next.slug}.html" style="color:inherit">${sketch(next.sketch, { ratio: '4/3' })}<div class="meta"><span>${esc(next.location)}</span><span>${next.year}</span></div></a></div>
+    <div class="detail__next-r"><a href="${next.slug}.html" style="color:inherit">${proj(next, { ratio: '4/3', depth: 1 })}<div class="meta"><span>${esc(next.location)}</span><span>${next.year}</span></div></a></div>
   </section>
 </div>`;
   w(`projects/${p.slug}.html`, layout({ title: `${p.name} — ${site.name}`, description: `${p.name}, ${p.location} (${p.year}). ${p.brief}`, pathRel: `projects/${p.slug}.html`, depth: 1, main, extraLd: ld, ogType: 'article' }));
@@ -268,7 +285,7 @@ function buildProjectDetail(p, i) {
 function buildAbout() {
   const teamCards = team.map(m => `
     <div class="about__team-card">
-      <div class="img">${sketch('linear', { ratio: '1/1' })}</div>
+      <div class="img">${media(`assets/img/team/${slugify(m.name)}.jpg`, { ratio: '1/1', alt: m.name })}</div>
       <div class="name">${esc(m.name)}</div><div class="role">${esc(m.role)}</div>
     </div>`).join('');
   const appItems = approach.items.map(a => `
@@ -279,7 +296,7 @@ function buildAbout() {
     <div class="about__hero-right"><p>A family-owned practice in its third generation, with a legacy of over fifty-five years and more than sixty institutions built across India.</p></div>
   </section>
   <section class="about__founder">
-    <div class="about__founder-img">${sketch('tower', { ratio: '3/4' })}</div>
+    <div class="about__founder-img">${media('assets/img/founder.jpg', { ratio: '3/4', alt: 'C R Shivakumar, founder', fallback: 'tower' })}</div>
     <div class="about__founder-content"><span class="ks-label">Our founder</span><h2>${esc(founder.name)}</h2>${founder.body.map(t => `<p>${esc(t)}</p>`).join('')}</div>
   </section>
   <section class="about__team">
@@ -366,7 +383,7 @@ function buildBlog() {
   <div class="article__crumbs"><a href="../index.html">Index</a> / <a href="../blog.html">Journal</a></div>
   <h1>${esc(p.title)}</h1>
   <div class="article__byline"><span>${esc(p.author)}</span><span>${esc(p.date)}</span><span>${esc(p.readTime)}</span></div>
-  <div class="article__hero">${sketch(p.sketch, { ratio: '16/8' })}</div>
+  <div class="article__hero">${media(`assets/img/blog/${p.slug}.jpg`, { ratio: '16/8', alt: p.title, depth: 1, eager: true, fallback: p.sketch })}</div>
   <div class="article__body">${body}</div>
   <p style="margin-top:48px"><a href="../blog.html" class="ks-cta-link">Back to the journal <span class="arrow">→</span></a></p>
 </article>`;
