@@ -61,11 +61,9 @@
     });
   }
 
-  // ---- Selected works: seamless looping scroll arrows ----
-  var track = document.querySelector('.home-c__scroll-track');
-  if (track && track.children.length > 1) {
-    var prevBtn = document.querySelector('.home-c__scroll-arrow.is-prev');
-    var nextBtn = document.querySelector('.home-c__scroll-arrow.is-next');
+  // ---- Seamless looping horizontal carousels (Selected works + Practices) ----
+  function setupLoopCarousel(track, prevBtn, nextBtn) {
+    if (!track || track.children.length <= 1) return;
     var originals = Array.prototype.slice.call(track.children);
 
     // Clone one full set before and after so scrolling wraps seamlessly.
@@ -90,7 +88,9 @@
       else if (track.scrollLeft < setWidth) track.scrollLeft += setWidth;
     };
     var step = function () {
-      var s = Math.max(320, Math.round(track.clientWidth * 0.8));
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      var unit = originals[0] ? originals[0].getBoundingClientRect().width + gap : Math.round(track.clientWidth * 0.4);
+      var s = Math.max(280, Math.round(unit * 2)); // advance ~2 cards per press
       return setWidth > 2 ? Math.min(s, Math.round(setWidth * 0.9)) : s;
     };
 
@@ -104,4 +104,15 @@
     center();
     window.addEventListener('load', center);
   }
+
+  setupLoopCarousel(
+    document.querySelector('.home-c__scroll-track'),
+    document.querySelector('.home-c__scroll-arrow.is-prev'),
+    document.querySelector('.home-c__scroll-arrow.is-next')
+  );
+  setupLoopCarousel(
+    document.querySelector('.home-c__svc-scroll'),
+    document.querySelector('.home-c__svc-arrow.is-prev'),
+    document.querySelector('.home-c__svc-arrow.is-next')
+  );
 })();

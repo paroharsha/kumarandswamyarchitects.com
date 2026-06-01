@@ -494,14 +494,29 @@ body.home .ks-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 40; }
 .home-c__quote-cite { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); margin-top: 40px; display: block; }
 
 /* Services — ribbon style */
-.home-c__services { padding: 140px 0; background: var(--paper); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
-.home-c__services-head { padding: 0 32px 60px; display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: baseline; }
+.home-c__services { padding: 48px 0 0; background: var(--paper); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.home-c__services-head { padding: 0 32px 32px; display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: baseline; }
 .home-c__services-head h2 { font-family: var(--font-display); font-size: clamp(48px, 6vw, 88px); margin: 0; letter-spacing: -0.03em; }
 .home-c__services-head p { font-family: var(--font-display); font-style: italic; font-size: 24px; color: var(--ink-2); margin: 0; max-width: 480px; justify-self: end; text-align: right; }
+.home-c__svc-wrap { position: relative; }
+.home-c__svc-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 46px; height: 46px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(26,24,20,0.18);
+  background: rgba(26,24,20,0.1);
+  -webkit-backdrop-filter: blur(8px) saturate(150%); backdrop-filter: blur(8px) saturate(150%);
+  color: var(--ink); font-size: 19px; line-height: 1; cursor: pointer;
+  z-index: 5; transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.home-c__svc-arrow:hover { background: rgba(26,24,20,0.2); border-color: rgba(26,24,20,0.4); transform: translateY(-50%) scale(1.07); }
+.home-c__svc-arrow.is-prev { left: 18px; }
+.home-c__svc-arrow.is-next { right: 18px; }
+@media (max-width: 860px) { .home-c__svc-arrow { display: none; } }
 .home-c__svc-scroll { display: flex; overflow-x: auto; border-top: 1px solid var(--ink); scroll-snap-type: x mandatory; }
-.home-c__svc-item { flex: 0 0 340px; padding: 48px 32px; border-right: 1px solid var(--ink); scroll-snap-align: start; min-height: 320px; display: flex; flex-direction: column; justify-content: space-between; }
+.home-c__svc-item { flex: 0 0 340px; padding: 32px 28px; border-right: 1px solid var(--ink); scroll-snap-align: start; min-height: 0; display: flex; flex-direction: column; justify-content: space-between; }
 .home-c__svc-item .n { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; color: var(--ink-3); }
-.home-c__svc-item .name { font-family: var(--font-display); font-size: 36px; line-height: 1; letter-spacing: -0.02em; margin: 20px 0; }
+.home-c__svc-item .name { font-family: var(--font-display); font-size: 30px; line-height: 1.02; letter-spacing: -0.02em; margin: 14px 0; }
 .home-c__svc-item .blurb { font-family: var(--font-sans); font-size: 14px; line-height: 1.55; color: var(--ink-2); }
 
 /* ============ SUB PAGES: Projects, About, Detail ============ */
