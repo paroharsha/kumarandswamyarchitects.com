@@ -121,6 +121,13 @@ export const projectIndex = [
   { name: 'Mother Theresa Public School',            year: 2020, yearLabel: '2020 – ongoing', location: 'Bangalore',          category: 'Education' }
 ];
 
+// Capability keywords shown under the hero title (also strong SEO signals).
+export const specialties = [
+  'School design', 'Campus design', 'Institution design', 'Masterplanning',
+  'Education interiors', 'Sports infrastructure', 'Stadium design',
+  'Hospital design', 'Hospital interiors'
+];
+
 export const services = [
   { n: '01', name: 'School & Campus Design', blurb: 'Masterplans and buildings for schools and universities — from individual blocks to full multi-phase campuses.' },
   { n: '02', name: 'Institution & Masterplanning', blurb: 'Long-horizon planning that anticipates growth, climate and culture. We think in decades, not quarters.' },

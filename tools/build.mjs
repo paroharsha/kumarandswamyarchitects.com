@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { site, nav, categories, projects, projectIndex, services, founder, team, approach, studio, roles, posts } from './data.mjs';
+import { site, nav, categories, projects, projectIndex, specialties, services, founder, team, approach, studio, roles, posts } from './data.mjs';
 import { sketch } from './sketches.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -202,6 +202,7 @@ function buildHome() {
         <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3)"><span>Kumar &amp; Swamy</span><span>001 — 2026</span></div>
         <h1 class="home-c__hero-title" style="margin-top:clamp(8px,2vh,28px);font-size:clamp(40px,6vw,104px)">Kumar<br/><span class="ampersand">&amp;</span> Swamy<br/><em>architects.</em></h1>
         <p style="font-family:'Inter Tight',sans-serif;font-weight:300;font-size:clamp(18px,1.6vw,22px);line-height:1.35;color:var(--ink-2);max-width:540px;margin:clamp(20px,3vh,32px) 0 0;letter-spacing:-0.01em">${esc(site.tagline)}</p>
+        <div class="home-c__hero-specialties">${specialties.map(s => `<span>${esc(s)}</span>`).join('')}</div>
       </div>
       <div class="home-c__hero-meta">
         <div class="item"><div class="lbl">Founded</div><div class="val">Bangalore, 1969</div></div>

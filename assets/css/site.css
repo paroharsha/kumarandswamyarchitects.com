@@ -427,6 +427,16 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .home-c__hero-r { background: var(--mustard); padding: 40px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
 .home-c__hero-title { font-family: var(--font-display); font-size: clamp(64px, 9vw, 160px); line-height: 0.85; letter-spacing: -0.04em; margin: 0; }
 .home-c__hero-title em { font-style: italic; color: var(--terracotta); }
+.home-c__hero-specialties {
+  display: flex; flex-wrap: wrap; align-items: center;
+  row-gap: 8px; max-width: 580px;
+  margin-top: clamp(18px, 2.5vh, 28px);
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
+}
+.home-c__hero-specialties span:not(:last-child)::after {
+  content: '|'; color: var(--mustard); margin: 0 10px;
+}
 .home-c__hero-title .ampersand { font-style: italic; color: var(--mustard); display: inline-block; transform: translateY(6px); }
 .home-c__hero-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding-top: 40px; border-top: 1px solid var(--ink); }
 .home-c__hero-meta .item .lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
