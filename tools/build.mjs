@@ -223,7 +223,11 @@ function buildHome() {
       <h2 class="ks-reveal">Selected works.</h2>
       <a href="projects.html" style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,239,230,0.7);border-bottom:1px solid currentColor;padding-bottom:3px">Featured projects →</a>
     </div>
-    <div class="home-c__scroll-track">${works}</div>
+    <div class="home-c__scroll-wrap">
+      <button class="home-c__scroll-arrow is-prev" type="button" aria-label="Scroll to previous works">&#8592;</button>
+      <div class="home-c__scroll-track">${works}</div>
+      <button class="home-c__scroll-arrow is-next" type="button" aria-label="Scroll to next works">&#8594;</button>
+    </div>
   </section>
 
   <section class="home-c__services" id="services">
