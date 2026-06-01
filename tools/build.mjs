@@ -177,7 +177,7 @@ function pageCurrent(p) {
 
 // ---------- HOME ----------
 function buildHome() {
-  const feat = projects.find(p => p.slug === 'amaatra');
+  const feat = projects.find(p => p.slug === 'mallya-aditi');
   const featNo = String(projects.indexOf(feat) + 1).padStart(3, '0');
   const works = projects.slice(0, 10).map(p => `
     <a href="projects/${p.slug}.html" class="home-c__scroll-card">
@@ -212,7 +212,7 @@ function buildHome() {
     <div class="home-c__hero-r">
       <a href="projects/${feat.slug}.html" class="home-c__hero-feat" style="text-decoration:none;color:inherit">
         <div class="home-c__hero-feat-parallax" style="position:absolute;inset:0;z-index:0">${proj(feat, { ratio: 'auto', eager: true })}</div>
-        <div class="home-c__hero-feat-top"><span>Currently featured</span><span>Ref. ${featNo} / 060</span></div>
+        <div class="home-c__hero-feat-top"><span>Currently featured</span><span>Ref. ${featNo}</span></div>
         <div class="home-c__hero-feat-bot"><div class="name">${esc(feat.name)}</div><div class="meta"><span>${esc(feat.location)}</span><span>${feat.year}</span></div></div>
       </a>
     </div>
