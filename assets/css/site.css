@@ -427,13 +427,13 @@ body.home .ks-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 40; }
 .home-c__hero-title em { font-style: italic; color: var(--terracotta); }
 .home-c__hero-specialties {
   display: flex; flex-wrap: wrap; align-items: center;
-  row-gap: 8px; max-width: 580px;
+  row-gap: 6px; max-width: 580px;
   margin-top: clamp(12px, 1.6vh, 20px);
-  font-family: var(--font-mono); font-size: 11px;
-  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3);
+  font-family: var(--font-display); font-weight: 400; font-size: 13px;
+  letter-spacing: 0.02em; text-transform: uppercase; color: var(--accent);
 }
 .home-c__hero-specialties span:not(:last-child)::after {
-  content: '|'; color: var(--mustard); margin: 0 10px;
+  content: '|'; color: var(--accent); margin: 0 10px;
 }
 .home-c__hero-title .ampersand { font-style: normal; color: var(--mustard); display: inline-block; }
 .home-c__hero-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding-top: 22px; border-top: 1px solid var(--ink); }
