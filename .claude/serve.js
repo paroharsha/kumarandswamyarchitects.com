@@ -8,7 +8,8 @@ const port = 4173;
 const types = {
   '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript',
   '.jsx': 'text/babel', '.json': 'application/json', '.md': 'text/plain', '.svg': 'image/svg+xml',
-  '.png': 'image/png', '.jpg': 'image/jpeg', '.ico': 'image/x-icon'
+  '.png': 'image/png', '.jpg': 'image/jpeg', '.ico': 'image/x-icon',
+  '.webmanifest': 'application/manifest+json'
 };
 
 http.createServer((req, res) => {

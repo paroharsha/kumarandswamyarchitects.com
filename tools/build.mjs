@@ -145,6 +145,10 @@ function layout({ title, description, pathRel, depth = 0, bodyClass = '', main, 
 <meta name="twitter:description" content="${esc(description)}">
 <meta name="twitter:image" content="${imgAbs}">
 <meta name="theme-color" content="#F4EFE6">
+<link rel="icon" type="image/png" sizes="32x32" href="${rel(depth, 'assets/img/favicon-32x32.png')}">
+<link rel="icon" type="image/png" sizes="16x16" href="${rel(depth, 'assets/img/favicon-16x16.png')}">
+<link rel="apple-touch-icon" sizes="180x180" href="${rel(depth, 'assets/img/apple-touch-icon.png')}">
+<link rel="manifest" href="${rel(depth, 'site.webmanifest')}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,800;1,400&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -480,6 +484,16 @@ ${entries.map(e => `  <url><loc>${site.domain}/${e.u}</loc><lastmod>${today}</la
   w('sitemap.xml', xml);
   w('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${site.domain}/sitemap.xml\n`);
   w('.nojekyll', '');
+
+  // Web app manifest (icon srcs are relative to the manifest at the site root)
+  w('site.webmanifest', JSON.stringify({
+    name: site.name, short_name: site.shortName,
+    icons: [
+      { src: 'assets/img/favicon-192x192.png', sizes: '192x192', type: 'image/png' },
+      { src: 'assets/img/favicon-512x512.png', sizes: '512x512', type: 'image/png' }
+    ],
+    theme_color: '#E8B629', background_color: '#F4EFE6', display: 'standalone'
+  }, null, 2));
 
   // Branded 404 (GitHub Pages serves /404.html on not-found)
   const main = `<div class="subp"><div class="subp__head"><h1>404.</h1><p>That page has moved or never existed. Find your way back below.</p></div>
