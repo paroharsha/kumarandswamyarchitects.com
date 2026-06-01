@@ -7,9 +7,17 @@ export const site = {
   domain: 'https://www.kumarandswamyarchitects.com',
   founded: 1969,
   city: 'Bangalore',
-  tagline: 'An institutional architecture practice — interpreting the values of the schools, campuses and civic buildings we’ve shaped since 1969.',
-  description: 'Kumar & Swamy Architects is a Bangalore practice founded in 1969, designing schools, campuses, institutions, sports infrastructure and healthcare across India — over 60 institutions in three generations.',
+  tagline: 'An institutional architecture practice in Bangalore — interpreting the values of the schools, campuses and civic buildings we’ve shaped since 1969.',
+  description: 'Kumar & Swamy Architects is a school and institutional architecture firm in Bangalore, founded 1969 — designing schools, campuses, institutions, sports infrastructure and healthcare across India. Over 60 institutions built in three generations.',
   email: 'kumarswamy49@gmail.com',
+  geo: { lat: 12.9719, lng: 77.6412 },     // Cambridge Layout, Bengaluru
+  region: 'IN-KA',
+  placename: 'Bengaluru, Karnataka',
+  knowsAbout: [
+    'School architecture', 'Campus design', 'Institutional architecture', 'Educational architecture',
+    'Masterplanning', 'Education interiors', 'Sports infrastructure', 'Stadium design',
+    'Hospital architecture', 'Architecture in Bangalore'
+  ],
   phones: [
     { label: '+91 63624 28416', href: 'tel:+916362428416' },
     { label: '+91 63607 57772', href: 'tel:+916360757772' },

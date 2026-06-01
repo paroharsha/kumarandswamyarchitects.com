@@ -27,7 +27,7 @@ function media(src, { ratio = '4/3', alt = '', label = '', depth = 0, eager = fa
   return sketch(fallback, { ratio, label });
 }
 const projPhoto = `assets/img/projects/`;
-const proj = (p, o = {}) => media(`${projPhoto}${p.slug}.jpg`, { alt: `${p.name}, ${p.location}`, fallback: p.sketch, ...o });
+const proj = (p, o = {}) => media(`${projPhoto}${p.slug}.jpg`, { alt: `${p.name} — ${p.category.toLowerCase()} architecture in ${p.location} by Kumar & Swamy Architects`, fallback: p.sketch, ...o });
 
 // ---------- tiny markdown -> html (for blog bodies) ----------
 function md(src) {
@@ -96,16 +96,32 @@ function footerHtml(depth) {
 </footer>`;
 }
 
-const orgLd = {
-  '@context': 'https://schema.org', '@type': 'Organization', name: site.name, url: site.domain + '/',
-  foundingDate: '1969', foundingLocation: 'Bangalore, India', email: site.email,
+// Site identity node — a ProfessionalService (architecture firm) with strong
+// local-SEO signals: geo, areaServed, knowsAbout, NAP. Reused on every page.
+const PRO_ID = site.domain + '/#practice';
+const proServiceLd = {
+  '@type': ['ProfessionalService', 'Organization'], '@id': PRO_ID,
+  name: site.name, alternateName: site.shortName, url: site.domain + '/',
+  description: site.description, foundingDate: '1969', slogan: 'Listen first, draw second.',
+  email: site.email, telephone: '+91-63624-28416',
+  image: site.domain + '/assets/img/projects/amaatra.jpg',
+  founder: { '@type': 'Person', name: 'C R Shivakumar' },
   address: { '@type': 'PostalAddress', streetAddress: 'MF 2/8 BDA Building, Cambridge Layout', addressLocality: 'Bengaluru', addressRegion: 'Karnataka', postalCode: '560008', addressCountry: 'IN' },
-  telephone: '+91-63624-28416', sameAs: [site.social.instagram, site.social.facebook]
+  geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
+  areaServed: [{ '@type': 'City', name: 'Bengaluru' }, { '@type': 'AdministrativeArea', name: 'Karnataka' }, { '@type': 'Country', name: 'India' }],
+  knowsAbout: site.knowsAbout,
+  sameAs: [site.social.instagram, site.social.facebook],
+  makesOffer: services.map(s => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.name, description: s.blurb } }))
 };
+const websiteLd = { '@type': 'WebSite', '@id': site.domain + '/#website', url: site.domain + '/', name: site.name, publisher: { '@id': PRO_ID }, inLanguage: 'en' };
 
-function layout({ title, description, pathRel, depth = 0, bodyClass = '', main, extraLd = null, ogType = 'website' }) {
+function layout({ title, description, pathRel, depth = 0, bodyClass = '', main, extraLd = null, ogType = 'website', image = 'assets/img/projects/amaatra.jpg', breadcrumbs = null }) {
   const canonical = site.domain + '/' + pathRel;
-  const ld = [extraLd || orgLd];
+  const imgAbs = /^https?:/.test(image) ? image : site.domain + '/' + image;
+  const graph = [proServiceLd, websiteLd];
+  if (breadcrumbs) graph.push({ '@type': 'BreadcrumbList', itemListElement: breadcrumbs.map((b, i) => ({ '@type': 'ListItem', position: i + 1, name: b.name, item: site.domain + '/' + b.path })) });
+  if (extraLd) { const e = { ...extraLd }; delete e._cur; graph.push(e); }
+  const ld = { '@context': 'https://schema.org', '@graph': graph };
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -114,18 +130,26 @@ function layout({ title, description, pathRel, depth = 0, bodyClass = '', main, 
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${canonical}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="geo.region" content="${site.region}">
+<meta name="geo.placename" content="${esc(site.placename)}">
 <meta property="og:type" content="${ogType}">
 <meta property="og:site_name" content="${esc(site.name)}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${canonical}">
+<meta property="og:image" content="${imgAbs}">
+<meta property="og:locale" content="en_IN">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${esc(title)}">
+<meta name="twitter:description" content="${esc(description)}">
+<meta name="twitter:image" content="${imgAbs}">
 <meta name="theme-color" content="#F4EFE6">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,800;1,400&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${rel(depth, 'assets/css/site.css')}">
-<script type="application/ld+json">${JSON.stringify(ld.length === 1 ? ld[0] : ld)}</script>
+<script type="application/ld+json">${JSON.stringify(ld)}</script>
 </head>
 <body class="${bodyClass}">
 <a class="ks-skip" href="#main">Skip to content</a>
@@ -216,7 +240,7 @@ function buildHome() {
     </div>
   </section>
 </div>`;
-  w('index.html', layout({ title: `${site.name} — Bangalore, since 1969`, description: site.description, pathRel: '', bodyClass: 'home', main }));
+  w('index.html', layout({ title: `School & Institutional Architecture in Bangalore | ${site.name}`, description: site.description, pathRel: '', bodyClass: 'home', main }));
 }
 
 // ---------- PROJECTS ----------
@@ -234,7 +258,7 @@ function buildProjects() {
   <div class="projects__filters"><span class="projects__filter-label">Filter</span>${filters}<span class="projects__count">${String(projects.length).padStart(2,'0')} / ${String(projects.length).padStart(2,'0')}</span></div>
   <div class="projects__grid">${cards}</div>
 </div>`;
-  w('projects.html', layout({ title: `Projects — ${site.name}`, description: 'Selected works by Kumar & Swamy Architects: schools, campuses, sports infrastructure and revitalisations across India since 1969.', pathRel: 'projects.html', main }));
+  w('projects.html', layout({ title: `School, Campus & Institutional Projects in Bangalore | ${site.shortName}`, description: 'Selected school, campus and institutional architecture by Kumar & Swamy Architects — 16 featured projects across Bangalore and India, plus sports infrastructure since 1969.', pathRel: 'projects.html', main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Projects', path: 'projects.html' }] }));
 }
 
 // ---------- PROJECT DETAIL ----------
@@ -242,8 +266,9 @@ function buildProjectDetail(p, i) {
   const next = projects[(i + 1) % projects.length];
   const ref = String(i + 1).padStart(3, '0');
   const overview2 = 'Like all our work, the design begins with the institution — its philosophy, its climate and the way its people actually move through a day — rather than with a fixed style of our own.';
-  const ld = { '@context': 'https://schema.org', '@type': 'CreativeWork', name: p.name, dateCreated: String(p.year),
-    locationCreated: { '@type': 'Place', name: p.location }, creator: { '@type': 'Organization', name: site.name }, description: p.brief };
+  const ld = { '@type': 'CreativeWork', name: p.name, dateCreated: String(p.year),
+    locationCreated: { '@type': 'Place', name: p.location }, creator: { '@id': PRO_ID }, description: p.brief,
+    about: `${p.category} architecture`, keywords: `${p.category} architecture, ${p.location}, Kumar & Swamy Architects` };
   ld._cur = 'projects';
   const main = `<div class="subp detail">
   <section class="detail__hero">
@@ -278,7 +303,7 @@ function buildProjectDetail(p, i) {
     <div class="detail__next-r"><a href="${next.slug}.html" style="color:inherit">${proj(next, { ratio: '4/3', depth: 1 })}<div class="meta"><span>${esc(next.location)}</span><span>${next.year}</span></div></a></div>
   </section>
 </div>`;
-  w(`projects/${p.slug}.html`, layout({ title: `${p.name} — ${site.name}`, description: `${p.name}, ${p.location} (${p.year}). ${p.brief}`, pathRel: `projects/${p.slug}.html`, depth: 1, main, extraLd: ld, ogType: 'article' }));
+  w(`projects/${p.slug}.html`, layout({ title: `${p.name} — ${p.category} Architecture, ${p.location} | ${site.shortName}`, description: `${p.name}, ${p.location} (${p.year}) — ${p.category.toLowerCase()} architecture by Kumar & Swamy Architects. ${p.brief}`, pathRel: `projects/${p.slug}.html`, depth: 1, main, extraLd: ld, ogType: 'article', image: `assets/img/projects/${p.slug}.jpg`, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Projects', path: 'projects.html' }, { name: p.name, path: `projects/${p.slug}.html` }] }));
 }
 
 // ---------- ABOUT / STUDIO ----------
@@ -312,7 +337,7 @@ function buildAbout() {
     <div>${studio.body.map(t => `<p>${esc(t)}</p>`).join('')}<a href="apply.html" class="ks-cta-link">Work with us <span class="arrow">→</span></a></div>
   </section>
 </div>`;
-  w('about.html', layout({ title: `Studio — ${site.name}`, description: 'The founder, partners, design approach and studio culture behind Kumar & Swamy Architects — a Bangalore practice in its fourth decade.', pathRel: 'about.html', main }));
+  w('about.html', layout({ title: `Studio — Institutional & School Architects in Bangalore since 1969 | ${site.shortName}`, description: 'Meet Kumar & Swamy Architects: founder C R Shivakumar, the partners, and the design approach behind a Bangalore school and institutional architecture practice in its fourth decade.', pathRel: 'about.html', main, image: 'assets/img/founder.jpg', breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Studio', path: 'about.html' }] }));
 }
 
 // ---------- CONTACT ----------
@@ -331,7 +356,7 @@ function buildContact() {
     <div><iframe class="contact__map" title="Map to Kumar &amp; Swamy Architects, Cambridge Layout, Bengaluru" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="${mapSrc}"></iframe></div>
   </section>
 </div>`;
-  w('contact.html', layout({ title: `Contact — ${site.name}`, description: `Contact Kumar & Swamy Architects — ${site.address}. ${site.email}.`, pathRel: 'contact.html', main }));
+  w('contact.html', layout({ title: `Contact — School & Campus Architects in Bangalore | ${site.shortName}`, description: `Contact Kumar & Swamy Architects, school and institutional architects in Bangalore — ${site.address}. ${site.email}.`, pathRel: 'contact.html', main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Contact', path: 'contact.html' }] }));
 }
 
 // ---------- APPLY ----------
@@ -356,7 +381,7 @@ function buildApply() {
     </form>
   </section>
 </div>`;
-  w('apply.html', layout({ title: `Apply — ${site.name}`, description: 'Work with Kumar & Swamy Architects. Open roles: Junior Architect, Internship, Interiors Architect — apply to join our Bangalore studio.', pathRel: 'apply.html', main }));
+  w('apply.html', layout({ title: `Careers — Architecture Jobs in Bangalore | ${site.shortName}`, description: 'Work with Kumar & Swamy Architects in Bangalore. Open roles: Junior Architect, Internship, Interiors Architect — apply to join our institutional architecture studio.', pathRel: 'apply.html', main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Apply', path: 'apply.html' }] }));
 }
 
 // ---------- BLOG INDEX + ARTICLES ----------
@@ -373,11 +398,11 @@ function buildBlog() {
   <div class="subp__head"><h1>The<br/>journal.</h1><p>Thoughts and articles from the studio — on building codes, learning spaces and designing without bias.</p></div>
   <div class="blog__list">${rows}</div>
 </div>`;
-  w('blog.html', layout({ title: `Journal — ${site.name}`, description: 'Writing from Kumar & Swamy Architects on India’s building code, designing modern educational spaces, and inclusive architecture.', pathRel: 'blog.html', main }));
+  w('blog.html', layout({ title: `Journal — Notes on School & Institutional Architecture | ${site.shortName}`, description: 'Writing from Kumar & Swamy Architects on India’s building code, designing modern educational spaces, and inclusive institutional architecture.', pathRel: 'blog.html', main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Journal', path: 'blog.html' }] }));
 
   for (const p of posts) {
     const body = md(fs.readFileSync(path.join(ROOT, 'content/blog', p.file), 'utf8'));
-    const ld = { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: p.title, author: { '@type': 'Person', name: p.author }, publisher: { '@type': 'Organization', name: site.name }, description: p.excerpt };
+    const ld = { '@type': 'BlogPosting', headline: p.title, author: { '@type': 'Person', name: p.author }, publisher: { '@id': PRO_ID }, description: p.excerpt, image: `${site.domain}/assets/img/blog/${p.slug}.jpg`, mainEntityOfPage: `${site.domain}/blog/${p.slug}.html` };
     ld._cur = 'blog';
     const main2 = `<article class="article">
   <div class="article__crumbs"><a href="../index.html">Index</a> / <a href="../blog.html">Journal</a></div>
@@ -387,22 +412,35 @@ function buildBlog() {
   <div class="article__body">${body}</div>
   <p style="margin-top:48px"><a href="../blog.html" class="ks-cta-link">Back to the journal <span class="arrow">→</span></a></p>
 </article>`;
-    w(`blog/${p.slug}.html`, layout({ title: `${p.title} — ${site.name}`, description: p.excerpt, pathRel: `blog/${p.slug}.html`, depth: 1, main: main2, extraLd: ld, ogType: 'article' }));
+    w(`blog/${p.slug}.html`, layout({ title: `${p.title} | ${site.shortName} Journal`, description: p.excerpt, pathRel: `blog/${p.slug}.html`, depth: 1, main: main2, extraLd: ld, ogType: 'article', image: `assets/img/blog/${p.slug}.jpg`, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Journal', path: 'blog.html' }, { name: p.title, path: `blog/${p.slug}.html` }] }));
   }
 }
 
 // ---------- SITEMAP + ROBOTS ----------
 function buildSeoFiles() {
-  const urls = ['', 'projects.html', 'about.html', 'blog.html', 'contact.html', 'apply.html',
-    ...projects.map(p => `projects/${p.slug}.html`), ...posts.map(p => `blog/${p.slug}.html`)];
   const today = '2026-06-01';
+  const entries = [
+    { u: '', p: '1.0', f: 'monthly' },
+    { u: 'projects.html', p: '0.9', f: 'monthly' },
+    { u: 'about.html', p: '0.7', f: 'yearly' },
+    { u: 'blog.html', p: '0.7', f: 'weekly' },
+    { u: 'contact.html', p: '0.6', f: 'yearly' },
+    { u: 'apply.html', p: '0.5', f: 'monthly' },
+    ...projects.map(p => ({ u: `projects/${p.slug}.html`, p: '0.8', f: 'yearly', img: `assets/img/projects/${p.slug}.jpg`, cap: `${p.name} — ${p.category} architecture, ${p.location}` })),
+    ...posts.map(p => ({ u: `blog/${p.slug}.html`, p: '0.6', f: 'yearly', img: `assets/img/blog/${p.slug}.jpg`, cap: p.title }))
+  ];
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(u => `  <url><loc>${site.domain}/${u}</loc><lastmod>${today}</lastmod></url>`).join('\n')}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${entries.map(e => `  <url><loc>${site.domain}/${e.u}</loc><lastmod>${today}</lastmod><changefreq>${e.f}</changefreq><priority>${e.p}</priority>${e.img ? `<image:image><image:loc>${site.domain}/${e.img}</image:loc><image:caption>${esc(e.cap)}</image:caption></image:image>` : ''}</url>`).join('\n')}
 </urlset>`;
   w('sitemap.xml', xml);
   w('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${site.domain}/sitemap.xml\n`);
   w('.nojekyll', '');
+
+  // Branded 404 (GitHub Pages serves /404.html on not-found)
+  const main = `<div class="subp"><div class="subp__head"><h1>404.</h1><p>That page has moved or never existed. Find your way back below.</p></div>
+  <div style="padding:0 32px 140px"><a href="index.html" class="ks-btn-primary">Back to home <span>→</span></a> &nbsp; <a href="projects.html" class="ks-cta-link" style="margin-left:16px">See the projects <span class="arrow">→</span></a></div></div>`;
+  w('404.html', layout({ title: `Page not found — ${site.name}`, description: 'The page you were looking for could not be found.', pathRel: '404.html', main }));
 }
 
 // ---------- run ----------
