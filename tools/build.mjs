@@ -221,7 +221,7 @@ function buildHome() {
   <section class="home-c__scroll" id="works">
     <div class="home-c__scroll-head">
       <h2 class="ks-reveal">Selected works.</h2>
-      <a href="projects.html" style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,239,230,0.7);border-bottom:1px solid currentColor;padding-bottom:3px">All sixty projects →</a>
+      <a href="projects.html" style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,239,230,0.7);border-bottom:1px solid currentColor;padding-bottom:3px">Featured projects →</a>
     </div>
     <div class="home-c__scroll-track">${works}</div>
   </section>
