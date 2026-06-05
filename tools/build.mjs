@@ -87,7 +87,12 @@ function footerHtml(depth) {
       </div>
     </div>
   </div>
-  <div class="ks-footer__bar"><div class="ks-footer__wordmark">KUMAR &amp; SWAMY</div></div>
+  <div class="ks-footer__bar"><div class="ks-footer__wordmark-track">
+    <span class="ks-footer__wordmark">KUMAR &amp; SWAMY</span>
+    <span class="ks-footer__wordmark" aria-hidden="true">KUMAR &amp; SWAMY</span>
+    <span class="ks-footer__wordmark" aria-hidden="true">KUMAR &amp; SWAMY</span>
+    <span class="ks-footer__wordmark" aria-hidden="true">KUMAR &amp; SWAMY</span>
+  </div></div>
   <div class="ks-footer__bot">
     <span>© 1969–2026 ${site.name}</span>
     <span>Three generations · Fifty-seven years · Sixty-plus institutions</span>
@@ -250,7 +255,7 @@ function buildHome() {
   </section>
 
   <section style="padding:140px 32px;background:var(--mustard);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center" id="about">
-    <div class="ks-reveal"><span class="ks-label" style="color:var(--ink-2);display:block;margin-bottom:30px">About</span><h2 style="font-size:clamp(56px,8vw,128px);line-height:0.88;letter-spacing:-0.04em;margin:0;font-weight:800;font-family:'Inter Tight',sans-serif">A practice<br/>in its <em>fourth</em><br/>decade.</h2></div>
+    <div class="ks-reveal"><span class="ks-label" style="color:var(--ink-2);display:block;margin-bottom:30px">About</span><h2 style="font-size:clamp(56px,8vw,128px);line-height:0.88;letter-spacing:-0.04em;margin:0;font-weight:800;font-family:'Inter Tight',sans-serif">A practice<br/>in its <em>fifth</em><br/>decade.</h2></div>
     <div class="ks-reveal">
       <p style="font-family:'Inter Tight',sans-serif;font-weight:300;font-size:24px;line-height:1.35;color:var(--ink-2);margin:0 0 1em;max-width:520px;letter-spacing:-0.01em">Founded by C R Shivakumar in Bangalore, the studio has grown across three generations — carrying one ethic: listen first, draw second.</p>
       <p style="font-family:var(--font-sans);font-size:16px;line-height:1.65;color:var(--ink-2);margin:0 0 40px;max-width:520px">Today a small team of architects and interns work out of a studio that does not limit itself to the office. We travel, read, listen to music, watch film — because you cannot design for people without first knowing them.</p>
@@ -397,7 +402,7 @@ function buildAbout() {
     <div>${studio.body.map(t => `<p>${esc(t)}</p>`).join('')}<a href="apply.html" class="ks-cta-link">Work with us <span class="arrow">→</span></a></div>
   </section>
 </div>`;
-  w('about.html', layout({ title: `Studio — Institutional & School Architects in Bangalore since 1969 | ${site.shortName}`, description: 'Meet Kumar & Swamy Architects: founder C R Shivakumar, the partners, and the design approach behind a Bangalore school and institutional architecture practice in its fourth decade.', pathRel: 'about.html', main, image: 'assets/img/founder.jpg', breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Studio', path: 'about.html' }] }));
+  w('about.html', layout({ title: `Studio — Institutional & School Architects in Bangalore since 1969 | ${site.shortName}`, description: 'Meet Kumar & Swamy Architects: founder C R Shivakumar, the partners, and the design approach behind a Bangalore school and institutional architecture practice in its fifth decade.', pathRel: 'about.html', main, image: 'assets/img/founder.jpg', breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Studio', path: 'about.html' }] }));
 }
 
 // ---------- CONTACT ----------

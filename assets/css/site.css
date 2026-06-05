@@ -162,7 +162,13 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .ks-footer__addr, .ks-footer__cols a { font-family: var(--font-sans); font-size: 14px; line-height: 1.8; color: rgba(244,239,230,0.85); }
 .ks-footer__cols a:hover { color: var(--mustard); }
 .ks-footer__bar { overflow: hidden; padding: 60px 0 40px; }
+.ks-footer__wordmark-track {
+  display: inline-flex; align-items: center; width: max-content;
+  animation: ks-footer-marquee 44s linear infinite;
+}
+.ks-footer__bar:hover .ks-footer__wordmark-track { animation-play-state: paused; }
 .ks-footer__wordmark {
+  flex: none;
   font-family: var(--font-display);
   font-size: clamp(120px, 22vw, 320px);
   line-height: 0.85;
@@ -170,7 +176,14 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   color: transparent;
   -webkit-text-stroke: 1px rgba(244,239,230,0.4);
   white-space: nowrap;
-  text-align: center;
+}
+.ks-footer__wordmark::after {
+  content: '·'; margin: 0 0.18em;
+  color: rgba(244,239,230,0.4); -webkit-text-stroke: 0;
+}
+@keyframes ks-footer-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .ks-footer__wordmark-track { animation: none; }
 }
 .ks-footer__bot {
   display: flex; justify-content: space-between; gap: 20px;
@@ -469,6 +482,10 @@ body.home .ks-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 40; }
 .home-c__hero-feat-bot { background: rgba(244,239,230,0.92); backdrop-filter: blur(8px); padding: 24px; margin: 0; }
 .home-c__hero-feat-bot .name { font-family: var(--font-display); font-size: 42px; line-height: 1; letter-spacing: -0.02em; }
 .home-c__hero-feat-bot .meta { display: flex; justify-content: space-between; margin-top: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); }
+
+/* Homepage — soften image corners slightly */
+body.home .ks-sketch { border-radius: 8px; }
+body.home .home-c__hero-feat { border-radius: 8px; overflow: hidden; }
 
 /* Horizontal scroll */
 .home-c__scroll { background: var(--ink); color: var(--paper); padding: 60px 0; }
