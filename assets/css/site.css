@@ -425,15 +425,36 @@ body.home .ks-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 40; }
 .home-c__hero-feat { max-height: 88%; }
 .home-c__hero-title { font-family: var(--font-display); font-size: clamp(64px, 9vw, 160px); line-height: 0.85; letter-spacing: -0.04em; margin: 0; }
 .home-c__hero-title em { font-style: italic; color: var(--terracotta); }
+/* Specialties ticker tape — real text (SEO), seamless CSS marquee */
 .home-c__hero-specialties {
-  display: flex; flex-wrap: wrap; align-items: center;
-  row-gap: 6px; max-width: 580px;
   margin-top: clamp(12px, 1.6vh, 20px);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.home-c__hero-specialties-track {
+  display: flex; width: max-content;
+  animation: ks-ticker 32s linear infinite;
+}
+.home-c__hero-specialties:hover .home-c__hero-specialties-track { animation-play-state: paused; }
+.home-c__hero-specialties .ticker-set {
+  display: flex; align-items: center; flex: none;
   font-family: var(--font-display); font-weight: 400; font-size: 13px;
   letter-spacing: 0.02em; text-transform: uppercase; color: var(--accent);
 }
-.home-c__hero-specialties span:not(:last-child)::after {
-  content: '|'; color: var(--accent); margin: 0 10px;
+.home-c__hero-specialties .ticker-set span { white-space: nowrap; }
+.home-c__hero-specialties .ticker-set span::after {
+  content: '|'; color: var(--accent); margin: 0 12px;
+}
+@keyframes ks-ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-c__hero-specialties { -webkit-mask-image: none; mask-image: none; }
+  .home-c__hero-specialties-track { animation: none; flex-wrap: wrap; width: auto; max-width: 580px; }
+  .home-c__hero-specialties .ticker-set { flex-wrap: wrap; row-gap: 6px; }
+  .home-c__hero-specialties .ticker-set[aria-hidden="true"] { display: none; }
 }
 .home-c__hero-title .ampersand { font-style: normal; color: var(--mustard); display: inline-block; }
 .home-c__hero-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding-top: 22px; border-top: 1px solid var(--ink); }

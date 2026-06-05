@@ -201,7 +201,12 @@ function buildHome() {
       <div>
         <h1 class="home-c__hero-title" style="font-size:clamp(38px,5.2vw,92px)">Kumar<br/><span class="ampersand">&amp;</span> Swamy<br/><em>architects.</em></h1>
         <p style="font-family:'Inter Tight',sans-serif;font-weight:300;font-size:clamp(17px,1.5vw,21px);line-height:1.32;color:var(--ink-2);max-width:540px;margin:clamp(12px,2vh,22px) 0 0;letter-spacing:-0.01em">${esc(site.tagline)}</p>
-        <div class="home-c__hero-specialties">${specialties.map(s => `<span>${esc(s)}</span>`).join('')}</div>
+        <div class="home-c__hero-specialties">
+          <div class="home-c__hero-specialties-track">
+            <div class="ticker-set">${specialties.map(s => `<span>${esc(s)}</span>`).join('')}</div>
+            <div class="ticker-set" aria-hidden="true">${specialties.map(s => `<span>${esc(s)}</span>`).join('')}</div>
+          </div>
+        </div>
       </div>
       <div class="home-c__hero-meta">
         <div class="item"><div class="lbl">Founded</div><div class="val">Bangalore, 1969</div></div>
