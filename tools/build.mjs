@@ -254,7 +254,7 @@ function buildHome() {
     <div class="home-c__journal-grid">${journal}</div>
   </section>
 
-  <section style="padding:140px 32px;background:var(--mustard);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center" id="about">
+  <section style="padding:84px 32px;background:var(--mustard);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center" id="about">
     <div class="ks-reveal"><span class="ks-label" style="color:var(--ink-2);display:block;margin-bottom:30px">About</span><h2 style="font-size:clamp(56px,8vw,128px);line-height:0.88;letter-spacing:-0.04em;margin:0;font-weight:800;font-family:'Inter Tight',sans-serif">A practice<br/>in its <em>fifth</em><br/>decade.</h2></div>
     <div class="ks-reveal">
       <p style="font-family:'Inter Tight',sans-serif;font-weight:300;font-size:24px;line-height:1.35;color:var(--ink-2);margin:0 0 1em;max-width:520px;letter-spacing:-0.01em">Founded by C R Shivakumar in Bangalore, the studio has grown across three generations — carrying one ethic: listen first, draw second.</p>
