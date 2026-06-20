@@ -29,6 +29,18 @@ function media(src, { ratio = '4/3', alt = '', label = '', depth = 0, eager = fa
 const projPhoto = `assets/img/projects/`;
 const proj = (p, o = {}) => media(`${projPhoto}${p.slug}.jpg`, { alt: `${p.name} — ${p.category.toLowerCase()} architecture in ${p.location} by Kumar & Swamy Architects`, fallback: p.sketch, ...o });
 
+// Gallery photos for a project: any images dropped in assets/img/projects/<slug>/
+// are auto-detected at build time, sorted naturally (1.jpg, 2.jpg, 10.jpg…).
+function galleryImages(slug) {
+  const dir = path.join(ROOT, projPhoto, slug);
+  try {
+    return fs.readdirSync(dir)
+      .filter(f => /\.(jpe?g|png|webp|avif)$/i.test(f))
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
+      .map(f => `${projPhoto}${slug}/${f}`);
+  } catch { return []; }
+}
+
 // ---------- tiny markdown -> html (for blog bodies) ----------
 function md(src) {
   src = src.replace(/^---[\s\S]*?---\s*/, '');           // strip frontmatter
@@ -330,6 +342,7 @@ function buildIndexPage() {
 function buildProjectDetail(p, i) {
   const next = projects[(i + 1) % projects.length];
   const ref = String(i + 1).padStart(3, '0');
+  const gallery = galleryImages(p.slug);
   const overview2 = 'Like all our work, the design begins with the institution — its philosophy, its climate and the way its people actually move through a day — rather than with a fixed style of our own.';
   const ld = { '@type': 'CreativeWork', name: p.name, dateCreated: String(p.year),
     locationCreated: { '@type': 'Place', name: p.location }, creator: { '@id': PRO_ID }, description: p.brief,
@@ -350,12 +363,24 @@ function buildProjectDetail(p, i) {
   <div class="detail__bigimg">${proj(p, { ratio: '16/7', label: p.category, depth: 1, eager: true })}</div>
   <section class="detail__overview">
     <div><span class="ks-label">Overview</span></div>
-    <div><p>${esc(p.brief)}</p><p>${esc(overview2)}</p></div>
+    <div>${p.overview ? `<p>${esc(p.overview)}</p>` : `<p>${esc(p.brief)}</p><p>${esc(overview2)}</p>`}</div>
   </section>
-  <section class="detail__next">
-    <div class="detail__next-l"><span class="ks-label">Next project</span><h3>${esc(next.name)} <em>→</em></h3></div>
-    <div class="detail__next-r"><a href="${next.slug}.html" style="color:inherit">${proj(next, { ratio: '4/3', depth: 1 })}<div class="meta"><span>${esc(next.location)}</span><span>${next.year}</span></div></a></div>
-  </section>
+  ${p.stats && p.stats.length ? `<section class="detail__stats">
+    <div class="detail__stats-head"><span class="ks-label">Project numbers</span></div>
+    <div class="detail__stats-grid">
+      ${p.stats.map(s => `<div class="item"><div class="val">${esc(s.value)}</div><div class="lbl">${esc(s.label)}</div></div>`).join('')}
+    </div>
+  </section>` : ''}
+  ${gallery.length ? `<section class="detail__gallery-sec">
+    <span class="ks-label">Gallery</span>
+    <div class="detail__gallery">
+      ${gallery.map((src, n) => `<div class="tile"><img src="${rel(1, src)}" alt="${esc(p.name)} — view ${n + 1}" loading="lazy" decoding="async"></div>`).join('')}
+    </div>
+  </section>` : ''}
+  <a class="detail__next" href="${next.slug}.html">
+    <span class="ks-label">Next project</span>
+    <h3>${esc(next.name)} <em>→</em></h3>
+  </a>
 </div>`;
   w(`projects/${p.slug}.html`, layout({ title: `${p.name} — ${p.category} Architecture, ${p.location} | ${site.shortName}`, description: `${p.name}, ${p.location} (${p.year}) — ${p.category.toLowerCase()} architecture by Kumar & Swamy Architects. ${p.brief}`, pathRel: `projects/${p.slug}.html`, depth: 1, main, extraLd: ld, ogType: 'article', image: `assets/img/projects/${p.slug}.jpg`, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Projects', path: 'projects.html' }, { name: p.name, path: `projects/${p.slug}.html` }] }));
 }
