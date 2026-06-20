@@ -352,17 +352,6 @@ function buildProjectDetail(p, i) {
     <div><span class="ks-label">Overview</span></div>
     <div><p>${esc(p.brief)}</p><p>${esc(overview2)}</p></div>
   </section>
-  <section class="detail__facts">
-    <div class="detail__facts-head"><h2>Facts.</h2></div>
-    <div class="detail__facts-grid">
-      <div class="item"><div class="lbl">Client</div><div class="val">${esc(p.name)}</div></div>
-      <div class="item"><div class="lbl">Location</div><div class="val">${esc(p.location)}</div></div>
-      <div class="item"><div class="lbl">Completed</div><div class="val">${p.year}</div></div>
-      <div class="item"><div class="lbl">Practice area</div><div class="val">${esc(p.category)}</div></div>
-      <div class="item"><div class="lbl">Studio</div><div class="val">Kumar &amp; Swamy</div></div>
-      <div class="item"><div class="lbl">City</div><div class="val">Bangalore</div></div>
-    </div>
-  </section>
   <section class="detail__next">
     <div class="detail__next-l"><span class="ks-label">Next project</span><h3>${esc(next.name)} <em>→</em></h3></div>
     <div class="detail__next-r"><a href="${next.slug}.html" style="color:inherit">${proj(next, { ratio: '4/3', depth: 1 })}<div class="meta"><span>${esc(next.location)}</span><span>${next.year}</span></div></a></div>
