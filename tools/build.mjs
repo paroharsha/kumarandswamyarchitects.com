@@ -363,7 +363,7 @@ function buildProjectDetail(p, i) {
   <div class="detail__bigimg">${proj(p, { ratio: '16/7', label: p.category, depth: 1, eager: true })}</div>
   <section class="detail__overview">
     <div><span class="ks-label">Overview</span></div>
-    <div>${p.overview ? `<p>${esc(p.overview)}</p>` : `<p>${esc(p.brief)}</p><p>${esc(overview2)}</p>`}</div>
+    <div>${p.overview ? p.overview.trim().split(/\n\s*\n/).map(para => `<p>${esc(para.trim())}</p>`).join('') : `<p>${esc(p.brief)}</p><p>${esc(overview2)}</p>`}</div>
   </section>
   ${p.stats && p.stats.length ? `<section class="detail__stats">
     <div class="detail__stats-head"><span class="ks-label">Project numbers</span></div>
