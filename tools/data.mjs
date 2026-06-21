@@ -73,7 +73,11 @@ In a unique architectural detail that exemplifies our commitment to customizatio
   { slug: 'vidya-cathedral', name: 'Vidya Cathedral School', location: 'Lonavala, Maharashtra', year: 2008, category: 'Education', sketch: 'pitched',
     brief: 'A hillside school of pitched-roof pavilions, sitting lightly on its contours and weathering the Western Ghats.' },
   { slug: 'sri-kumarans', name: 'Sri Kumarans Children’s Home', location: 'Bangalore, Karnataka', year: 2008, category: 'Education', sketch: 'linear',
-    brief: 'A dense urban school organised around shared courts and clear wayfinding for thousands of daily movements.' },
+    brief: 'A dense urban school organised around shared courts and clear wayfinding for thousands of daily movements.',
+    overview: `Situated on an expansive 28-acre campus in the serene locality of Malasandra, Bangalore, the Sri Kumarans Children's Home stands as a testament to educational excellence. This prestigious institution accommodates an impressive student body of 7000 learners within its meticulously planned built-up area spanning 5 lakh square feet.
+
+The campus is distinguished by its comprehensive range of state-of-the-art sporting facilities and diverse extra-curricular amenities, designed to nurture both academic and personal growth. With its remarkable scale and exceptional infrastructure, this educational institution has rapidly emerged as one of Bangalore's largest and most prominent schools, setting new standards for educational excellence in the region.`,
+    stats: [{ label: 'Site area', value: '28 acres' }, { label: 'Built-up area', value: '5,00,000 sft' }, { label: 'Capacity', value: '7000' }] },
   { slug: 'sjr', name: 'SJR Public Schools', location: 'Bangalore, Karnataka', year: 2010, category: 'Education', sketch: 'linear',
     brief: 'Robust, daylit classroom blocks built to take heavy daily use for decades without feeling institutional.' },
   { slug: 'amaatra', name: 'Amaatra Academy', location: 'Bangalore, Karnataka', year: 2012, category: 'Education', sketch: 'courtyard', featured: true,
