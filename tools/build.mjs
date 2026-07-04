@@ -359,16 +359,16 @@ function buildProjectDetail(p, i) {
     </div>
   </section>
   <div class="detail__bigimg">${proj(p, { ratio: '16/7', label: p.category, depth: 1, eager: true })}</div>
-  <section class="detail__overview">
-    <div><span class="ks-label">Overview</span></div>
-    <div>${p.overview ? p.overview.trim().split(/\n\s*\n/).map(para => `<p>${esc(para.trim())}</p>`).join('') : `<p>${esc(p.brief)}</p><p>${esc(overview2)}</p>`}</div>
-  </section>
   ${p.stats && p.stats.length ? `<section class="detail__stats">
     <div class="detail__stats-head"><span class="ks-label">Project numbers</span></div>
     <div class="detail__stats-grid">
       ${p.stats.map(s => `<div class="item"><div class="val">${esc(s.value)}</div><div class="lbl">${esc(s.label)}</div></div>`).join('')}
     </div>
   </section>` : ''}
+  <section class="detail__overview">
+    <div><span class="ks-label">Overview</span></div>
+    <div>${p.overview ? p.overview.trim().split(/\n\s*\n/).map(para => `<p>${esc(para.trim())}</p>`).join('') : `<p>${esc(p.brief)}</p><p>${esc(overview2)}</p>`}</div>
+  </section>
   ${gallery.length ? `<section class="detail__gallery-sec">
     <span class="ks-label">Gallery</span>
     <div class="detail__gallery">
