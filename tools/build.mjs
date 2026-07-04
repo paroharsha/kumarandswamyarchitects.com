@@ -45,18 +45,22 @@ function galleryImages(slug) {
 function md(src) {
   src = src.replace(/^---[\s\S]*?---\s*/, '');           // strip frontmatter
   const lines = src.split('\n');
-  let out = '', list = false, para = [];
+  let out = '', listType = null, para = [];
   const inline = (t) => esc(t)
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/(^|[^*])\*(?!\s)([^*]+?)\*/g, '$1<em>$2</em>');
   const flushP = () => { if (para.length) { out += `<p>${inline(para.join(' '))}</p>\n`; para = []; } };
-  const flushL = () => { if (list) { out += '</ul>\n'; list = false; } };
+  const flushL = () => { if (listType) { out += `</${listType}>\n`; listType = null; } };
+  const openL = (type) => { if (listType !== type) { flushL(); out += `<${type}>\n`; listType = type; } };
   for (const raw of lines) {
     const line = raw.trim();
     if (!line) { flushP(); flushL(); continue; }
-    if (line.startsWith('## ')) { flushP(); flushL(); out += `<h2>${inline(line.slice(3))}</h2>\n`; }
+    const ordered = line.match(/^\d+\.\s+(.*)$/);
+    if (line.startsWith('### ')) { flushP(); flushL(); out += `<h3>${inline(line.slice(4))}</h3>\n`; }
+    else if (line.startsWith('## ')) { flushP(); flushL(); out += `<h2>${inline(line.slice(3))}</h2>\n`; }
     else if (line.startsWith('> ')) { flushP(); flushL(); out += `<blockquote>${inline(line.slice(2))}</blockquote>\n`; }
-    else if (line.startsWith('- ')) { flushP(); if (!list) { out += '<ul>\n'; list = true; } out += `<li>${inline(line.slice(2))}</li>\n`; }
+    else if (line.startsWith('- ')) { flushP(); openL('ul'); out += `<li>${inline(line.slice(2))}</li>\n`; }
+    else if (ordered) { flushP(); openL('ol'); out += `<li>${inline(ordered[1])}</li>\n`; }
     else { para.push(line); }
   }
   flushP(); flushL();
@@ -540,15 +544,6 @@ const redirects = [
   { from: 'sanchaliharsha.html', to: 'about', depth: 0 },
   { from: 'harshashivakumar.html', to: 'about', depth: 0 },
   { from: 'paromitaharsha.html', to: 'about', depth: 0 },
-  // Journal posts not yet migrated → Journal index
-  ...['designing-flexible-and-adaptable-learning-spaces',
-    '18th-june-2025-an-architect-s-journal-entry',
-    'vivitsa-world-school-the-architecture',
-    'reinterpreting-our-very-first-school',
-    'the-impact-of-colour-on-learning-a-guide-to-selecting-colours-for-school-interiors',
-    '50-years-of-kumar-swamy',
-    'the-importance-of-natural-light-in-school-design']
-    .map(slug => ({ from: `post/${slug}.html`, to: 'blog', depth: 1 })),
 ];
 function buildRedirects() {
   for (const r of redirects) {

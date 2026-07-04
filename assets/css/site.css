@@ -860,8 +860,9 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--terracotta); ou
 .article__body { font-family: var(--font-sans); font-size: 18px; line-height: 1.75; color: var(--ink-2); }
 .article__body > p:first-of-type::first-letter { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 80px; line-height: 0.7; float: left; padding: 8px 14px 0 0; color: var(--accent); }
 .article__body h2 { font-family: 'Inter Tight', system-ui, sans-serif; font-weight: 800; letter-spacing: -0.03em; font-size: clamp(26px,3vw,36px); line-height: 1.1; color: var(--ink); margin: 56px 0 18px; }
+.article__body h3 { font-family: 'Inter Tight', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.02em; font-size: clamp(20px,2.2vw,24px); line-height: 1.15; color: var(--ink); margin: 36px 0 14px; }
 .article__body p { margin: 0 0 22px; }
-.article__body ul { padding-left: 22px; margin: 0 0 22px; }
+.article__body ul, .article__body ol { padding-left: 22px; margin: 0 0 22px; }
 .article__body li { margin-bottom: 12px; }
 .article__body strong { color: var(--ink); font-weight: 600; }
 .article__body blockquote { margin: 36px 0; padding: 6px 0 6px 28px; border-left: 2px solid var(--mustard); font-family: 'Inter Tight', system-ui, sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: 26px; line-height: 1.25; color: var(--ink); }
