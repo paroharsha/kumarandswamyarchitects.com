@@ -26,6 +26,8 @@ export const site = {
   ],
   address: 'MF 2/8 BDA Building, Cambridge Layout, Bengaluru, Karnataka 560008',
   hours: 'Mon – Fri · 10:00 am – 7:00 pm',
+  // Google Business Profile / Maps listing for the office (shareable short link).
+  google: 'https://share.google/s0do7jVBrIQGyeG2j',
   social: {
     instagram: 'https://www.instagram.com/kumar_and_swamy_architects',
     facebook: 'https://www.facebook.com/kumarswamy49'
@@ -33,6 +35,7 @@ export const site = {
   // Authoritative external profiles — used as schema.org sameAs to tie the
   // site to the Google Business Profile entity (/g/11dzw7r2x_) and directories.
   sameAs: [
+    'https://share.google/s0do7jVBrIQGyeG2j',
     'https://www.instagram.com/kumar_and_swamy_architects',
     'https://www.facebook.com/kumarswamy49',
     'https://archinect.com/kumarandswamy',

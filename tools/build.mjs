@@ -125,6 +125,8 @@ const proServiceLd = {
   founder: { '@type': 'Person', name: 'C R Shivakumar' },
   address: { '@type': 'PostalAddress', streetAddress: 'MF 2/8 BDA Building, Cambridge Layout', addressLocality: 'Bengaluru', addressRegion: 'Karnataka', postalCode: '560008', addressCountry: 'IN' },
   geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
+  hasMap: site.google,
+  openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '10:00', closes: '19:00' }],
   areaServed: [{ '@type': 'City', name: 'Bengaluru' }, { '@type': 'AdministrativeArea', name: 'Karnataka' }, { '@type': 'Country', name: 'India' }],
   knowsAbout: site.knowsAbout,
   sameAs: site.sameAs,
@@ -420,7 +422,7 @@ function buildContact() {
   <div class="subp__head"><h1>Get in<br/>touch.</h1><p>Tell us about your institution and what you’re hoping to build. We’d love to hear from you.</p></div>
   <section class="contact__grid">
     <div>
-      <div class="contact__block"><span class="ks-label">Studio</span><p>${esc(site.address)}</p></div>
+      <div class="contact__block"><span class="ks-label">Studio</span><p>${esc(site.address)}</p><a href="${site.google}" target="_blank" rel="noopener">Find us on Google ↗</a></div>
       <div class="contact__block"><span class="ks-label">Hours</span><p class="sub">${esc(site.hours)}</p></div>
       <div class="contact__block"><span class="ks-label">Write</span><a href="mailto:${site.email}">${site.email}</a></div>
       <div class="contact__block"><span class="ks-label">Call</span>${site.phones.map(p => `<a href="${p.href}">${p.label}</a>`).join('')}</div>
