@@ -29,7 +29,7 @@ node tools/build.mjs        # regenerates all HTML + sitemap.xml + robots.txt
 - `assets/js/site.js` — progressive enhancement only (nav scroll state, mobile menu, scroll-reveal via IntersectionObserver, projects filter). The site is fully readable without JS.
 
 ### Generated output (committed; don't edit by hand)
-`index.html`, `projects.html`, `projects/<slug>.html` (×16), `about.html` (Studio), `blog.html`, `blog/<slug>.html` (×3), `contact.html`, `apply.html`, `sitemap.xml`, `robots.txt`, `.nojekyll`.
+`index.html`, `projects.html`, `projects/<slug>.html` (×16), `about.html` (Studio), `blog.html`, `post/<slug>.html` (×3), `contact-kumar-swamy-architect.html`, `applytowork.html`, `index-of-works.html`, redirect stubs (4 team + 7 posts), `404.html`, `sitemap.xml`, `robots.txt`, `.nojekyll`. (Served extensionless — see Conventions.)
 
 ## Images
 
@@ -39,10 +39,16 @@ node tools/build.mjs        # regenerates all HTML + sitemap.xml + robots.txt
 
 ## Conventions
 
-- **Links are relative.** Root pages use `assets/...` and `page.html`; sub-pages (`projects/`, `blog/`) pass `depth: 1` so the generator prefixes `../`. Keep this when adding pages.
+- **URLs mirror the old Wix site and are extensionless** (to retain SEO after the domain cutover). The generator still emits flat `<name>.html` files, but every internal link, canonical, OG url and sitemap entry is written **without `.html`** — GitHub Pages serves `/about` from `about.html`. So the physical file and the public path differ:
+  - Pages: `contact-kumar-swamy-architect.html` → `/contact-kumar-swamy-architect`, `applytowork.html` → `/applytowork`, plus `projects`, `about`, `blog`, `index-of-works`.
+  - Projects use the **Wix long slugs** (`amaatra-academy`, `pes-group-of-institutions`, `sri-kumarans-children's-home`, `national-public-school-` (trailing hyphen), `good-shepherds-intl.-school-revitalisation` (dot) — matched verbatim; image folders under `assets/img/projects/` are named to match).
+  - **Blog posts live at `/post/<slug>`** (not `/blog/`), with the full Wix slugs; the `/blog` listing stays.
+  - In builders: `w('<file>.html', layout({ pathRel: '<extensionless>', … }))` and breadcrumb `path` values are extensionless. Home links use `homeHref(depth)`.
+- **Legacy Wix URLs we have no page for** get meta-refresh **redirect stubs** (`buildRedirects()` in build.mjs): 4 team pages → `/about`, 7 not-yet-migrated posts → `/blog`. Add to the `redirects` array when a Wix URL is retired.
+- **Links are relative.** Root pages use `assets/...` and the extensionless page name; sub-pages (`projects/`, `post/`) pass `depth: 1` so the generator prefixes `../`. Keep this when adding pages.
 - **SEO matters here** (explicit client priority): every page gets a unique `<title>` + meta description, canonical URL, OG/Twitter tags, and JSON-LD (Organization site-wide, CreativeWork per project, BlogPosting per article). Maintain these for any new page.
 - Fonts load from Google Fonts (Inter Tight, Instrument Serif, Geist, Geist Mono).
-- Local preview: `node .claude/serve.js` → http://localhost:4173/ (the sandbox blocks `python -m http.server`).
+- Local preview: `node .claude/serve.js` → http://localhost:4173/ (the sandbox blocks `python -m http.server`). The dev server mirrors GitHub Pages "pretty URLs" (serves `/about` from `about.html`, preferring the `.html` sibling over a same-named dir).
 
 ## Deploy
 
