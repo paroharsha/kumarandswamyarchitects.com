@@ -341,7 +341,6 @@ function buildIndexPage() {
 // ---------- PROJECT DETAIL ----------
 function buildProjectDetail(p, i) {
   const next = projects[(i + 1) % projects.length];
-  const ref = String(i + 1).padStart(3, '0');
   const gallery = galleryImages(p.slug);
   const overview2 = 'Like all our work, the design begins with the institution — its philosophy, its climate and the way its people actually move through a day — rather than with a fixed style of our own.';
   const ld = { '@type': 'CreativeWork', name: p.name, dateCreated: String(p.year),
@@ -357,7 +356,6 @@ function buildProjectDetail(p, i) {
       <div class="item"><div class="lbl">Year</div><div class="val">${p.year}</div></div>
       <div class="item"><div class="lbl">Typology</div><div class="val">${esc(p.category)}</div></div>
       <div class="item"><div class="lbl">Status</div><div class="val">Built</div></div>
-      <div class="item"><div class="lbl">Ref</div><div class="val">${ref} / 060</div></div>
     </div>
   </section>
   <div class="detail__bigimg">${proj(p, { ratio: '16/7', label: p.category, depth: 1, eager: true })}</div>
