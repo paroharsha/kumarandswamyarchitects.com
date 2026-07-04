@@ -110,9 +110,4 @@
     document.querySelector('.home-c__scroll-arrow.is-prev'),
     document.querySelector('.home-c__scroll-arrow.is-next')
   );
-  setupLoopCarousel(
-    document.querySelector('.home-c__svc-scroll'),
-    document.querySelector('.home-c__svc-arrow.is-prev'),
-    document.querySelector('.home-c__svc-arrow.is-next')
-  );
 })();

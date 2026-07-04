@@ -254,11 +254,7 @@ function buildHome() {
 
   <section class="home-c__services" id="services">
     <div class="home-c__services-head"><h2 class="ks-reveal">Six practices,<br/><em>one brief.</em></h2><p class="ks-reveal">Interpret the philosophy of the institution. Build for the climate. Last beyond the client.</p></div>
-    <div class="home-c__svc-wrap">
-      <button class="home-c__svc-arrow is-prev" type="button" aria-label="Scroll to previous practices">&#8592;</button>
-      <div class="home-c__svc-scroll">${svc}</div>
-      <button class="home-c__svc-arrow is-next" type="button" aria-label="Scroll to next practices">&#8594;</button>
-    </div>
+    <div class="home-c__svc-grid">${svc}</div>
   </section>
 
   <section class="home-c__journal" id="journal">
