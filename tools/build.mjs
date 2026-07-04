@@ -255,7 +255,7 @@ function buildHome() {
   </section>
 
   <section class="home-c__services" id="services">
-    <div class="home-c__services-head"><h2 class="ks-reveal">Six practices,<br/><em>one brief.</em></h2><p class="ks-reveal">Interpret the philosophy of the institution. Build for the climate. Last beyond the client.</p></div>
+    <div class="home-c__services-head"><h2 class="ks-reveal">Six briefs,<br/><em>one practice.</em></h2><p class="ks-reveal">Interpret the philosophy of the institution. Build for the climate. Last beyond the client.</p></div>
     <div class="home-c__svc-grid">${svc}</div>
   </section>
 
