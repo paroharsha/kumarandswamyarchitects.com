@@ -423,7 +423,9 @@ function buildAbout() {
 
 // ---------- CONTACT ----------
 function buildContact() {
-  const mapSrc = 'https://maps.google.com/maps?q=Cambridge%20Layout%2C%20Bengaluru%2C%20Karnataka%20560008&z=15&output=embed';
+  // Pin the verified business by name + full address so Google geocodes the exact
+  // office in Cambridge Layout (≈12.9699, 77.6336), zoomed to street level.
+  const mapSrc = 'https://maps.google.com/maps?q=Kumar+%26+Swamy+Architects,+MF+2%2F8+BDA+Building,+Cambridge+Layout,+Bengaluru,+Karnataka+560008&z=17&output=embed';
   const main = `<div class="subp">
   <div class="subp__head"><h1>Get in<br/>touch.</h1><p>Tell us about your institution and what you’re hoping to build. We’d love to hear from you.</p></div>
   <section class="contact__grid">
@@ -467,17 +469,28 @@ function buildApply() {
 
 // ---------- BLOG INDEX + ARTICLES ----------
 function buildBlog() {
-  const rows = posts.map((p, i) => `
-    <a class="blog__row" href="post/${p.slug}">
-      <span class="num">${String(i + 1).padStart(2, '0')}</span>
-      <span class="title">${esc(p.title)}</span>
-      <span class="author">${esc(p.author)}</span>
-      <span class="date">${esc(p.date)}</span>
-      <span class="arrow">↗</span>
-    </a>`).join('');
+  const [lead, ...rest] = posts;
+  const card = (p) => `
+    <a class="journal-card" href="post/${p.slug}">
+      ${media(`assets/img/blog/${p.slug}.jpg`, { ratio: '3/2', alt: p.title, fallback: p.sketch })}
+      <div class="kicker"><span>${esc(p.date)}</span><span>${esc(p.readTime)}</span></div>
+      <h3>${esc(p.title)}</h3>
+      <p>${esc(p.excerpt)}</p>
+    </a>`;
+  const grid = rest.map(card).join('');
   const main = `<div class="subp">
-  <div class="subp__head"><h1>The<br/>journal.</h1><p>Thoughts and articles from the studio — on building codes, learning spaces and designing without bias.</p></div>
-  <div class="blog__list">${rows}</div>
+  <div class="subp__head subp__head--blog"><h1>The<br/>journal.</h1><p>Writing from the studio — on architecture, education, and the ideas that shape the places we build.</p></div>
+  <a class="journal-feature" href="post/${lead.slug}">
+    <div class="journal-feature__img">${media(`assets/img/blog/${lead.slug}.jpg`, { ratio: '16/9', alt: lead.title, fallback: lead.sketch, eager: true })}</div>
+    <div class="journal-feature__body">
+      <span class="ks-label">Latest</span>
+      <div class="kicker"><span>${esc(lead.date)}</span><span>${esc(lead.readTime)}</span></div>
+      <h2>${esc(lead.title)}</h2>
+      <p>${esc(lead.excerpt)}</p>
+      <span class="journal-feature__more">Read the article →</span>
+    </div>
+  </a>
+  <div class="blog__grid">${grid}</div>
 </div>`;
   w('blog.html', layout({ title: `Journal — Notes on School & Institutional Architecture | ${site.shortName}`, description: 'Writing from Kumar & Swamy Architects on India’s building code, designing modern educational spaces, and inclusive institutional architecture.', pathRel: 'blog', main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Journal', path: 'blog' }] }));
 

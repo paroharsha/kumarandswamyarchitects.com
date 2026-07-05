@@ -10,7 +10,7 @@ export const site = {
   tagline: 'An institutional architecture practice in Bangalore — interpreting the values of the schools, campuses and civic buildings we’ve shaped since 1969.',
   description: 'Kumar & Swamy Architects is a school and institutional architecture firm in Bangalore, founded 1969 — designing schools, campuses, institutions, sports infrastructure and healthcare across India. Over 60 institutions built in three generations.',
   email: 'kumarswamy49@gmail.com',
-  geo: { lat: 12.9719, lng: 77.6412 },     // Cambridge Layout, Bengaluru
+  geo: { lat: 12.9699, lng: 77.6336 },     // MF 2/8 BDA Building, Cambridge Layout (Google geocode)
   region: 'IN-KA',
   placename: 'Bengaluru, Karnataka',
   knowsAbout: [
