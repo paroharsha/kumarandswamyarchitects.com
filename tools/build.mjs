@@ -398,7 +398,7 @@ function buildAbout() {
     <div class="about__approach-item"><div class="n">${a.n}</div><h3>${esc(a.h)}</h3><p>${esc(a.p)}</p></div>`).join('');
   const main = `<div class="subp">
   <section class="about__hero">
-    <div><span class="ks-label" style="display:block;margin-bottom:30px">Studio</span><h1>Listen<br/>first,<br/><em>draw second.</em></h1></div>
+    <div class="about__hero-left"><h1>Studio</h1><p class="about__hero-motto">Listen first, draw second.</p></div>
     <div class="about__hero-right"><p>A family-owned practice in its third generation, with a legacy of over fifty-five years and more than sixty institutions built across India.</p></div>
   </section>
   <section class="about__founder">
