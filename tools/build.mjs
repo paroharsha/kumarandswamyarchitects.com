@@ -516,7 +516,6 @@ function buildSeoFiles() {
   const entries = [
     { u: '', p: '1.0', f: 'monthly' },
     { u: 'projects', p: '0.9', f: 'monthly' },
-    { u: 'index-of-works', p: '0.8', f: 'monthly' },
     { u: 'about', p: '0.7', f: 'yearly' },
     { u: 'blog', p: '0.7', f: 'weekly' },
     { u: 'contact-kumar-swamy-architect', p: '0.6', f: 'yearly' },
@@ -552,6 +551,8 @@ ${entries.map(e => `  <url><loc>${site.domain}/${e.u}</loc><lastmod>${today}</la
 // meta-refresh plus a canonical to the closest live page so their existing
 // SEO/link-equity consolidates instead of 404ing after the domain cutover.
 const redirects = [
+  // Index of Works taken down for now → Projects (remove this line + restore buildIndexPage() to bring it back)
+  { from: 'index-of-works.html', to: 'projects', depth: 0 },
   // Team profile pages → Studio
   { from: 'suchitraharsha.html', to: 'about', depth: 0 },
   { from: 'sanchaliharsha.html', to: 'about', depth: 0 },
@@ -576,7 +577,7 @@ function buildRedirects() {
 // ---------- run ----------
 buildHome();
 buildProjects();
-buildIndexPage();
+// buildIndexPage();  // Index of Works taken down for now; index-of-works.html redirects to /projects (see redirects)
 projects.forEach((p, i) => buildProjectDetail(p, i));
 buildAbout();
 buildContact();
@@ -584,4 +585,4 @@ buildApply();
 buildBlog();
 buildRedirects();
 buildSeoFiles();
-console.log('Built: index, projects (+%d details), index-of-works, about, contact, apply, blog (+%d posts), %d redirect stubs, sitemap, robots', projects.length, posts.length, redirects.length);
+console.log('Built: index, projects (+%d details), about, contact, apply, blog (+%d posts), %d redirect stubs, sitemap, robots', projects.length, posts.length, redirects.length);
