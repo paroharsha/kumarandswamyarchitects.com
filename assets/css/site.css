@@ -120,17 +120,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .ks-nav__links a.is-current .ks-nav__dot { background: var(--mustard); border-color: var(--mustard); opacity: 1; }
 .ks-nav__links a.is-current { color: var(--paper); }
 
-.ks-nav__meta { justify-self: start; display: flex; align-items: center; gap: 20px; }
-.ks-nav__loc { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--ink-3); }
-.ks-nav--dark .ks-nav__loc { color: rgba(244,239,230,0.55); }
-.ks-nav__cta {
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 10px 16px;
-  background: var(--mustard); color: var(--ink);
-  border-radius: 100px;
-  transition: background 0.2s, color 0.2s;
-}
-.ks-nav__cta:hover { background: var(--ink); color: var(--paper); }
 
 /* ============ MARQUEE ============ */
 .ks-marquee { overflow: hidden; white-space: nowrap; }
@@ -897,7 +886,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--terracotta); ou
   }
   .ks-nav.is-open .ks-nav__links { transform: translateX(0); }
   .ks-nav__links a { font-size: 14px; padding: 16px 0; width: 100%; border-bottom: 1px solid rgba(244,239,230,0.18); }
-  .ks-nav__meta { display: none; }
   .ks-nav__toggle { display: flex; z-index: 50; }
   .home-c__hero { grid-template-columns: 1fr; height: auto; min-height: 0; }
   .home-c__hero-l { border-right: 0; padding: 96px 24px 48px; }

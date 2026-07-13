@@ -82,7 +82,6 @@ function navHtml(current, depth) {
     <span class="ks-nav__full">Kumar &amp; Swamy</span>
   </a>
   <nav class="ks-nav__links" aria-label="Primary">${links}</nav>
-  <div class="ks-nav__meta"><a href="${rel(depth, 'applytowork')}" class="ks-nav__cta">Work with us</a></div>
   <button class="ks-nav__toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span></button>
 </header>`;
 }
@@ -197,6 +196,7 @@ function pageCurrent(p) {
   if (p.startsWith('about')) return 'about';
   if (p.startsWith('blog') || p.startsWith('post')) return 'blog';
   if (p.startsWith('contact')) return 'contact';
+  if (p.startsWith('applytowork')) return 'apply';
   return 'home';
 }
 

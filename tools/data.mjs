@@ -49,7 +49,8 @@ export const nav = [
   { id: 'projects', label: 'Projects', href: 'projects' },
   { id: 'about', label: 'Studio', href: 'about' },
   { id: 'blog', label: 'Journal', href: 'blog' },
-  { id: 'contact', label: 'Contact', href: 'contact-kumar-swamy-architect' }
+  { id: 'contact', label: 'Contact', href: 'contact-kumar-swamy-architect' },
+  { id: 'apply', label: 'Work with us', href: 'applytowork' }
 ];
 
 export const categories = ['All', 'Education', 'Campus', 'Sport', 'Revitalisation'];
