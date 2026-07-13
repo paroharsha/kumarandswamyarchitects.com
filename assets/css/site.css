@@ -804,7 +804,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--terracotta); ou
 .contact__map { aspect-ratio: 3/4; width: 100%; border: 1px solid var(--ink); border-radius: 2px; filter: grayscale(0.3) contrast(1.05); }
 
 /* ============ APPLY PAGE ============ */
-.apply__roles { padding: 40px 0 0; display: grid; grid-template-columns: repeat(3,1fr); gap: 0; border-top: 1px solid var(--ink); }
+.apply__roles { padding: 0; display: grid; grid-template-columns: repeat(3,1fr); gap: 0; border-top: 1px solid var(--ink); }
 .apply__role { padding: 40px 32px 48px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
 .apply__role:nth-child(3n) { border-right: 0; }
 .apply__role .n { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
