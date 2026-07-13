@@ -816,13 +816,13 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--terracotta); ou
 .contact__map { aspect-ratio: 3/4; width: 100%; border: 1px solid var(--ink); border-radius: 2px; filter: grayscale(0.3) contrast(1.05); }
 
 /* ============ APPLY PAGE ============ */
-.apply__roles { padding: 40px 32px 0; display: grid; grid-template-columns: repeat(3,1fr); gap: 0; border-top: 1px solid var(--ink); }
+.apply__roles { padding: 40px 0 0; display: grid; grid-template-columns: repeat(3,1fr); gap: 0; border-top: 1px solid var(--ink); }
 .apply__role { padding: 40px 32px 48px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
 .apply__role:nth-child(3n) { border-right: 0; }
 .apply__role .n { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
 .apply__role h3 { font-family: 'Inter Tight', system-ui, sans-serif; font-weight: 800; letter-spacing: -0.03em; font-size: 30px; line-height: 1; margin: 18px 0 14px; }
 .apply__role p { font-family: var(--font-sans); font-size: 15px; line-height: 1.6; color: var(--ink-2); margin: 0; }
-.apply__form-wrap { padding: 96px 32px 100px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; border-top: 1px solid var(--ink); margin-top: 0; }
+.apply__form-wrap { padding: 96px 32px 100px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-top: 0; }
 .apply__form-intro h2 { font-family: 'Inter Tight', system-ui, sans-serif; font-weight: 800; letter-spacing: -0.035em; font-size: clamp(40px,5vw,72px); line-height: 0.95; margin: 0 0 24px; }
 .apply__form-intro p { font-family: var(--font-sans); font-size: 16px; line-height: 1.7; color: var(--ink-2); max-width: 420px; }
 .apply__form { display: grid; gap: 22px; }
