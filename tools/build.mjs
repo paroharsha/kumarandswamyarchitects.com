@@ -463,6 +463,7 @@ function buildApply() {
       <div class="apply__field"><label for="email">Email address</label><input id="email" name="email" type="email" required></div>
       <div class="apply__field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel"></div>
       <div class="apply__field"><label for="resume">Link to your resumé</label><input id="resume" name="resume" type="url" placeholder="https://…"></div>
+      <div class="apply__field"><label for="about">A little about you</label><textarea id="about" name="about" rows="5" placeholder="A note, a thought, why our work speaks to you — anything you'd like us to know."></textarea></div>
       <button type="submit" class="ks-btn-primary">Submit application <span>→</span></button>
       <p class="apply__note">Applications are delivered by email. Prefer to write directly? Use the address above.</p>
     </form>
