@@ -60,5 +60,5 @@ If a push fails with an HTTP 400 / RPC error (image payloads), retry — `git co
 
 ## Known follow-ups
 - Project detail pages show one hero each; galleries (3–4 more shots per project) can be added from the Wix galleries.
-- `apply.html` posts to a placeholder Formspree endpoint (`your-form-id`) — static hosting has no backend; replace it or rely on the email fallback.
+- The "Work with us" form (`applytowork.html`) submits via **Web3Forms** (`api.web3forms.com/submit`), delivering entries by email to `site.email`. The access key is `site.applyFormKey` in `tools/data.mjs` (public client-side config; safe to commit). Resumés are submitted as a link, not a file upload — Web3Forms' free tier takes no attachments.
 - The old mustard-band prototype is archived in `prototype/`; `content/*.json` from that era is superseded by `tools/data.mjs` (only `content/blog/*.md` is still used).
