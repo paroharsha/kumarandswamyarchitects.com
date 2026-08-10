@@ -821,6 +821,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--terracotta); ou
 }
 .apply__field input:focus, .apply__field select:focus { outline: none; border-bottom-color: var(--ink); }
 .apply__note { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-3); line-height: 1.7; }
+.apply__botcheck { display: none !important; }
 
 /* ============ BLOG INDEX (Journal) ============ */
 /* Smaller display title — the page leads with a featured article, not the wordmark. */

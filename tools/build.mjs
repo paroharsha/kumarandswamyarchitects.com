@@ -451,7 +451,11 @@ function buildApply() {
   <section class="apply__roles">${roleCards}</section>
   <section class="apply__form-wrap">
     <div class="apply__form-intro"><h2>Apply to<br/>join us.</h2><p>Complete the form to apply for a position. Prefer email? Write to <a href="mailto:${site.email}?subject=Application">${site.email}</a>.</p></div>
-    <form class="apply__form" action="https://formspree.io/f/your-form-id" method="POST">
+    <form class="apply__form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="${site.applyFormKey}">
+      <input type="hidden" name="subject" value="New application — Work with us (${site.shortName})">
+      <input type="hidden" name="from_name" value="${site.name} website">
+      <input type="checkbox" name="botcheck" class="apply__botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="apply__field"><label for="role">Position</label><select id="role" name="position">${opts}</select></div>
       <div class="apply__field"><label for="first">First name</label><input id="first" name="first_name" type="text" required></div>
       <div class="apply__field"><label for="last">Last name</label><input id="last" name="last_name" type="text" required></div>
@@ -460,7 +464,7 @@ function buildApply() {
       <div class="apply__field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel"></div>
       <div class="apply__field"><label for="resume">Link to your resumé</label><input id="resume" name="resume" type="url" placeholder="https://…"></div>
       <button type="submit" class="ks-btn-primary">Submit application <span>→</span></button>
-      <p class="apply__note">This static site has no server; the form posts to a placeholder Formspree endpoint — replace <code>your-form-id</code>, or use the email above.</p>
+      <p class="apply__note">Applications are delivered by email. Prefer to write directly? Use the address above.</p>
     </form>
   </section>
 </div>`;

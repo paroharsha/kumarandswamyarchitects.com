@@ -10,6 +10,11 @@ export const site = {
   tagline: 'An institutional architecture practice in Bangalore — interpreting the values of the schools, campuses and civic buildings we’ve shaped since 1969.',
   description: 'Kumar & Swamy Architects is a school and institutional architecture firm in Bangalore, founded 1969 — designing schools, campuses, institutions, sports infrastructure and healthcare across India. Over 60 institutions built in three generations.',
   email: 'kumarswamy49@gmail.com',
+  // Web3Forms access key for the "Work with us" application form.
+  // Generated free at https://web3forms.com by entering the email above;
+  // the key is emailed to that inbox and submissions are delivered there.
+  // Safe to commit — it is meant to live in public client-side HTML.
+  applyFormKey: '76889970-f084-4762-8dc7-80e8022292c2',
   geo: { lat: 12.9699, lng: 77.6336 },     // MF 2/8 BDA Building, Cambridge Layout (Google geocode)
   region: 'IN-KA',
   placename: 'Bengaluru, Karnataka',
