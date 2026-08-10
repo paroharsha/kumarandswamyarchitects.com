@@ -450,22 +450,20 @@ function buildApply() {
   <div class="subp__head"><h1>Work<br/>with us.</h1><p>We’re looking for passionate people who share our commitment to institutional and educational architecture.</p></div>
   <section class="apply__roles">${roleCards}</section>
   <section class="apply__form-wrap">
+    <div class="apply__form-intro"><h2>Apply to<br/>join us.</h2><p>Complete the form to apply for a position. Prefer email? Write to <a href="mailto:${site.email}?subject=Application">${site.email}</a>.</p></div>
     <form class="apply__form" action="https://api.web3forms.com/submit" method="POST">
       <input type="hidden" name="access_key" value="${site.applyFormKey}">
       <input type="hidden" name="subject" value="New application — Work with us (${site.shortName})">
       <input type="hidden" name="from_name" value="${site.name} website">
       <input type="checkbox" name="botcheck" class="apply__botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <div class="apply__form-intro"><h2>Apply to<br/>join us.</h2><p>Complete the form to apply for a position. Prefer email? Write to <a href="mailto:${site.email}?subject=Application">${site.email}</a>.</p></div>
-      <div class="apply__fields">
-        <div class="apply__field"><label for="role">Position</label><select id="role" name="position">${opts}</select></div>
-        <div class="apply__field"><label for="first">First name</label><input id="first" name="first_name" type="text" required></div>
-        <div class="apply__field"><label for="last">Last name</label><input id="last" name="last_name" type="text" required></div>
-        <div class="apply__field"><label for="dob">Date of birth</label><input id="dob" name="dob" type="date"></div>
-        <div class="apply__field"><label for="email">Email address</label><input id="email" name="email" type="email" required></div>
-        <div class="apply__field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel"></div>
-        <div class="apply__field"><label for="resume">Link to your resumé</label><input id="resume" name="resume" type="url" placeholder="https://…"></div>
-      </div>
-      <div class="apply__field apply__field--full"><label for="about">A little about you</label><textarea id="about" name="about" rows="5" placeholder="A note, a thought, why our work speaks to you — anything you'd like us to know."></textarea></div>
+      <div class="apply__field"><label for="role">Position</label><select id="role" name="position">${opts}</select></div>
+      <div class="apply__field"><label for="first">First name</label><input id="first" name="first_name" type="text" required></div>
+      <div class="apply__field"><label for="last">Last name</label><input id="last" name="last_name" type="text" required></div>
+      <div class="apply__field"><label for="dob">Date of birth</label><input id="dob" name="dob" type="date"></div>
+      <div class="apply__field"><label for="email">Email address</label><input id="email" name="email" type="email" required></div>
+      <div class="apply__field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel"></div>
+      <div class="apply__field"><label for="resume">Link to your resumé</label><input id="resume" name="resume" type="url" placeholder="https://…"></div>
+      <div class="apply__field"><label for="about">A little about you</label><textarea id="about" name="about" rows="5" placeholder="A note, a thought, why our work speaks to you — anything you'd like us to know."></textarea></div>
       <button type="submit" class="ks-btn-primary">Submit application <span>→</span></button>
       <p class="apply__note">Applications are delivered by email. Prefer to write directly? Use the address above.</p>
     </form>
