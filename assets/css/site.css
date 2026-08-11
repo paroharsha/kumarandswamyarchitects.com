@@ -327,6 +327,17 @@ body.jz main { display: block; }
 .jz-jcard h3 { margin: 12px 0 8px; font-family: var(--jz-disp); font-weight: 700; font-size: 23px; line-height: 1.04; color: var(--jz-ink); }
 .jz-jcard p { margin: 0; font-family: var(--jz-body); font-size: 12.5px; line-height: 1.6; letter-spacing: -0.01em; color: rgba(27, 26, 23, 0.8); }
 
+/* Instagram feed / follow plate */
+.jz-ig { border: 1.5px solid var(--jz-ink); background: var(--jz-plate); padding: 16px; box-shadow: 6px 6px 0 rgba(27, 26, 23, 0.1); }
+.jz-ig iframe, .jz-ig .lightwidget-widget, .jz-ig behold-widget, .jz-ig .instagram-media { width: 100% !important; max-width: 100% !important; border: 0 !important; display: block; margin: 0 auto !important; }
+.jz-igfallback { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; border: 1.5px solid var(--jz-ink); background: var(--jz-plate); padding: 26px 28px; color: inherit; box-shadow: 6px 6px 0 rgba(27, 26, 23, 0.1); transition: box-shadow .2s; }
+.jz-igfallback:hover { box-shadow: 10px 10px 0 var(--jz-yellow); }
+.jz-igfallback__mark { font-family: var(--jz-disp); font-weight: 900; font-size: 46px; line-height: 1; color: var(--jz-blue); }
+.jz-igfallback__txt { flex: 1 1 260px; }
+.jz-igfallback__handle { font-family: var(--jz-mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--jz-blue); margin-bottom: 6px; }
+.jz-igfallback__txt p { margin: 0; font-family: var(--jz-body); font-size: 13.5px; line-height: 1.6; color: rgba(27, 26, 23, 0.8); max-width: 52ch; }
+.jz-igfallback .jz-btn { flex: 0 0 auto; }
+
 /* ---- sub-page components (projects, studio, contact, apply, 404) ---- */
 .jz-h1 { margin: 0; font-family: var(--jz-disp); font-weight: 900; text-transform: uppercase; font-size: clamp(44px, 7vw, 104px); line-height: 0.84; letter-spacing: -0.02em; color: var(--jz-ink); }
 .jz-h1 em { font-family: var(--jz-body); font-weight: 400; font-style: italic; text-transform: none; font-size: 0.44em; letter-spacing: -0.01em; color: var(--jz-blue); }

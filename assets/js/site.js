@@ -181,4 +181,33 @@
       });
     }
   }
+
+  // ---- "On the board": rotate the featured project once per day ----
+  // Static site, so the pick is made client-side, keyed to the UTC day count so
+  // every visitor sees the same project on a given day. Falls back silently to the
+  // server-rendered project if JS is off or the data is missing.
+  var boardData = document.getElementById('jz-board-data');
+  var board = document.getElementById('jz-board');
+  if (boardData && board) {
+    try {
+      var pool = JSON.parse(boardData.textContent);
+      if (pool && pool.length) {
+        var p = pool[Math.floor(Date.now() / 86400000) % pool.length];
+        var set = function (sel, txt) { var n = board.querySelector(sel); if (n) n.textContent = txt; };
+        var href = 'projects/' + p.slug;
+        var open = board.querySelector('[data-board="open"]');
+        var plate = board.querySelector('[data-board="plate"]');
+        if (open) open.setAttribute('href', href);
+        if (plate) plate.setAttribute('href', href);
+        var img = plate && plate.querySelector('img');
+        if (img) { img.setAttribute('src', p.img); img.setAttribute('alt', p.alt); }
+        set('[data-board="ref"]', p.ref);
+        set('[data-board="ref2"]', 'Ref. ' + p.ref);
+        set('[data-board="cat"]', p.category + ' · ' + p.location);
+        set('[data-board="name"]', p.name);
+        set('[data-board="loc"]', p.location);
+        set('[data-board="year"]', p.year);
+      }
+    } catch (e) { /* keep the server-rendered default */ }
+  }
 })();

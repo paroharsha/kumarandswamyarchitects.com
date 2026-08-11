@@ -35,7 +35,20 @@ export const site = {
   google: 'https://share.google/s0do7jVBrIQGyeG2j',
   social: {
     instagram: 'https://www.instagram.com/kumar_and_swamy_architects',
-    facebook: 'https://www.facebook.com/kumarswamy49'
+    facebook: 'https://www.facebook.com/kumarswamy49',
+    // Live Instagram feed on the homepage. A static site can't pull the feed
+    // itself, so paste the embed snippet from a free widget service here
+    // (LightWidget, Behold, SnapWidget, EmbedSocial, …) — the whole thing:
+    // <script>/<iframe>/<blockquote> and all. Leave '' to show the styled
+    // "Follow on Instagram" fallback plate instead. Re-run the build after editing.
+    instagramEmbed: `<behold-widget feed-id="HmJvFeMNoq1T9l2VJvWe"></behold-widget>
+<script>
+  (() => {
+    if(window.__bhldScript)return;window.__bhldScript=true;
+    const d=document,s=d.createElement("script");s.type="module";
+    s.src="https://w.behold.so/widget.js";setTimeout(()=>{d.head.append(s);},0);
+  })();
+</script>`
   },
   // Authoritative external profiles — used as schema.org sameAs to tie the
   // site to the Google Business Profile entity (/g/11dzw7r2x_) and directories.

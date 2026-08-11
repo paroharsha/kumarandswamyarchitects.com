@@ -202,8 +202,22 @@ function pageCurrent(p) {
 
 // ---------- HOME ----------
 function buildHome() {
-  const feat = projects.find(p => p.slug === 'mallya-aditi-international-school');
+  // "On the board" rotates daily, client-side (static site — can't pick per-request
+  // server-side). Pool = every project that has a real hero photo, kept in the
+  // canonical project order so the day-based pick is deterministic for all visitors.
+  const featPool = projects.filter(p => exists(`assets/img/projects/${p.slug}.jpg`));
+  const featData = featPool.map(p => ({
+    slug: p.slug, name: p.name, location: p.location, year: p.year, category: p.category,
+    ref: String(projects.indexOf(p) + 1).padStart(3, '0'),
+    img: `assets/img/projects/${p.slug}.jpg`,
+    alt: `${p.name} — ${p.category.toLowerCase()} architecture in ${p.location} by Kumar & Swamy Architects`
+  }));
+  // Server default = today's pick (UTC day count), so no-JS/first paint already
+  // shows the current day's project and JS agrees on the same day (no flash).
+  const featDayIdx = featPool.length ? Math.floor(Date.now() / 86400000) % featPool.length : 0;
+  const feat = featPool[featDayIdx] || projects[0];
   const featNo = String(projects.indexOf(feat) + 1).padStart(3, '0');
+  const featJson = JSON.stringify(featData).replace(/</g, '\\u003c');
   const works = projects.slice(0, 10).map(p => `
     <a href="projects/${p.slug}" class="home-c__scroll-card">
       ${proj(p, { ratio: '4/3' })}
@@ -241,6 +255,27 @@ function buildHome() {
         <h3>${esc(p.title)}</h3>
         <p>${esc(p.excerpt)}</p>
       </a>`).join('');
+  const igHandle = site.social.instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, '').replace(/\/+$/, '');
+  const igSection = `
+      <section class="jz-sec">
+        <div class="jz-sec__head">
+          <div>
+            <div class="jz-eyebrow jz-eyebrow--sec">Field feed · @${esc(igHandle)}</div>
+            <h2 class="jz-h2">On <em>Instagram.</em></h2>
+          </div>
+          <a class="jz-morelink" href="${site.social.instagram}" target="_blank" rel="noopener">Follow ↗</a>
+        </div>
+        ${site.social.instagramEmbed
+          ? `<div class="jz-ig">${site.social.instagramEmbed}</div>`
+          : `<a class="jz-igfallback" href="${site.social.instagram}" target="_blank" rel="noopener">
+          <div class="jz-igfallback__mark" aria-hidden="true">◎</div>
+          <div class="jz-igfallback__txt">
+            <div class="jz-igfallback__handle">@${esc(igHandle)}</div>
+            <p>Site photographs, drawings and studio notes, posted as the work happens. Follow the practice on Instagram.</p>
+          </div>
+          <span class="jz-btn jz-btn--blue">Follow on Instagram ↗</span>
+        </a>`}
+      </section>`;
   const specSet = specialties.map(s => `<span>${esc(s)}</span>`).join('');
   const marqueeText = 'Kumar &amp; Swamy — Three generations · Fifty-seven years · Sixty-plus institutions —';
   const marquee = Array.from({ length: 4 }, () => `<span>${marqueeText}</span>`).join('');
@@ -268,23 +303,36 @@ function buildHome() {
         </div>
       </section>
 
+      <section class="jz-sec" id="jz-board">
+        <div class="jz-sec__head">
+          <div>
+            <div class="jz-eyebrow jz-eyebrow--sec">Currently featured · Ref. <span data-board="ref">${featNo}</span></div>
+            <h2 class="jz-h2">On the <em>board.</em></h2>
+          </div>
+          <a class="jz-morelink" data-board="open" href="projects/${feat.slug}">Open sheet →</a>
+        </div>
+        <a class="jz-photoplate jz-photoplate--wide" data-board="plate" href="projects/${feat.slug}">
+          ${projFill(feat, { eager: true })}
+          <div class="jz-photoplate__top"><span data-board="cat">${esc(feat.category)} · ${esc(feat.location)}</span><span data-board="ref2">Ref. ${featNo}</span></div>
+          <div class="jz-photoplate__bot">
+            <div class="jz-photoplate__name" data-board="name">${esc(feat.name)}</div>
+            <div class="jz-photoplate__meta"><span data-board="loc">${esc(feat.location)}</span><span data-board="year">${feat.year}</span><span>Built</span></div>
+          </div>
+        </a>
+        <script type="application/json" id="jz-board-data">${featJson}</script>
+      </section>
+
       <section class="jz-sec">
         <div class="jz-sec__head">
           <div>
-            <div class="jz-eyebrow jz-eyebrow--sec">Currently featured · Ref. ${featNo}</div>
-            <h2 class="jz-h2">On the <em>board.</em></h2>
+            <div class="jz-eyebrow jz-eyebrow--sec">Drawing set · The Journal</div>
+            <h2 class="jz-h2">From the <em>journal.</em></h2>
           </div>
-          <a class="jz-morelink" href="projects/${feat.slug}">Open sheet →</a>
+          <a class="jz-morelink" href="blog">All writing →</a>
         </div>
-        <a class="jz-photoplate jz-photoplate--wide" href="projects/${feat.slug}">
-          ${projFill(feat, { eager: true })}
-          <div class="jz-photoplate__top"><span>${esc(feat.category)} · ${esc(feat.location)}</span><span>Ref. ${featNo}</span></div>
-          <div class="jz-photoplate__bot">
-            <div class="jz-photoplate__name">${esc(feat.name)}</div>
-            <div class="jz-photoplate__meta"><span>${esc(feat.location)}</span><span>${feat.year}</span><span>Built</span></div>
-          </div>
-        </a>
+        <div class="jz-jcards">${journalCards}</div>
       </section>
+${igSection}
 
       <section class="jz-sec">
         <div class="jz-sec__head">
@@ -305,17 +353,6 @@ function buildHome() {
           </div>
         </div>
         <div class="jz-rows">${svcRows}</div>
-      </section>
-
-      <section class="jz-sec">
-        <div class="jz-sec__head">
-          <div>
-            <div class="jz-eyebrow jz-eyebrow--sec">Drawing set · The Journal</div>
-            <h2 class="jz-h2">From the <em>journal.</em></h2>
-          </div>
-          <a class="jz-morelink" href="blog">All writing →</a>
-        </div>
-        <div class="jz-jcards">${journalCards}</div>
       </section>
 
       <section class="jz-sec">
