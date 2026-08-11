@@ -345,7 +345,7 @@ function buildHome() {
         <div class="jz-sec__head">
           <div>
             <div class="jz-eyebrow jz-eyebrow--sec">Drawing set · The Journal</div>
-            <h2 class="jz-h2">From the <em>journal.</em> <span class="jz-jhand">read &amp; argue&nbsp;↓</span></h2>
+            <h2 class="jz-h2">From the <em>journal.</em> <span class="jz-jhand">start a conversation&nbsp;↓</span></h2>
           </div>
           <a class="jz-morelink" href="blog">All writing →</a>
         </div>
