@@ -110,4 +110,75 @@
     document.querySelector('.home-c__scroll-arrow.is-prev'),
     document.querySelector('.home-c__scroll-arrow.is-next')
   );
+
+  // ---- The Journal zine (/blog + /post) ----
+  if (document.body.classList.contains('jz')) {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Ball full stop — replay the hop on click.
+    var ball = document.querySelector('.jz-ball');
+    if (ball) {
+      ball.addEventListener('click', function () {
+        if (reduce) return;
+        ball.style.animation = 'none';
+        void ball.offsetWidth;               // force reflow so the animation restarts
+        ball.style.animation = 'jz-hop .8s cubic-bezier(.3,.7,.4,1) both';
+      });
+    }
+
+    // Content scrolls inside .jz-scroll (the sheet frame stays put), so animate
+    // that container's scrollTop with an ease-in-out-quad — reliable under reduced-motion.
+    var scroller = document.querySelector('.jz-scroll');
+    function scrollBoxTo(target, dur) {
+      if (!scroller) return;
+      target = Math.max(0, Math.min(target, scroller.scrollHeight - scroller.clientHeight));
+      if (reduce) { scroller.scrollTop = target; return; }
+      var start = scroller.scrollTop, dist = target - start, t0 = 0;
+      function step(now) {
+        if (!t0) t0 = now;
+        var k = Math.min(1, (now - t0) / dur);
+        var e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+        scroller.scrollTop = start + dist * e;
+        if (k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    // Random sheet — jump to a random plate (excluding the last pick) and flash it.
+    var plates = Array.prototype.slice.call(document.querySelectorAll('.jz-feature, .jz-plate'));
+    var randomBtn = document.querySelector('.jz-random');
+    var lastPlate = null, flashTimer;
+    if (randomBtn && plates.length && scroller) {
+      randomBtn.addEventListener('click', function () {
+        var pool = plates.filter(function (p) { return p !== lastPlate; });
+        var pick = pool[Math.floor(Math.random() * pool.length)];
+        lastPlate = pick;
+        var top = pick.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop - 24;
+        scrollBoxTo(top, 480);
+        plates.forEach(function (p) { p.style.boxShadow = ''; });
+        pick.style.transition = 'box-shadow .2s';
+        pick.style.boxShadow = '8px 8px 0 #F2B705';
+        clearTimeout(flashTimer);
+        flashTimer = setTimeout(function () { pick.style.boxShadow = ''; }, 2200);
+      });
+    }
+
+    // Plotting transition — play the plotter sweep, then follow the link.
+    var overlay = document.querySelector('.jz-plot');
+    var label = overlay && overlay.querySelector('.jz-plot__label');
+    if (overlay) {
+      plates.forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          var href = a.getAttribute('href');
+          if (!href) return;
+          e.preventDefault();
+          if (reduce) { window.location.href = href; return; }
+          if (label) label.textContent = 'Plotting sheet ' + (a.getAttribute('data-sheet') || '') + ' …';
+          overlay.classList.add('is-on');
+          setTimeout(function () { window.location.href = href; }, 900);
+        });
+      });
+    }
+  }
 })();

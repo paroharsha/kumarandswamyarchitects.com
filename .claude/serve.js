@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.resolve(__dirname, '..');
-const port = 4173;
+const port = process.env.PORT || process.argv[2] || 4173;
 const types = {
   '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript',
   '.jsx': 'text/babel', '.json': 'application/json', '.md': 'text/plain', '.svg': 'image/svg+xml',

@@ -296,3 +296,18 @@ export const posts = [
     author: 'Kumar and Swamy Architects', date: 'Feb 11, 2021', readTime: '1 min read', sketch: 'courtyard',
     excerpt: 'Thirty years on, we extended Mallya Aditi — our very first school — with a lightweight steel structure that reinterprets the original in a modern context.' }
 ];
+
+// Handwritten "margin notes" for the Journal drawing-sheet layout (build.mjs / buildBlog).
+// Keyed by post slug; a plate with no note simply renders without one.
+export const journalNotes = {
+  'designing-for-a-billion-5-ways-india-s-new-building-code-is-reimagining-the-modern-city': '820 million\nby 2051 —\nplan for it',
+  'architecture-that-teaches-the-reality-of-designing-modern-educational-spaces': 'the room\nteaches too',
+  'inclusivity-in-architecture-design-without-bias': 'no user\nis average',
+  '18th-june-2025-an-architect-s-journal-entry': 'smell of\nammonia\nprints',
+  'designing-flexible-and-adaptable-learning-spaces': 'walls that\nmove',
+  'the-impact-of-colour-on-learning-a-guide-to-selecting-colours-for-school-interiors': 'colour is\nwayfinding',
+  'vivitsa-world-school-the-architecture': 'courtyard\nfirst',
+  'the-importance-of-natural-light-in-school-design': 'daylight\n= free',
+  '50-years-of-kumar-swamy': '50 yrs.\nopen day',
+  'reinterpreting-our-very-first-school': 'where it\nall began'
+};

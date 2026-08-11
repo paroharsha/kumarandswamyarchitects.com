@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { site, nav, categories, projects, projectIndex, specialties, services, founder, team, approach, studio, roles, posts } from './data.mjs';
+import { site, nav, categories, projects, projectIndex, specialties, services, founder, team, approach, studio, roles, posts, journalNotes } from './data.mjs';
 import { sketch } from './sketches.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -139,7 +139,7 @@ const proServiceLd = {
 };
 const websiteLd = { '@type': 'WebSite', '@id': site.domain + '/#website', url: site.domain + '/', name: site.name, publisher: { '@id': PRO_ID }, inLanguage: 'en' };
 
-function layout({ title, description, pathRel, depth = 0, bodyClass = '', main, extraLd = null, ogType = 'website', image = 'assets/img/projects/amaatra-academy.jpg', breadcrumbs = null }) {
+function layout({ title, description, pathRel, depth = 0, bodyClass = '', main, extraLd = null, ogType = 'website', image = 'assets/img/projects/amaatra-academy.jpg', breadcrumbs = null, bare = false, headExtra = '' }) {
   const canonical = site.domain + '/' + pathRel;
   const imgAbs = /^https?:/.test(image) ? image : site.domain + '/' + image;
   const graph = [proServiceLd, websiteLd];
@@ -176,16 +176,16 @@ function layout({ title, description, pathRel, depth = 0, bodyClass = '', main, 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,800;1,400&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="${rel(depth, 'assets/css/site.css')}">
+<link rel="stylesheet" href="${rel(depth, 'assets/css/site.css')}">${headExtra}
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
 </head>
 <body class="${bodyClass}">
-<a class="ks-skip" href="#main">Skip to content</a>
-${navHtml(bodyClass.includes('home') ? 'home' : (extraLd && extraLd._cur) || pageCurrent(pathRel), depth)}
+${bare ? '' : `<a class="ks-skip" href="#main">Skip to content</a>
+${navHtml(bodyClass.includes('home') ? 'home' : (extraLd && extraLd._cur) || pageCurrent(pathRel), depth)}`}
 <main id="main">
 ${main}
 </main>
-${footerHtml(depth)}
+${bare ? '' : footerHtml(depth)}
 <script src="${rel(depth, 'assets/js/site.js')}"></script>
 </body>
 </html>`;
@@ -472,47 +472,131 @@ function buildApply() {
   w('applytowork.html', layout({ title: `Careers — Architecture Jobs in Bangalore | ${site.shortName}`, description: 'Work with Kumar & Swamy Architects in Bangalore. Open roles: Junior Architect, Internship, Interiors Architect — apply to join our institutional architecture studio.', pathRel: 'applytowork', main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Apply', path: 'applytowork' }] }));
 }
 
-// ---------- BLOG INDEX + ARTICLES ----------
+// ---------- BLOG INDEX + ARTICLES (the "drawing sheet" Journal zine) ----------
+// A full-screen takeover: the site nav/footer are dropped (bare layout) and the
+// zine renders its own fixed drawing-sheet chrome (blueprint grid, ruled border,
+// header rule with folded-in site nav, and a title block pinned to the bottom).
+const ZINE_FONTS = `
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,600;1,6..72,400&family=Caveat:wght@500;700&display=swap" rel="stylesheet">`;
+const dwg = (i) => 'A-' + String(i + 1).padStart(2, '0');
+const clip = (s, n) => (s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s);
+// A hero image that fills its frame (bare <img>), falling back to the SVG sketch.
+function heroFill(p, { depth = 0, eager = false } = {}) {
+  const src = `assets/img/blog/${p.slug}.jpg`;
+  if (exists(src)) return `<img src="${rel(depth, src)}" alt="${esc(p.title)}"${eager ? '' : ' loading="lazy"'} decoding="async">`;
+  return sketch(p.sketch, { ratio: '4/3' });
+}
+// Fixed drawing-sheet chrome shared by the index and every article sheet.
+function jzChrome(sheetTitle, dwgNo, current, depth) {
+  const links = nav.map(it => `<a href="${rel(depth, it.href)}"${it.id === current ? ' aria-current="page"' : ''}>${esc(it.label)}</a>`).join('');
+  return `<div class="jz-grid" aria-hidden="true"></div>
+  <div class="jz-frame" aria-hidden="true"></div>
+  <div class="jz-frame2" aria-hidden="true"></div>
+  <div class="jz-head">
+    <a class="jz-head__brand" href="${homeHref(depth)}">Kumar &amp; Swamy Architects · Est. 1969 · Bangalore</a>
+    <nav class="jz-head__nav" aria-label="Primary">${links}</nav>
+  </div>
+  <div class="jz-title" aria-hidden="true">
+    <div class="jz-title__mark">K&amp;S</div>
+    <div class="jz-title__cell jz-title__cell--hide">Sheet title — ${esc(sheetTitle)}</div>
+    <div class="jz-title__cell jz-title__cell--hide">Scale — N.T.S.</div>
+    <div class="jz-title__spacer"></div>
+    <div class="jz-title__dwg">Dwg no. ${esc(dwgNo)}</div>
+  </div>`;
+}
 function buildBlog() {
   const [lead, ...rest] = posts;
-  const card = (p) => `
-    <a class="journal-card" href="post/${p.slug}">
-      ${media(`assets/img/blog/${p.slug}.jpg`, { ratio: '3/2', alt: p.title, fallback: p.sketch })}
-      <div class="kicker"><span>${esc(p.date)}</span><span>${esc(p.readTime)}</span></div>
+  const noteHtml = (p, cls) => {
+    const n = journalNotes[p.slug];
+    return n ? `<div class="${cls}"><span>${n.split('\n').map(esc).join('<br>')}</span></div>` : '';
+  };
+
+  // Featured plate (A-01)
+  const feature = `<a class="jz-feature" href="post/${lead.slug}" data-sheet="${dwg(0)}">
+    <div class="jz-feature__main">
+      <div class="jz-feature__meta"><span>${dwg(0)}</span><span class="dim">${esc(lead.date)}</span><span class="dim">${esc(lead.readTime)}</span><span class="jz-badge">Latest</span></div>
+      <h2>${esc(lead.title)}</h2>
+      <p class="jz-feature__blurb">${esc(lead.excerpt)}</p>
+      <div class="jz-feature__read"><span>Read the article</span><span class="ar">→</span></div>
+    </div>
+    <div class="jz-feature__fig">
+      <div class="jz-feature__img">${heroFill(lead, { eager: true })}</div>
+      ${noteHtml(lead, 'jz-feature__note')}
+    </div>
+  </a>`;
+
+  // Plate grid (A-02 → A-10)
+  const plates = rest.map((p, idx) => `<a class="jz-plate" href="post/${p.slug}" data-sheet="${dwg(idx + 1)}">
+      <div class="jz-plate__meta"><span>${dwg(idx + 1)}</span><span class="dim">${esc(p.date)}</span><span class="dim">${esc(p.readTime.replace(/\s*read$/, ''))}</span></div>
       <h3>${esc(p.title)}</h3>
       <p>${esc(p.excerpt)}</p>
-    </a>`;
-  const grid = rest.map(card).join('');
-  const main = `<div class="subp">
-  <div class="subp__head subp__head--blog"><h1>The<br/>journal.</h1><p>Writing from the studio — on architecture, education, and the ideas that shape the places we build.</p></div>
-  <a class="journal-feature" href="post/${lead.slug}">
-    <div class="journal-feature__img">${media(`assets/img/blog/${lead.slug}.jpg`, { ratio: '16/9', alt: lead.title, fallback: lead.sketch, eager: true })}</div>
-    <div class="journal-feature__body">
-      <span class="ks-label">Latest</span>
-      <div class="kicker"><span>${esc(lead.date)}</span><span>${esc(lead.readTime)}</span></div>
-      <h2>${esc(lead.title)}</h2>
-      <p>${esc(lead.excerpt)}</p>
-      <span class="journal-feature__more">Read the article →</span>
-    </div>
-  </a>
-  <div class="blog__grid">${grid}</div>
-</div>`;
-  w('blog.html', layout({ title: `Journal — Notes on School & Institutional Architecture | ${site.shortName}`, description: 'Writing from Kumar & Swamy Architects on India’s building code, designing modern educational spaces, and inclusive institutional architecture.', pathRel: 'blog', main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Journal', path: 'blog' }] }));
+      ${noteHtml(p, 'jz-plate__note')}
+    </a>`).join('');
 
-  for (const p of posts) {
+  const marqueeText = 'Kumar &amp; Swamy — Three generations · Fifty-seven years · Sixty-plus institutions —';
+  const marquee = Array.from({ length: 4 }, () => `<span>${marqueeText}</span>`).join('');
+
+  const main = `${jzChrome('Journal index', 'A-00', 'blog', 0)}
+  <div class="jz-scroll">
+    <div class="jz-wrap">
+      <div class="jz-mast">
+        <div class="jz-mast__title">
+          <div class="jz-eyebrow">Sheet 00 · General notes</div>
+          <h1>The<br>journal<span class="jz-ball" title="click me" aria-hidden="true"></span></h1>
+        </div>
+        <div class="jz-mast__side">
+          <p>Writing from the studio — on architecture, education, and the ideas that shape the places we build.</p>
+          <div class="jz-mast__hand">ten sheets on file ↓</div>
+        </div>
+      </div>
+      <div class="jz-hint">
+        <span class="dot">●</span><span>Ten entries, plotted newest first</span><span class="sp"></span>
+        <span class="jz-hint__tip">Hover the right margin of any plate for margin notes</span>
+        <button type="button" class="jz-random" aria-label="Jump to a random sheet">↯ Random sheet</button>
+      </div>
+      ${feature}
+      <div class="jz-idxrule"><span>Sheet index</span><span class="ln"></span><span class="bl">A-02 → A-10</span></div>
+      <div class="jz-plates">${plates}</div>
+      <div class="jz-marquee" aria-hidden="true"><div class="jz-marquee__row">${marquee}</div></div>
+      <div class="jz-foot">
+        <div>${esc(site.address).replace(', Bengaluru', '<br>Bengaluru')}</div>
+        <div>${esc(site.email)}<br>${esc(site.phones[0].label)}</div>
+        <div>© 1969–2026 ${esc(site.name)}</div>
+      </div>
+    </div>
+  </div>
+  <div class="jz-plot" aria-hidden="true"><div class="jz-plot__grid"></div><div class="jz-plot__bar"></div><div class="jz-plot__label">Plotting sheet A-01 …</div></div>`;
+  w('blog.html', layout({ title: `Journal — Notes on School & Institutional Architecture | ${site.shortName}`, description: 'Writing from Kumar & Swamy Architects on India’s building code, designing modern educational spaces, and inclusive institutional architecture.', pathRel: 'blog', bodyClass: 'jz', bare: true, headExtra: ZINE_FONTS, main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Journal', path: 'blog' }] }));
+
+  const n = posts.length;
+  posts.forEach((p, i) => {
     const body = md(fs.readFileSync(path.join(ROOT, 'content/blog', p.file), 'utf8'));
+    const prev = posts[(i - 1 + n) % n];
+    const next = posts[(i + 1) % n];
     const ld = { '@type': 'BlogPosting', headline: p.title, author: { '@type': 'Person', name: p.author }, publisher: { '@id': PRO_ID }, description: p.excerpt, image: `${site.domain}/assets/img/blog/${p.slug}.jpg`, mainEntityOfPage: `${site.domain}/post/${p.slug}` };
     ld._cur = 'blog';
-    const main2 = `<article class="article">
-  <div class="article__crumbs"><a href="../">Index</a> / <a href="../blog">Journal</a></div>
-  <h1>${esc(p.title)}</h1>
-  <div class="article__byline"><span>${esc(p.author)}</span><span>${esc(p.date)}</span><span>${esc(p.readTime)}</span></div>
-  <div class="article__hero">${media(`assets/img/blog/${p.slug}.jpg`, { ratio: '16/8', alt: p.title, depth: 1, eager: true, fallback: p.sketch })}</div>
-  <div class="article__body">${body}</div>
-  <p style="margin-top:48px"><a href="../blog" class="ks-cta-link">Back to the journal <span class="arrow">→</span></a></p>
-</article>`;
-    w(`post/${p.slug}.html`, layout({ title: `${p.title} | ${site.shortName} Journal`, description: p.excerpt, pathRel: `post/${p.slug}`, depth: 1, main: main2, extraLd: ld, ogType: 'article', image: `assets/img/blog/${p.slug}.jpg`, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Journal', path: 'blog' }, { name: p.title, path: `post/${p.slug}` }] }));
-  }
+    const main2 = `${jzChrome(clip(p.title, 30), dwg(i), 'blog', 1)}
+  <div class="jz-scroll">
+    <article class="jz-article">
+      <div class="jz-article__top">
+        <a class="jz-back" href="../blog">← Sheet index</a>
+        <span class="jz-article__byline">${esc(p.author)} · ${esc(p.date)} · ${esc(p.readTime)}</span>
+        <span class="sp"></span>
+        <span class="jz-article__no">Dwg ${dwg(i)} of ${n}</span>
+      </div>
+      <div class="jz-article__head"><h1>${esc(p.title)}</h1></div>
+      <div class="jz-article__hero">${heroFill(p, { depth: 1, eager: true })}</div>
+      <div class="jz-article__body">${body}</div>
+      <div class="jz-flip">
+        <a class="prev" href="${prev.slug}">← ${esc(clip(prev.title, 24))}</a>
+        <a class="next" href="${next.slug}">${esc(clip(next.title, 24))} →</a>
+        <span class="sp"></span>
+        <span class="lab">Dwg ${dwg(i)} — The Journal</span>
+      </div>
+    </article>
+  </div>`;
+    w(`post/${p.slug}.html`, layout({ title: `${p.title} | ${site.shortName} Journal`, description: p.excerpt, pathRel: `post/${p.slug}`, depth: 1, bodyClass: 'jz', bare: true, headExtra: ZINE_FONTS, main: main2, extraLd: ld, ogType: 'article', image: `assets/img/blog/${p.slug}.jpg`, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Journal', path: 'blog' }, { name: p.title, path: `post/${p.slug}` }] }));
+  });
 }
 
 // ---------- SITEMAP + ROBOTS ----------
