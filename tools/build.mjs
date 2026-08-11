@@ -175,7 +175,7 @@ function layout({ title, description, pathRel, depth = 0, bodyClass = '', main, 
 <link rel="manifest" href="${rel(depth, 'site.webmanifest')}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,800;1,400&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;500;600;700;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${rel(depth, 'assets/css/site.css')}">${headExtra}
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
 </head>
@@ -220,84 +220,163 @@ function buildHome() {
       <p>${esc(p.excerpt)}</p>
     </a>`).join('');
 
-  const main = `<div class="ks-page home-c home-c--c1" id="home-c1">
-  <section class="home-c__hero">
-    <div class="home-c__hero-l">
-      <div>
-        <h1 class="home-c__hero-title" style="font-size:clamp(38px,5.2vw,92px)">Kumar<br/><span class="ampersand">&amp;</span> Swamy<br/><em>architects.</em></h1>
-        <p style="font-family:'Inter Tight',sans-serif;font-weight:300;font-size:clamp(17px,1.5vw,21px);line-height:1.32;color:var(--ink-2);max-width:540px;margin:clamp(12px,2vh,22px) 0 0;letter-spacing:-0.01em">${esc(site.tagline)}</p>
-        <div class="home-c__hero-specialties">
-          <div class="home-c__hero-specialties-track">
-            <div class="ticker-set">${specialties.map(s => `<span>${esc(s)}</span>`).join('')}</div>
-            <div class="ticker-set" aria-hidden="true">${specialties.map(s => `<span>${esc(s)}</span>`).join('')}</div>
+  const workCards = projects.slice(0, 8).map(p => `
+      <a class="jz-work" href="projects/${p.slug}">
+        <div class="jz-work__img">${projFill(p)}</div>
+        <div class="jz-work__body">
+          <div class="jz-work__meta"><span>P-${String(projects.indexOf(p) + 1).padStart(2, '0')}</span><span class="dim">${esc(p.category)}</span></div>
+          <div class="jz-work__name">${esc(p.name)}</div>
+          <div class="jz-work__meta"><span class="dim">${esc(p.location)}</span><span class="dim">${p.year}</span></div>
+        </div>
+      </a>`).join('');
+  const svcRows = services.map(s => `
+      <div class="jz-row">
+        <div class="jz-row__n">${s.n} / 06</div>
+        <div class="jz-row__name">${esc(s.name)}</div>
+        <div class="jz-row__blurb">${esc(s.blurb)}</div>
+      </div>`).join('');
+  const journalCards = posts.slice(0, 3).map((p, i) => `
+      <a class="jz-jcard" href="post/${p.slug}">
+        <div class="jz-jcard__meta"><span>${dwg(i)}</span><span class="dim">${esc(p.date)}</span><span class="dim">${esc(p.readTime.replace(/\s*read$/, ''))}</span></div>
+        <h3>${esc(p.title)}</h3>
+        <p>${esc(p.excerpt)}</p>
+      </a>`).join('');
+  const specSet = specialties.map(s => `<span>${esc(s)}</span>`).join('');
+  const marqueeText = 'Kumar &amp; Swamy — Three generations · Fifty-seven years · Sixty-plus institutions —';
+  const marquee = Array.from({ length: 4 }, () => `<span>${marqueeText}</span>`).join('');
+
+  const main = `${jzChrome('General arrangement', 'GA-00', 'home', 0)}
+  <div class="jz-scroll">
+    <div class="jz-wrap jz-wrap--wide">
+      <section class="jz-hero">
+        <div class="jz-hero__head">
+          <div>
+            <div class="jz-eyebrow">Sheet 00 · General arrangement · Est. 1969</div>
+            <h1 class="jz-wordmark">Kumar <span class="amp">&amp;</span><br>Swamy<span class="jz-wordmark__sub">Architects · Bangalore</span></h1>
+          </div>
+          <div class="jz-hero__note">
+            <p class="jz-hero__lede">${esc(site.tagline)}</p>
+            <div class="jz-mast__hand">sixty years on file ↓</div>
           </div>
         </div>
+        <div class="jz-ticker"><div class="jz-ticker__row">${specSet}${specSet}</div></div>
+        <div class="jz-metacells">
+          <div><span class="k">Founded</span><span class="v">Bangalore, 1969</span></div>
+          <div><span class="k">Practice</span><span class="v">Institutional</span></div>
+          <div><span class="k">Built work</span><span class="v">60+ projects</span></div>
+          <div><span class="k">Bengaluru</span><span class="v">Cambridge Layout</span></div>
+        </div>
+      </section>
+
+      <section class="jz-sec">
+        <div class="jz-sec__head">
+          <div>
+            <div class="jz-eyebrow jz-eyebrow--sec">Currently featured · Ref. ${featNo}</div>
+            <h2 class="jz-h2">On the <em>board.</em></h2>
+          </div>
+          <a class="jz-morelink" href="projects/${feat.slug}">Open sheet →</a>
+        </div>
+        <a class="jz-photoplate jz-photoplate--wide" href="projects/${feat.slug}">
+          ${projFill(feat, { eager: true })}
+          <div class="jz-photoplate__top"><span>${esc(feat.category)} · ${esc(feat.location)}</span><span>Ref. ${featNo}</span></div>
+          <div class="jz-photoplate__bot">
+            <div class="jz-photoplate__name">${esc(feat.name)}</div>
+            <div class="jz-photoplate__meta"><span>${esc(feat.location)}</span><span>${feat.year}</span><span>Built</span></div>
+          </div>
+        </a>
+      </section>
+
+      <section class="jz-sec">
+        <div class="jz-sec__head">
+          <div>
+            <div class="jz-eyebrow jz-eyebrow--sec">Sheet index · Selected works</div>
+            <h2 class="jz-h2">Selected <em>works.</em></h2>
+          </div>
+          <a class="jz-morelink" href="projects">All projects →</a>
+        </div>
+        <div class="jz-works">${workCards}</div>
+      </section>
+
+      <section class="jz-sec">
+        <div class="jz-sec__head">
+          <div>
+            <div class="jz-eyebrow jz-eyebrow--sec">Scope of services · 01–06</div>
+            <h2 class="jz-h2">Six briefs,<br><em>one practice.</em></h2>
+          </div>
+        </div>
+        <div class="jz-rows">${svcRows}</div>
+      </section>
+
+      <section class="jz-sec">
+        <div class="jz-sec__head">
+          <div>
+            <div class="jz-eyebrow jz-eyebrow--sec">Drawing set · The Journal</div>
+            <h2 class="jz-h2">From the <em>journal.</em></h2>
+          </div>
+          <a class="jz-morelink" href="blog">All writing →</a>
+        </div>
+        <div class="jz-jcards">${journalCards}</div>
+      </section>
+
+      <section class="jz-sec">
+        <div class="jz-band">
+          <div>
+            <div class="jz-eyebrow jz-eyebrow--sec">General notes · The studio</div>
+            <h2 class="jz-h2">A practice in its <em>fifth</em> decade.</h2>
+          </div>
+          <div class="jz-band__side">
+            <div class="jz-body-copy">
+              <p>Founded by C R Shivakumar in Bangalore, the studio has grown across three generations — carrying one ethic: listen first, draw second.</p>
+              <p>A small team of architects and interns work out of a studio that does not limit itself to the office. We travel, read, listen to music, watch film — because you cannot design for people without first knowing them.</p>
+            </div>
+            <a class="jz-btn jz-btn--blue" href="about">Meet the studio →</a>
+          </div>
+        </div>
+      </section>
+
+      <div class="jz-marquee" aria-hidden="true"><div class="jz-marquee__row">${marquee}</div></div>
+      <div class="jz-foot">
+        <div>${esc(site.address).replace(', Bengaluru', '<br>Bengaluru')}</div>
+        <div>${esc(site.email)}<br>${esc(site.phones[0].label)}</div>
+        <div><a href="${site.social.instagram}" target="_blank" rel="noopener">Instagram ↗</a><br><a href="${site.social.facebook}" target="_blank" rel="noopener">Facebook ↗</a></div>
+        <div>© 1969–2026 ${esc(site.name)}</div>
       </div>
-      <div class="home-c__hero-meta">
-        <div class="item"><div class="lbl">Founded</div><div class="val">Bangalore, 1969</div></div>
-        <div class="item"><div class="lbl">Practice</div><div class="val">Institutional</div></div>
-        <div class="item"><div class="lbl">Built work</div><div class="val">60+ projects</div></div>
-      </div>
     </div>
-    <div class="home-c__hero-r">
-      <a href="projects/${feat.slug}" class="home-c__hero-feat" style="text-decoration:none;color:inherit">
-        <div class="home-c__hero-feat-parallax" style="position:absolute;inset:0;z-index:0">${proj(feat, { ratio: 'auto', eager: true })}</div>
-        <div class="home-c__hero-feat-top"><span>Currently featured</span><span>Ref. ${featNo}</span></div>
-        <div class="home-c__hero-feat-bot"><div class="name">${esc(feat.name)}</div><div class="meta"><span>${esc(feat.location)}</span><span>${feat.year}</span></div></div>
-      </a>
-    </div>
-  </section>
-
-  <section class="home-c__scroll" id="works">
-    <div class="home-c__scroll-head">
-      <h2 class="ks-reveal">Selected works.</h2>
-      <a href="projects" style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,239,230,0.7);border-bottom:1px solid currentColor;padding-bottom:3px">Featured projects →</a>
-    </div>
-    <div class="home-c__scroll-wrap">
-      <button class="home-c__scroll-arrow is-prev" type="button" aria-label="Scroll to previous works">&#8592;</button>
-      <div class="home-c__scroll-track">${works}</div>
-      <button class="home-c__scroll-arrow is-next" type="button" aria-label="Scroll to next works">&#8594;</button>
-    </div>
-  </section>
-
-  <section class="home-c__services" id="services">
-    <div class="home-c__services-head"><h2 class="ks-reveal">Six briefs,<br/><em>one practice.</em></h2><p class="ks-reveal">Interpret the philosophy of the institution. Build for the climate. Last beyond the client.</p></div>
-    <div class="home-c__svc-grid">${svc}</div>
-  </section>
-
-  <section class="home-c__journal" id="journal">
-    <div class="home-c__journal-head"><h2 class="ks-reveal">From the journal.</h2><a href="blog" style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid currentColor;padding-bottom:3px">All writing →</a></div>
-    <div class="home-c__journal-grid">${journal}</div>
-  </section>
-
-  <section style="padding:84px 32px;background:var(--mustard);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center" id="about">
-    <div class="ks-reveal"><span class="ks-label" style="color:var(--ink-2);display:block;margin-bottom:30px">About</span><h2 style="font-size:clamp(56px,8vw,128px);line-height:0.88;letter-spacing:-0.04em;margin:0;font-weight:800;font-family:'Inter Tight',sans-serif">A practice<br/>in its <em>fifth</em><br/>decade.</h2></div>
-    <div class="ks-reveal">
-      <p style="font-family:'Inter Tight',sans-serif;font-weight:300;font-size:24px;line-height:1.35;color:var(--ink-2);margin:0 0 1em;max-width:520px;letter-spacing:-0.01em">Founded by C R Shivakumar in Bangalore, the studio has grown across three generations — carrying one ethic: listen first, draw second.</p>
-      <p style="font-family:var(--font-sans);font-size:16px;line-height:1.65;color:var(--ink-2);margin:0 0 40px;max-width:520px">Today a small team of architects and interns work out of a studio that does not limit itself to the office. We travel, read, listen to music, watch film — because you cannot design for people without first knowing them.</p>
-      <a href="about" class="ks-btn-primary">Meet the studio <span>→</span></a>
-    </div>
-  </section>
-</div>`;
-  w('index.html', layout({ title: `School & Institutional Architecture in Bangalore | ${site.name}`, description: site.description, pathRel: '', bodyClass: 'home', main }));
+  </div>`;
+  w('index.html', layout({ title: `School & Institutional Architecture in Bangalore | ${site.name}`, description: site.description, pathRel: '', bodyClass: 'jz', bare: true, main }));
 }
 
 // ---------- PROJECTS ----------
 function buildProjects() {
-  const filters = categories.map((c, i) => `<button class="projects__filter${i === 0 ? ' is-active' : ''}" data-filter="${c}">${c}</button>`).join('');
-  const cards = projects.map(p => `
-    <a class="projects__card" href="projects/${p.slug}" data-category="${p.category}">
-      ${proj(p, { ratio: '4/3' })}
-      <div class="meta-row"><span>${esc(p.location)}</span><span>${esc(p.category)}</span></div>
-      <div class="name">${esc(p.name)}</div>
-      <div class="meta-row" style="margin-top:6px"><span>${p.year}</span></div>
-    </a>`).join('');
-  const main = `<div class="subp">
-  <div class="subp__head"><h1>Our<br/>work.</h1><p>Over 60 schools and institutions across the country, alongside our sporting infrastructure and commercial projects. A selection of featured work.</p></div>
-  <div class="projects__filters"><span class="projects__filter-label">Filter</span>${filters}<span class="projects__count">${String(projects.length).padStart(2,'0')} / ${String(projects.length).padStart(2,'0')}</span></div>
-  <div class="projects__grid">${cards}</div>
-</div>`;
-  w('projects.html', layout({ title: `School, Campus & Institutional Projects in Bangalore | ${site.shortName}`, description: 'Selected school, campus and institutional architecture by Kumar & Swamy Architects — 16 featured projects across Bangalore and India, plus sports infrastructure since 1969.', pathRel: 'projects', main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Projects', path: 'projects' }] }));
+  const filters = categories.map((c, i) => `<button class="jz-filter projects__filter${i === 0 ? ' is-active' : ''}" data-filter="${esc(c)}">${esc(c)}</button>`).join('');
+  const cards = projects.map((p, i) => `
+        <a class="jz-work projects__card" href="projects/${p.slug}" data-category="${esc(p.category)}">
+          <div class="jz-work__img">${projFill(p)}</div>
+          <div class="jz-work__body">
+            <div class="jz-work__meta"><span>P-${String(i + 1).padStart(2, '0')}</span><span class="dim">${esc(p.category)}</span></div>
+            <div class="jz-work__name">${esc(p.name)}</div>
+            <div class="jz-work__meta"><span class="dim">${esc(p.location)}</span><span class="dim">${p.year}</span></div>
+          </div>
+        </a>`).join('');
+  const cnt = String(projects.length).padStart(2, '0');
+  const main = `${jzChrome('Project index', 'P-00', 'projects', 0)}
+  <div class="jz-scroll">
+    <div class="jz-wrap jz-wrap--wide">
+      <header class="jz-phead">
+        <div>
+          <div class="jz-eyebrow">Sheet index · Built work</div>
+          <h1 class="jz-h1">Our <em>work.</em></h1>
+        </div>
+        <p class="jz-lede jz-phead__intro">Over 60 schools and institutions across the country, alongside our sporting infrastructure and commercial projects — a selection of featured work.</p>
+      </header>
+      <div class="jz-filters">
+        <span class="jz-filters__label">Filter</span>${filters}
+        <span class="jz-count projects__count">${cnt} / ${cnt}</span>
+      </div>
+      <div class="jz-works" style="margin-top:30px">${cards}</div>
+    </div>
+  </div>`;
+  w('projects.html', layout({ title: `School, Campus & Institutional Projects in Bangalore | ${site.shortName}`, description: 'Selected school, campus and institutional architecture by Kumar & Swamy Architects — 16 featured projects across Bangalore and India, plus sports infrastructure since 1969.', pathRel: 'projects', bodyClass: 'jz', bare: true, main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Projects', path: 'projects' }] }));
 }
 
 // ---------- INDEX OF WORKS (full chronological record) ----------
@@ -351,74 +430,116 @@ function buildProjectDetail(p, i) {
     locationCreated: { '@type': 'Place', name: p.location }, creator: { '@id': PRO_ID }, description: p.brief,
     about: `${p.category} architecture`, keywords: `${p.category} architecture, ${p.location}, Kumar & Swamy Architects` };
   ld._cur = 'projects';
-  const main = `<div class="subp detail">
-  <section class="detail__hero">
-    <div class="detail__crumbs"><a href="../">Index</a> / <a href="../projects">Projects</a> / <span>${esc(p.name)}</span></div>
-    <div class="detail__title"><h1>${esc(p.name)}</h1></div>
-    <div class="detail__hero-meta">
-      <div class="item"><div class="lbl">Location</div><div class="val">${esc(p.location)}</div></div>
-      <div class="item"><div class="lbl">Year</div><div class="val">${p.year}</div></div>
-      <div class="item"><div class="lbl">Typology</div><div class="val">${esc(p.category)}</div></div>
-      <div class="item"><div class="lbl">Status</div><div class="val">Built</div></div>
+  const no = 'P-' + String(i + 1).padStart(2, '0');
+  const overviewHtml = p.overview
+    ? p.overview.trim().split(/\n\s*\n/).map(para => `<p>${esc(para.trim())}</p>`).join('')
+    : `<p>${esc(p.brief)}</p><p>${esc(overview2)}</p>`;
+  const main = `${jzChrome(clip(p.name, 30), no, 'projects', 1)}
+  <div class="jz-scroll">
+    <div class="jz-wrap jz-wrap--wide">
+      <div class="jz-detail__top">
+        <a class="jz-back" href="../projects">← Project index</a>
+        <span class="jz-detail__crumbs">${esc(p.location)} · ${esc(p.category)}</span>
+        <span class="sp"></span>
+        <span>Dwg ${no} · Built</span>
+      </div>
+      <div class="jz-detail__title"><h1 class="jz-h1">${esc(p.name)}</h1></div>
+      <div class="jz-metacells">
+        <div><span class="k">Location</span><span class="v">${esc(p.location)}</span></div>
+        <div><span class="k">Year</span><span class="v">${p.year}</span></div>
+        <div><span class="k">Typology</span><span class="v">${esc(p.category)}</span></div>
+        <div><span class="k">Status</span><span class="v">Built</span></div>
+      </div>
+      <div class="jz-detail__hero">${projFill(p, { depth: 1, eager: true })}</div>
+      ${p.stats && p.stats.length ? `<div class="jz-metacells" style="margin-top:22px">${p.stats.map(s => `<div><span class="k">${esc(s.label)}</span><span class="v">${esc(s.value)}</span></div>`).join('')}</div>` : ''}
+      <section class="jz-sec" style="margin-top:34px">
+        <div class="jz-overview">
+          <div class="jz-eyebrow">Overview</div>
+          <div class="jz-overview__body jz-body-copy">${overviewHtml}</div>
+        </div>
+      </section>
+      ${gallery.length ? `<section class="jz-sec">
+        <div class="jz-eyebrow" style="margin-bottom:16px">Gallery · ${String(gallery.length).padStart(2, '0')} plates</div>
+        <div class="jz-gallery">
+          ${gallery.map((src, n) => `<div class="tile"><img src="${rel(1, src)}" alt="${esc(p.name)} — view ${n + 1}" loading="lazy" decoding="async"></div>`).join('')}
+        </div>
+      </section>` : ''}
+      <div class="jz-flip">
+        <a class="prev" href="../projects">← Project index</a>
+        <a class="next" href="${next.slug}">Next: ${esc(clip(next.name, 22))} →</a>
+        <span class="sp"></span>
+        <span class="lab">Dwg ${no} — ${esc(clip(p.name, 24))}</span>
+      </div>
     </div>
-  </section>
-  <div class="detail__bigimg">${proj(p, { ratio: '16/7', label: p.category, depth: 1, eager: true })}</div>
-  ${p.stats && p.stats.length ? `<section class="detail__stats">
-    <div class="detail__stats-head"><span class="ks-label">Project numbers</span></div>
-    <div class="detail__stats-grid">
-      ${p.stats.map(s => `<div class="item"><div class="val">${esc(s.value)}</div><div class="lbl">${esc(s.label)}</div></div>`).join('')}
-    </div>
-  </section>` : ''}
-  <section class="detail__overview">
-    <div><span class="ks-label">Overview</span></div>
-    <div>${p.overview ? p.overview.trim().split(/\n\s*\n/).map(para => `<p>${esc(para.trim())}</p>`).join('') : `<p>${esc(p.brief)}</p><p>${esc(overview2)}</p>`}</div>
-  </section>
-  ${gallery.length ? `<section class="detail__gallery-sec">
-    <span class="ks-label">Gallery</span>
-    <div class="detail__gallery">
-      ${gallery.map((src, n) => `<div class="tile"><img src="${rel(1, src)}" alt="${esc(p.name)} — view ${n + 1}" loading="lazy" decoding="async"></div>`).join('')}
-    </div>
-  </section>` : ''}
-  <a class="detail__next" href="${next.slug}">
-    <span class="ks-label">Next project</span>
-    <h3>${esc(next.name)} <em>→</em></h3>
-  </a>
-</div>`;
-  w(`projects/${p.slug}.html`, layout({ title: `${p.name} — ${p.category} Architecture, ${p.location} | ${site.shortName}`, description: `${p.name}, ${p.location} (${p.year}) — ${p.category.toLowerCase()} architecture by Kumar & Swamy Architects. ${p.brief}`, pathRel: `projects/${p.slug}`, depth: 1, main, extraLd: ld, ogType: 'article', image: `assets/img/projects/${p.slug}.jpg`, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Projects', path: 'projects' }, { name: p.name, path: `projects/${p.slug}` }] }));
+  </div>`;
+  w(`projects/${p.slug}.html`, layout({ title: `${p.name} — ${p.category} Architecture, ${p.location} | ${site.shortName}`, description: `${p.name}, ${p.location} (${p.year}) — ${p.category.toLowerCase()} architecture by Kumar & Swamy Architects. ${p.brief}`, pathRel: `projects/${p.slug}`, depth: 1, bodyClass: 'jz', bare: true, main, extraLd: ld, ogType: 'article', image: `assets/img/projects/${p.slug}.jpg`, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Projects', path: 'projects' }, { name: p.name, path: `projects/${p.slug}` }] }));
 }
 
 // ---------- ABOUT / STUDIO ----------
 function buildAbout() {
-  const teamCards = team.map(m => `
-    <div class="about__team-card">
-      <div class="img">${media(`assets/img/team/${slugify(m.name)}.jpg`, { ratio: '1/1', alt: m.name })}</div>
-      <div class="name">${esc(m.name)}</div><div class="role">${esc(m.role)}</div>
-    </div>`).join('');
-  const appItems = approach.items.map(a => `
-    <div class="about__approach-item"><div class="n">${a.n}</div><h3>${esc(a.h)}</h3><p>${esc(a.p)}</p></div>`).join('');
-  const main = `<div class="subp">
-  <section class="about__hero">
-    <div class="about__hero-left"><h1>Studio</h1><p class="about__hero-motto">Listen first, draw second.</p></div>
-    <div class="about__hero-right"><p>A family-owned practice in its third generation, with a legacy of over fifty-five years and more than sixty institutions built across India.</p></div>
-  </section>
-  <section class="about__founder">
-    <div class="about__founder-img">${media('assets/img/founder.jpg', { ratio: '3/4', alt: 'C R Shivakumar, founder', fallback: 'tower' })}</div>
-    <div class="about__founder-content"><span class="ks-label">Our founder</span><h2>${esc(founder.name)}</h2>${founder.body.map(t => `<p>${esc(t)}</p>`).join('')}</div>
-  </section>
-  <section class="about__team">
-    <div class="about__team-head"><h2>Partners &amp; family.</h2></div>
-    <div class="about__team-grid">${teamCards}</div>
-  </section>
-  <section class="about__approach">
-    <h2>Our design<br/>approach.</h2>
-    <div class="about__approach-list">${appItems}</div>
-  </section>
-  <section class="about__studio">
-    <div><span class="ks-label">The studio</span><h2>More than<br/>an office.</h2></div>
-    <div>${studio.body.map(t => `<p>${esc(t)}</p>`).join('')}<a href="applytowork" class="ks-cta-link">Work with us <span class="arrow">→</span></a></div>
-  </section>
-</div>`;
-  w('about.html', layout({ title: `Studio — Institutional & School Architects in Bangalore since 1969 | ${site.shortName}`, description: 'Meet Kumar & Swamy Architects: founder C R Shivakumar, the partners, and the design approach behind a Bangalore school and institutional architecture practice in its fifth decade.', pathRel: 'about', main, image: 'assets/img/founder.jpg', breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Studio', path: 'about' }] }));
+  const teamCards = team.map((m, i) => `
+        <div class="jz-work">
+          <div class="jz-work__img">${media(`assets/img/team/${slugify(m.name)}.jpg`, { ratio: '1/1', alt: m.name })}</div>
+          <div class="jz-work__body">
+            <div class="jz-work__meta"><span>T-${String(i + 1).padStart(2, '0')}</span><span class="dim">Partner</span></div>
+            <div class="jz-work__name">${esc(m.name)}</div>
+            <div class="jz-work__role">${esc(m.role)}</div>
+          </div>
+        </div>`).join('');
+  const appRows = approach.items.map(a => `
+        <div class="jz-row">
+          <div class="jz-row__n">${a.n} / 06</div>
+          <div class="jz-row__name">${esc(a.h)}</div>
+          <div class="jz-row__blurb">${esc(a.p)}</div>
+        </div>`).join('');
+  const main = `${jzChrome('The studio', 'S-01', 'about', 0)}
+  <div class="jz-scroll">
+    <div class="jz-wrap jz-wrap--wide">
+      <header class="jz-phead">
+        <div>
+          <div class="jz-eyebrow">General notes · The practice</div>
+          <h1 class="jz-h1">Studio.</h1>
+        </div>
+        <p class="jz-lede jz-phead__intro">A family-owned practice in its third generation — a legacy of over fifty-five years and more than sixty institutions built across India. <em>Listen first, draw second.</em></p>
+      </header>
+
+      <section class="jz-sec">
+        <div class="jz-band jz-band--top">
+          <div class="jz-portrait">${media('assets/img/founder.jpg', { ratio: '3/4', alt: 'C R Shivakumar, founder', fallback: 'tower' })}</div>
+          <div class="jz-band__side">
+            <div class="jz-eyebrow jz-eyebrow--sec">Our founder</div>
+            <h2 class="jz-h2">${esc(founder.name)}</h2>
+            <div class="jz-body-copy">${founder.body.map(t => `<p>${esc(t)}</p>`).join('')}</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="jz-sec">
+        <div class="jz-sec__head">
+          <div><div class="jz-eyebrow jz-eyebrow--sec">Partners &amp; family</div><h2 class="jz-h2">The <em>team.</em></h2></div>
+        </div>
+        <div class="jz-works">${teamCards}</div>
+      </section>
+
+      <section class="jz-sec">
+        <div class="jz-sec__head">
+          <div><div class="jz-eyebrow jz-eyebrow--sec">Method · 01–06</div><h2 class="jz-h2">Our design <em>approach.</em></h2></div>
+        </div>
+        <div class="jz-rows">${appRows}</div>
+      </section>
+
+      <section class="jz-sec">
+        <div class="jz-band">
+          <div><div class="jz-eyebrow jz-eyebrow--sec">The studio</div><h2 class="jz-h2">More than <em>an office.</em></h2></div>
+          <div class="jz-band__side">
+            <div class="jz-body-copy">${studio.body.map(t => `<p>${esc(t)}</p>`).join('')}</div>
+            <a href="applytowork" class="jz-btn jz-btn--blue">Work with us →</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>`;
+  w('about.html', layout({ title: `Studio — Institutional & School Architects in Bangalore since 1969 | ${site.shortName}`, description: 'Meet Kumar & Swamy Architects: founder C R Shivakumar, the partners, and the design approach behind a Bangalore school and institutional architecture practice in its fifth decade.', pathRel: 'about', bodyClass: 'jz', bare: true, main, image: 'assets/img/founder.jpg', breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Studio', path: 'about' }] }));
 }
 
 // ---------- CONTACT ----------
@@ -426,64 +547,106 @@ function buildContact() {
   // Pin the verified business by name + full address so Google geocodes the exact
   // office in Cambridge Layout (≈12.9699, 77.6336), zoomed to street level.
   const mapSrc = 'https://maps.google.com/maps?q=Kumar+%26+Swamy+Architects,+MF+2%2F8+BDA+Building,+Cambridge+Layout,+Bengaluru,+Karnataka+560008&z=17&output=embed';
-  const main = `<div class="subp">
-  <div class="subp__head"><h1>Get in<br/>touch.</h1><p>Tell us about your institution and what you’re hoping to build. We’d love to hear from you.</p></div>
-  <section class="contact__grid">
-    <div>
-      <div class="contact__block"><span class="ks-label">Studio</span><p>${esc(site.address)}</p><a href="${site.google}" target="_blank" rel="noopener">Find us on Google ↗</a></div>
-      <div class="contact__block"><span class="ks-label">Hours</span><p class="sub">${esc(site.hours)}</p></div>
-      <div class="contact__block"><span class="ks-label">Write</span><a href="mailto:${site.email}">${site.email}</a></div>
-      <div class="contact__block"><span class="ks-label">Call</span>${site.phones.map(p => `<a href="${p.href}">${p.label}</a>`).join('')}</div>
-      <div class="contact__block"><span class="ks-label">Elsewhere</span><a href="${site.social.instagram}" target="_blank" rel="noopener">Instagram ↗</a><a href="${site.social.facebook}" target="_blank" rel="noopener">Facebook ↗</a></div>
+  const main = `${jzChrome('Location plan', 'C-01', 'contact', 0)}
+  <div class="jz-scroll">
+    <div class="jz-wrap jz-wrap--wide">
+      <header class="jz-phead">
+        <div>
+          <div class="jz-eyebrow">General notes · Contact</div>
+          <h1 class="jz-h1">Get in <em>touch.</em></h1>
+        </div>
+        <p class="jz-lede jz-phead__intro">Tell us about your institution and what you’re hoping to build. We’d love to hear from you.</p>
+      </header>
+      <section class="jz-sec" style="border-bottom:0">
+        <div class="jz-contact">
+          <div class="jz-dl">
+            <div class="jz-dl__row"><div class="jz-dl__k">Studio</div><div class="jz-dl__v">${esc(site.address)}<br><a href="${site.google}" target="_blank" rel="noopener">Find us on Google ↗</a></div></div>
+            <div class="jz-dl__row"><div class="jz-dl__k">Hours</div><div class="jz-dl__v">${esc(site.hours)}</div></div>
+            <div class="jz-dl__row"><div class="jz-dl__k">Write</div><div class="jz-dl__v"><a href="mailto:${site.email}">${site.email}</a></div></div>
+            <div class="jz-dl__row"><div class="jz-dl__k">Call</div><div class="jz-dl__v">${site.phones.map(p => `<a href="${p.href}">${esc(p.label)}</a>`).join('')}</div></div>
+            <div class="jz-dl__row"><div class="jz-dl__k">Elsewhere</div><div class="jz-dl__v"><a href="${site.social.instagram}" target="_blank" rel="noopener">Instagram ↗</a><a href="${site.social.facebook}" target="_blank" rel="noopener">Facebook ↗</a></div></div>
+          </div>
+          <div><iframe class="jz-map" title="Map to Kumar &amp; Swamy Architects, Cambridge Layout, Bengaluru" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="${mapSrc}"></iframe></div>
+        </div>
+      </section>
     </div>
-    <div><iframe class="contact__map" title="Map to Kumar &amp; Swamy Architects, Cambridge Layout, Bengaluru" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="${mapSrc}"></iframe></div>
-  </section>
-</div>`;
-  w('contact-kumar-swamy-architect.html', layout({ title: `Contact — School & Campus Architects in Bangalore | ${site.shortName}`, description: `Contact Kumar & Swamy Architects, school and institutional architects in Bangalore — ${site.address}. ${site.email}.`, pathRel: 'contact-kumar-swamy-architect', main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Contact', path: 'contact-kumar-swamy-architect' }] }));
+  </div>`;
+  w('contact-kumar-swamy-architect.html', layout({ title: `Contact — School & Campus Architects in Bangalore | ${site.shortName}`, description: `Contact Kumar & Swamy Architects, school and institutional architects in Bangalore — ${site.address}. ${site.email}.`, pathRel: 'contact-kumar-swamy-architect', bodyClass: 'jz', bare: true, main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Contact', path: 'contact-kumar-swamy-architect' }] }));
 }
 
 // ---------- APPLY ----------
 function buildApply() {
-  const roleCards = roles.map(r => `<div class="apply__role"><div class="n">${r.n} / 03</div><h3>${esc(r.title)}</h3><p>${esc(r.blurb)}</p></div>`).join('');
+  const roleRows = roles.map(r => `
+        <div class="jz-row">
+          <div class="jz-row__n">${r.n} / 03</div>
+          <div class="jz-row__name">${esc(r.title)}</div>
+          <div class="jz-row__blurb">${esc(r.blurb)}</div>
+        </div>`).join('');
   const opts = roles.map(r => `<option value="${esc(r.title)}">${esc(r.title)}</option>`).join('');
-  const main = `<div class="subp">
-  <div class="subp__head"><h1>Work<br/>with us.</h1><p>We’re looking for passionate people who share our commitment to institutional and educational architecture.</p></div>
-  <section class="apply__roles">${roleCards}</section>
-  <section class="apply__form-wrap">
-    <div class="apply__form-intro"><h2>Apply to<br/>join us.</h2><p>Complete the form to apply for a position. Prefer email? Write to <a href="mailto:${site.email}?subject=Application">${site.email}</a>.</p></div>
-    <form class="apply__form" action="https://api.web3forms.com/submit" method="POST">
-      <input type="hidden" name="access_key" value="${site.applyFormKey}">
-      <input type="hidden" name="subject" value="New application — Work with us (${site.shortName})">
-      <input type="hidden" name="from_name" value="${site.name} website">
-      <input type="checkbox" name="botcheck" class="apply__botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <div class="apply__field"><label for="role">Position</label><select id="role" name="position">${opts}</select></div>
-      <div class="apply__field"><label for="first">First name</label><input id="first" name="first_name" type="text" required></div>
-      <div class="apply__field"><label for="last">Last name</label><input id="last" name="last_name" type="text" required></div>
-      <div class="apply__field"><label for="dob">Date of birth</label><input id="dob" name="dob" type="date"></div>
-      <div class="apply__field"><label for="email">Email address</label><input id="email" name="email" type="email" required></div>
-      <div class="apply__field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel"></div>
-      <div class="apply__field"><label for="resume">Link to your resumé</label><input id="resume" name="resume" type="url" placeholder="https://…"></div>
-      <div class="apply__field"><label for="about">Why do you want to work with us?</label><textarea id="about" name="about" rows="5" required placeholder="Tell us what draws you to our work — a thought, a reason, anything you'd like us to know."></textarea></div>
-      <button type="submit" class="ks-btn-primary">Submit application <span>→</span></button>
-      <p class="apply__note">Applications are delivered by email. Prefer to write directly? Use the address above.</p>
-    </form>
-  </section>
-</div>`;
-  w('applytowork.html', layout({ title: `Careers — Architecture Jobs in Bangalore | ${site.shortName}`, description: 'Work with Kumar & Swamy Architects in Bangalore. Open roles: Junior Architect, Internship, Interiors Architect — apply to join our institutional architecture studio.', pathRel: 'applytowork', main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Apply', path: 'applytowork' }] }));
+  const main = `${jzChrome('Recruitment', 'R-01', 'apply', 0)}
+  <div class="jz-scroll">
+    <div class="jz-wrap jz-wrap--wide">
+      <header class="jz-phead">
+        <div>
+          <div class="jz-eyebrow">General notes · Recruitment</div>
+          <h1 class="jz-h1">Work with <em>us.</em></h1>
+        </div>
+        <p class="jz-lede jz-phead__intro">We’re looking for passionate people who share our commitment to institutional and educational architecture.</p>
+      </header>
+
+      <section class="jz-sec">
+        <div class="jz-sec__head">
+          <div><div class="jz-eyebrow jz-eyebrow--sec">Open roles · 01–03</div><h2 class="jz-h2">Where you <em>fit.</em></h2></div>
+        </div>
+        <div class="jz-rows">${roleRows}</div>
+      </section>
+
+      <section class="jz-sec" style="border-bottom:0">
+        <div class="jz-sec__head">
+          <div><div class="jz-eyebrow jz-eyebrow--sec">Application</div><h2 class="jz-h2">Apply to <em>join.</em></h2></div>
+          <a class="jz-morelink" href="mailto:${site.email}?subject=Application">Prefer email? →</a>
+        </div>
+        <form class="jz-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="${site.applyFormKey}">
+          <input type="hidden" name="subject" value="New application — Work with us (${site.shortName})">
+          <input type="hidden" name="from_name" value="${site.name} website">
+          <input type="checkbox" name="botcheck" class="jz-form__botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="jz-field jz-field--full"><label for="role">Position</label><select id="role" name="position">${opts}</select></div>
+          <div class="jz-field"><label for="first">First name</label><input id="first" name="first_name" type="text" required></div>
+          <div class="jz-field"><label for="last">Last name</label><input id="last" name="last_name" type="text" required></div>
+          <div class="jz-field"><label for="email">Email address</label><input id="email" name="email" type="email" required></div>
+          <div class="jz-field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel"></div>
+          <div class="jz-field"><label for="dob">Date of birth</label><input id="dob" name="dob" type="date"></div>
+          <div class="jz-field"><label for="resume">Link to your resumé</label><input id="resume" name="resume" type="url" placeholder="https://…"></div>
+          <div class="jz-field jz-field--full"><label for="about">Why do you want to work with us?</label><textarea id="about" name="about" rows="5" required placeholder="Tell us what draws you to our work — a thought, a reason, anything you'd like us to know."></textarea></div>
+          <div class="jz-form__foot">
+            <button type="submit" class="jz-btn jz-btn--blue">Submit application →</button>
+            <p class="jz-form__note">Applications are delivered by email. Prefer to write directly? Use the address above.</p>
+          </div>
+        </form>
+      </section>
+    </div>
+  </div>`;
+  w('applytowork.html', layout({ title: `Careers — Architecture Jobs in Bangalore | ${site.shortName}`, description: 'Work with Kumar & Swamy Architects in Bangalore. Open roles: Junior Architect, Internship, Interiors Architect — apply to join our institutional architecture studio.', pathRel: 'applytowork', bodyClass: 'jz', bare: true, main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Apply', path: 'applytowork' }] }));
 }
 
 // ---------- BLOG INDEX + ARTICLES (the "drawing sheet" Journal zine) ----------
 // A full-screen takeover: the site nav/footer are dropped (bare layout) and the
 // zine renders its own fixed drawing-sheet chrome (blueprint grid, ruled border,
 // header rule with folded-in site nav, and a title block pinned to the bottom).
-const ZINE_FONTS = `
-<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,600;1,6..72,400&family=Caveat:wght@500;700&display=swap" rel="stylesheet">`;
 const dwg = (i) => 'A-' + String(i + 1).padStart(2, '0');
 const clip = (s, n) => (s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s);
 // A hero image that fills its frame (bare <img>), falling back to the SVG sketch.
 function heroFill(p, { depth = 0, eager = false } = {}) {
   const src = `assets/img/blog/${p.slug}.jpg`;
   if (exists(src)) return `<img src="${rel(depth, src)}" alt="${esc(p.title)}"${eager ? '' : ' loading="lazy"'} decoding="async">`;
+  return sketch(p.sketch, { ratio: '4/3' });
+}
+// A project photo that fills its frame (bare <img>), falling back to the sketch.
+function projFill(p, { depth = 0, eager = false } = {}) {
+  const src = `assets/img/projects/${p.slug}.jpg`;
+  const alt = `${p.name} — ${p.category.toLowerCase()} architecture in ${p.location} by Kumar & Swamy Architects`;
+  if (exists(src)) return `<img src="${rel(depth, src)}" alt="${esc(alt)}"${eager ? '' : ' loading="lazy"'} decoding="async">`;
   return sketch(p.sketch, { ratio: '4/3' });
 }
 // Fixed drawing-sheet chrome shared by the index and every article sheet.
@@ -566,7 +729,7 @@ function buildBlog() {
     </div>
   </div>
   <div class="jz-plot" aria-hidden="true"><div class="jz-plot__grid"></div><div class="jz-plot__bar"></div><div class="jz-plot__label">Plotting sheet A-01 …</div></div>`;
-  w('blog.html', layout({ title: `Journal — Notes on School & Institutional Architecture | ${site.shortName}`, description: 'Writing from Kumar & Swamy Architects on India’s building code, designing modern educational spaces, and inclusive institutional architecture.', pathRel: 'blog', bodyClass: 'jz', bare: true, headExtra: ZINE_FONTS, main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Journal', path: 'blog' }] }));
+  w('blog.html', layout({ title: `Journal — Notes on School & Institutional Architecture | ${site.shortName}`, description: 'Writing from Kumar & Swamy Architects on India’s building code, designing modern educational spaces, and inclusive institutional architecture.', pathRel: 'blog', bodyClass: 'jz', bare: true, main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Journal', path: 'blog' }] }));
 
   const n = posts.length;
   posts.forEach((p, i) => {
@@ -595,7 +758,7 @@ function buildBlog() {
       </div>
     </article>
   </div>`;
-    w(`post/${p.slug}.html`, layout({ title: `${p.title} | ${site.shortName} Journal`, description: p.excerpt, pathRel: `post/${p.slug}`, depth: 1, bodyClass: 'jz', bare: true, headExtra: ZINE_FONTS, main: main2, extraLd: ld, ogType: 'article', image: `assets/img/blog/${p.slug}.jpg`, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Journal', path: 'blog' }, { name: p.title, path: `post/${p.slug}` }] }));
+    w(`post/${p.slug}.html`, layout({ title: `${p.title} | ${site.shortName} Journal`, description: p.excerpt, pathRel: `post/${p.slug}`, depth: 1, bodyClass: 'jz', bare: true, main: main2, extraLd: ld, ogType: 'article', image: `assets/img/blog/${p.slug}.jpg`, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Journal', path: 'blog' }, { name: p.title, path: `post/${p.slug}` }] }));
   });
 }
 
@@ -631,9 +794,23 @@ ${entries.map(e => `  <url><loc>${site.domain}/${e.u}</loc><lastmod>${today}</la
   }, null, 2));
 
   // Branded 404 (GitHub Pages serves /404.html on not-found)
-  const main = `<div class="subp"><div class="subp__head"><h1>404.</h1><p>That page has moved or never existed. Find your way back below.</p></div>
-  <div style="padding:0 32px 140px"><a href="./" class="ks-btn-primary">Back to home <span>→</span></a> &nbsp; <a href="projects" class="ks-cta-link" style="margin-left:16px">See the projects <span class="arrow">→</span></a></div></div>`;
-  w('404.html', layout({ title: `Page not found — ${site.name}`, description: 'The page you were looking for could not be found.', pathRel: '404', main }));
+  const main = `${jzChrome('Sheet not found', 'X-404', '', 0)}
+  <div class="jz-scroll">
+    <div class="jz-wrap jz-wrap--wide">
+      <header class="jz-phead" style="border-bottom:0">
+        <div>
+          <div class="jz-eyebrow">Error · Missing sheet</div>
+          <h1 class="jz-h1">404.</h1>
+        </div>
+        <p class="jz-lede jz-phead__intro">That sheet has moved or was never plotted. Find your way back below.</p>
+      </header>
+      <div style="display:flex;flex-wrap:wrap;gap:16px;padding-top:6px">
+        <a class="jz-btn jz-btn--blue" href="./">Back to home →</a>
+        <a class="jz-btn" href="projects">See the projects →</a>
+      </div>
+    </div>
+  </div>`;
+  w('404.html', layout({ title: `Page not found — ${site.name}`, description: 'The page you were looking for could not be found.', pathRel: '404', bodyClass: 'jz', bare: true, main }));
 }
 
 // Redirect stubs for legacy Wix URLs we have no native page for yet — a
