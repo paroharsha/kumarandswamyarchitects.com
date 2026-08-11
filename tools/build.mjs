@@ -13,6 +13,10 @@ const w = (rel, html) => { const p = path.join(ROOT, rel); fs.mkdirSync(path.dir
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const exists = (rel) => fs.existsSync(path.join(ROOT, rel));
 const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+// Cache-busting stamp keyed to a file's last-modified time. Replacing an image
+// (same filename) changes its URL, so browsers/CDNs fetch the new one instead of
+// serving a stale cached copy. Unchanged files keep the same URL.
+const imgVer = (rel) => { try { return '?v=' + Math.floor(fs.statSync(path.join(ROOT, rel)).mtimeMs / 1000); } catch { return ''; } };
 
 // Render a real photo when present, else fall back to the on-brand SVG sketch.
 function media(src, { ratio = '4/3', alt = '', label = '', depth = 0, eager = false, fallback = 'linear' } = {}) {
@@ -21,7 +25,7 @@ function media(src, { ratio = '4/3', alt = '', label = '', depth = 0, eager = fa
     : '';
   if (src && exists(src)) {
     return `<div class="ks-sketch" style="aspect-ratio:${ratio};position:relative;background:#EFE8DB;overflow:hidden">`
-      + `<img src="${rel(depth, src)}" alt="${esc(alt)}"${eager ? '' : ' loading="lazy"'} decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">`
+      + `<img src="${rel(depth, src)}${imgVer(src)}" alt="${esc(alt)}"${eager ? '' : ' loading="lazy"'} decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">`
       + lab + `</div>`;
   }
   return sketch(fallback, { ratio, label });
@@ -209,7 +213,7 @@ function buildHome() {
   const featData = featPool.map(p => ({
     slug: p.slug, name: p.name, location: p.location, year: p.year, category: p.category,
     ref: String(projects.indexOf(p) + 1).padStart(3, '0'),
-    img: `assets/img/projects/${p.slug}.jpg`,
+    img: `assets/img/projects/${p.slug}.jpg${imgVer(`assets/img/projects/${p.slug}.jpg`)}`,
     alt: `${p.name} — ${p.category.toLowerCase()} architecture in ${p.location} by Kumar & Swamy Architects`
   }));
   // Server default = today's pick (UTC day count), so no-JS/first paint already
@@ -694,14 +698,14 @@ const clip = (s, n) => (s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s);
 // A hero image that fills its frame (bare <img>), falling back to the SVG sketch.
 function heroFill(p, { depth = 0, eager = false } = {}) {
   const src = `assets/img/blog/${p.slug}.jpg`;
-  if (exists(src)) return `<img src="${rel(depth, src)}" alt="${esc(p.title)}"${eager ? '' : ' loading="lazy"'} decoding="async">`;
+  if (exists(src)) return `<img src="${rel(depth, src)}${imgVer(src)}" alt="${esc(p.title)}"${eager ? '' : ' loading="lazy"'} decoding="async">`;
   return sketch(p.sketch, { ratio: '4/3' });
 }
 // A project photo that fills its frame (bare <img>), falling back to the sketch.
 function projFill(p, { depth = 0, eager = false } = {}) {
   const src = `assets/img/projects/${p.slug}.jpg`;
   const alt = `${p.name} — ${p.category.toLowerCase()} architecture in ${p.location} by Kumar & Swamy Architects`;
-  if (exists(src)) return `<img src="${rel(depth, src)}" alt="${esc(alt)}"${eager ? '' : ' loading="lazy"'} decoding="async">`;
+  if (exists(src)) return `<img src="${rel(depth, src)}${imgVer(src)}" alt="${esc(alt)}"${eager ? '' : ' loading="lazy"'} decoding="async">`;
   return sketch(p.sketch, { ratio: '4/3' });
 }
 // Comments + reactions on a post, via giscus (GitHub Discussions). Renders the
