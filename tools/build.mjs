@@ -253,19 +253,22 @@ function buildHome() {
   const jLead = posts[0];
   const journalLead = `
       <a class="jz-photoplate jz-photoplate--wide jz-jlead" href="post/${jLead.slug}">
-        ${heroFill(jLead)}
-        <div class="jz-photoplate__top"><span>The Journal · Latest</span><span>${rt(jLead)} read</span></div>
+        <span class="jz-jlead__tag">Latest ✦</span>
+        <div class="jz-jlead__img">${heroFill(jLead, { eager: true })}</div>
+        <div class="jz-photoplate__top"><span></span><span>${dwg(0)} · ${rt(jLead)} read</span></div>
         <div class="jz-photoplate__bot">
           <div class="jz-photoplate__name">${esc(jLead.title)}</div>
           <div class="jz-photoplate__meta"><span>${esc(jLead.author)}</span><span>${esc(jLead.date)}</span><span class="jz-jlead__cta">Read &amp; comment →</span></div>
         </div>
       </a>`;
   const journalSide = posts.slice(1, 4).map((p, i) => `
-      <a class="jz-jcard jz-jcard--row" href="post/${p.slug}">
-        <div class="jz-jcard__meta"><span>${dwg(i + 1)}</span><span class="dim">${esc(p.date)}</span><span class="jz-rbadge">${rt(p)}</span></div>
-        <h3>${esc(p.title)}</h3>
-        <p>${esc(p.excerpt)}</p>
-        <span class="jz-jcard__read">Read the article →</span>
+      <a class="jz-jrow" href="post/${p.slug}">
+        <div class="jz-jrow__img">${heroFill(p, { eager: true })}</div>
+        <div class="jz-jrow__txt">
+          <div class="jz-jrow__meta"><span>${dwg(i + 1)}</span><span class="dim">${esc(p.date)}</span><span class="jz-rbadge">${rt(p)}</span></div>
+          <h3>${esc(p.title)}</h3>
+          <span class="jz-jrow__read">Read the article →</span>
+        </div>
       </a>`).join('');
   const igHandle = site.social.instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, '').replace(/\/+$/, '');
   const igSection = `
@@ -338,7 +341,7 @@ function buildHome() {
         <div class="jz-sec__head">
           <div>
             <div class="jz-eyebrow jz-eyebrow--sec">Drawing set · The Journal</div>
-            <h2 class="jz-h2">From the <em>journal.</em></h2>
+            <h2 class="jz-h2">From the <em>journal.</em> <span class="jz-jhand">read &amp; argue&nbsp;↓</span></h2>
           </div>
           <a class="jz-morelink" href="blog">All writing →</a>
         </div>

@@ -327,16 +327,29 @@ body.jz main { display: block; }
 .jz-jcard h3 { margin: 12px 0 8px; font-family: var(--jz-disp); font-weight: 700; font-size: 23px; line-height: 1.04; color: var(--jz-ink); }
 .jz-jcard p { margin: 0; font-family: var(--jz-body); font-size: 12.5px; line-height: 1.6; letter-spacing: -0.01em; color: rgba(27, 26, 23, 0.8); }
 
-/* Homepage journal — dynamic lead plate + side cards */
-.jz-jfeat { display: grid; grid-template-columns: 1.35fr 1fr; gap: 22px; align-items: stretch; }
+/* Homepage journal — eye-catching lead plate + photo side rows */
+.jz-jhand { font-family: var(--jz-hand); font-style: italic; font-weight: 400; text-transform: none; font-size: 0.26em; letter-spacing: 0; color: var(--jz-blue); white-space: nowrap; vertical-align: middle; margin-left: 6px; }
+.jz-jfeat { display: grid; grid-template-columns: 1.4fr 1fr; gap: 22px; align-items: stretch; }
 .jz-jlead { min-height: min(58vh, 540px); }
-.jz-jlead .jz-photoplate__name { font-size: clamp(24px, 2.6vw, 40px); }
+.jz-jlead__img { position: absolute; inset: 0; overflow: hidden; }
+.jz-jlead__img img, .jz-jlead__img .ks-sketch { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+.jz-jlead:hover .jz-jlead__img img { transform: scale(1.05); }
+.jz-jlead .jz-photoplate__name { font-size: clamp(24px, 2.7vw, 42px); }
 .jz-jlead .jz-photoplate__meta { flex-wrap: wrap; align-items: center; }
 .jz-jlead__cta { color: var(--jz-yellow); font-weight: 700; }
-.jz-jfeat__side { display: flex; flex-direction: column; gap: 22px; }
-.jz-jcard--row { flex: 1 1 0; justify-content: center; }
-.jz-jcard__read { margin-top: 14px; font-family: var(--jz-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--jz-blue); }
-.jz-jcard--row:hover .jz-jcard__read { color: var(--jz-ink); }
+.jz-jlead__tag { position: absolute; top: 14px; left: 14px; z-index: 2; font-family: var(--jz-disp); font-weight: 900; text-transform: uppercase; font-size: 13px; letter-spacing: 0.08em; color: var(--jz-ink); background: var(--jz-yellow); border: 1.5px solid var(--jz-ink); padding: 4px 10px; transform: rotate(-3deg); box-shadow: 2px 2px 0 rgba(27,26,23,0.35); }
+.jz-jfeat__side { display: flex; flex-direction: column; gap: 18px; }
+.jz-jrow { display: grid; grid-template-columns: 116px 1fr; gap: 16px; flex: 1 1 0; align-items: stretch; border: 1.5px solid var(--jz-ink); background: var(--jz-plate); color: inherit; overflow: hidden; transition: box-shadow .18s, transform .18s; }
+.jz-jrow:hover { box-shadow: 7px 7px 0 var(--jz-yellow); transform: translateY(-2px); }
+.jz-jrow__img { position: relative; overflow: hidden; background: #EFE8DB; border-right: 1.5px solid var(--jz-ink); }
+.jz-jrow__img img, .jz-jrow__img .ks-sketch { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
+.jz-jrow:hover .jz-jrow__img img { transform: scale(1.07); }
+.jz-jrow__txt { display: flex; flex-direction: column; justify-content: center; padding: 14px 16px 14px 0; }
+.jz-jrow__meta { display: flex; gap: 12px; align-items: center; font-family: var(--jz-mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--jz-blue); }
+.jz-jrow__meta .dim { color: rgba(27, 26, 23, 0.55); }
+.jz-jrow h3 { margin: 9px 0 0; font-family: var(--jz-disp); font-weight: 700; font-size: 21px; line-height: 1.02; color: var(--jz-ink); }
+.jz-jrow__read { margin-top: 10px; font-family: var(--jz-mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--jz-blue); }
+.jz-jrow:hover .jz-jrow__read { color: var(--jz-ink); }
 .jz-rbadge { background: var(--jz-yellow); border: 1px solid var(--jz-ink); color: var(--jz-ink); padding: 0 5px; letter-spacing: 0.1em; }
 
 /* Post comments (giscus / GitHub Discussions) */
