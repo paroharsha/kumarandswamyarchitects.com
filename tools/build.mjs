@@ -249,11 +249,23 @@ function buildHome() {
         <div class="jz-row__name">${esc(s.name)}</div>
         <div class="jz-row__blurb">${esc(s.blurb)}</div>
       </div>`).join('');
-  const journalCards = posts.slice(0, 3).map((p, i) => `
-      <a class="jz-jcard" href="post/${p.slug}">
-        <div class="jz-jcard__meta"><span>${dwg(i)}</span><span class="dim">${esc(p.date)}</span><span class="dim">${esc(p.readTime.replace(/\s*read$/, ''))}</span></div>
+  const rt = (p) => esc(p.readTime.replace(/\s*read$/, ''));
+  const jLead = posts[0];
+  const journalLead = `
+      <a class="jz-photoplate jz-photoplate--wide jz-jlead" href="post/${jLead.slug}">
+        ${heroFill(jLead)}
+        <div class="jz-photoplate__top"><span>The Journal · Latest</span><span>${rt(jLead)} read</span></div>
+        <div class="jz-photoplate__bot">
+          <div class="jz-photoplate__name">${esc(jLead.title)}</div>
+          <div class="jz-photoplate__meta"><span>${esc(jLead.author)}</span><span>${esc(jLead.date)}</span><span class="jz-jlead__cta">Read &amp; comment →</span></div>
+        </div>
+      </a>`;
+  const journalSide = posts.slice(1, 4).map((p, i) => `
+      <a class="jz-jcard jz-jcard--row" href="post/${p.slug}">
+        <div class="jz-jcard__meta"><span>${dwg(i + 1)}</span><span class="dim">${esc(p.date)}</span><span class="jz-rbadge">${rt(p)}</span></div>
         <h3>${esc(p.title)}</h3>
         <p>${esc(p.excerpt)}</p>
+        <span class="jz-jcard__read">Read the article →</span>
       </a>`).join('');
   const igHandle = site.social.instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, '').replace(/\/+$/, '');
   const igSection = `
@@ -330,7 +342,10 @@ function buildHome() {
           </div>
           <a class="jz-morelink" href="blog">All writing →</a>
         </div>
-        <div class="jz-jcards">${journalCards}</div>
+        <div class="jz-jfeat">
+          ${journalLead}
+          <div class="jz-jfeat__side">${journalSide}</div>
+        </div>
       </section>
 ${igSection}
 
@@ -686,6 +701,43 @@ function projFill(p, { depth = 0, eager = false } = {}) {
   if (exists(src)) return `<img src="${rel(depth, src)}" alt="${esc(alt)}"${eager ? '' : ' loading="lazy"'} decoding="async">`;
   return sketch(p.sketch, { ratio: '4/3' });
 }
+// Comments + reactions on a post, via giscus (GitHub Discussions). Renders the
+// live widget once site.giscus is fully configured; otherwise a tasteful
+// placeholder so the section still reads as intentional. See site.giscus in data.mjs.
+function giscusBlock() {
+  const g = site.giscus || {};
+  const live = g.repo && g.repoId && g.categoryId;
+  const head = `<div class="jz-comments__head">
+        <div class="jz-eyebrow jz-eyebrow--sec">Margin notes · Discussion</div>
+        <h2 class="jz-h2">Join the <em>conversation.</em></h2>
+        <p class="jz-comments__sub">React and leave a comment — ${live ? 'sign in with GitHub to add yours.' : 'the discussion board is switching on shortly.'}</p>
+      </div>`;
+  if (!live) {
+    return `<section class="jz-comments">
+      ${head}
+      <div class="jz-comments__soon">Comments &amp; reactions are being set up. Check back soon to leave your note in the margin.</div>
+    </section>`;
+  }
+  return `<section class="jz-comments">
+      ${head}
+      <div class="jz-comments__mount giscus"></div>
+      <script src="https://giscus.app/client.js"
+        data-repo="${g.repo}"
+        data-repo-id="${g.repoId}"
+        data-category="${esc(g.category || 'Announcements')}"
+        data-category-id="${g.categoryId}"
+        data-mapping="${g.mapping || 'pathname'}"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="${g.theme || 'light'}"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </section>`;
+}
 // Fixed drawing-sheet chrome shared by the index and every article sheet.
 function jzChrome(sheetTitle, dwgNo, current, depth) {
   const links = nav.map(it => `<a href="${rel(depth, it.href)}"${it.id === current ? ' aria-current="page"' : ''}>${esc(it.label)}</a>`).join('');
@@ -793,6 +845,7 @@ function buildBlog() {
         <span class="sp"></span>
         <span class="lab">Dwg ${dwg(i)} — The Journal</span>
       </div>
+      ${giscusBlock()}
     </article>
   </div>`;
     w(`post/${p.slug}.html`, layout({ title: `${p.title} | ${site.shortName} Journal`, description: p.excerpt, pathRel: `post/${p.slug}`, depth: 1, bodyClass: 'jz', bare: true, main: main2, extraLd: ld, ogType: 'article', image: `assets/img/blog/${p.slug}.jpg`, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Journal', path: 'blog' }, { name: p.title, path: `post/${p.slug}` }] }));

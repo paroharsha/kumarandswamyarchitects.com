@@ -50,6 +50,25 @@ export const site = {
   })();
 </script>`
   },
+  // Comments + reactions on journal posts, via giscus (https://giscus.app).
+  // Free, no ads, privacy-friendly — every thread is stored in this repo's
+  // GitHub Discussions. To switch it on (one-time):
+  //   1. Repo → Settings → General → Features → tick "Discussions".
+  //   2. Install the giscus app on the repo: https://github.com/apps/giscus
+  //   3. Go to https://giscus.app, enter this repo, choose the "Discussion title
+  //      contains page pathname" mapping and a category (e.g. "Announcements",
+  //      or make a new "Journal" category), then copy the data-repo-id and
+  //      data-category-id it generates into the two blanks below. Re-run the build.
+  // Until repoId + categoryId are filled in, posts show a tasteful placeholder
+  // instead of the live widget.
+  giscus: {
+    repo: 'paroharsha/kumarandswamyarchitects.com',
+    repoId: 'R_kgDOStolxA',
+    category: 'General',
+    categoryId: 'DIC_kwDOStolxM4DDHBD',
+    mapping: 'pathname',
+    theme: 'light'
+  },
   // Authoritative external profiles — used as schema.org sameAs to tie the
   // site to the Google Business Profile entity (/g/11dzw7r2x_) and directories.
   sameAs: [

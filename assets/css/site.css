@@ -327,6 +327,28 @@ body.jz main { display: block; }
 .jz-jcard h3 { margin: 12px 0 8px; font-family: var(--jz-disp); font-weight: 700; font-size: 23px; line-height: 1.04; color: var(--jz-ink); }
 .jz-jcard p { margin: 0; font-family: var(--jz-body); font-size: 12.5px; line-height: 1.6; letter-spacing: -0.01em; color: rgba(27, 26, 23, 0.8); }
 
+/* Homepage journal — dynamic lead plate + side cards */
+.jz-jfeat { display: grid; grid-template-columns: 1.35fr 1fr; gap: 22px; align-items: stretch; }
+.jz-jlead { min-height: min(58vh, 540px); }
+.jz-jlead .jz-photoplate__name { font-size: clamp(24px, 2.6vw, 40px); }
+.jz-jlead .jz-photoplate__meta { flex-wrap: wrap; align-items: center; }
+.jz-jlead__cta { color: var(--jz-yellow); font-weight: 700; }
+.jz-jfeat__side { display: flex; flex-direction: column; gap: 22px; }
+.jz-jcard--row { flex: 1 1 0; justify-content: center; }
+.jz-jcard__read { margin-top: 14px; font-family: var(--jz-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--jz-blue); }
+.jz-jcard--row:hover .jz-jcard__read { color: var(--jz-ink); }
+.jz-rbadge { background: var(--jz-yellow); border: 1px solid var(--jz-ink); color: var(--jz-ink); padding: 0 5px; letter-spacing: 0.1em; }
+
+/* Post comments (giscus / GitHub Discussions) */
+.jz-comments { margin-top: 44px; border-top: 1.5px solid var(--jz-ink); padding-top: 30px; }
+.jz-comments__head { margin-bottom: 22px; }
+.jz-comments__head .jz-h2 { font-size: clamp(26px, 3.4vw, 44px); }
+.jz-comments__sub { margin: 12px 0 0; font-family: var(--jz-mono); font-size: 11px; letter-spacing: 0.04em; color: rgba(27, 26, 23, 0.62); }
+.jz-comments__mount { border: 1.5px solid var(--jz-ink); background: var(--jz-plate); padding: 16px 18px; box-shadow: 6px 6px 0 rgba(27, 26, 23, 0.1); }
+.jz-comments__soon { border: 1.5px dashed var(--jz-blue); background: var(--jz-plate); padding: 22px 24px; font-family: var(--jz-mono); font-size: 12px; line-height: 1.6; letter-spacing: 0.03em; color: var(--jz-blue); }
+.giscus, .giscus-frame { width: 100%; }
+.giscus-frame { border: 0; color-scheme: light; }
+
 /* Instagram feed / follow plate */
 .jz-ig { border: 1.5px solid var(--jz-ink); background: var(--jz-plate); padding: 16px; box-shadow: 6px 6px 0 rgba(27, 26, 23, 0.1); }
 .jz-ig iframe, .jz-ig .lightwidget-widget, .jz-ig behold-widget, .jz-ig .instagram-media { width: 100% !important; max-width: 100% !important; border: 0 !important; display: block; margin: 0 auto !important; }
@@ -408,6 +430,8 @@ body.jz main { display: block; }
   .jz-hero__r .jz-photoplate { min-height: 320px; }
   .jz-band { grid-template-columns: 1fr; gap: 28px; }
   .jz-jcards { grid-template-columns: 1fr; }
+  .jz-jfeat { grid-template-columns: 1fr; }
+  .jz-jlead { min-height: 340px; }
   .jz-row { grid-template-columns: 60px 1fr; gap: 6px 18px; }
   .jz-row__blurb { grid-column: 2; }
 }
