@@ -71,7 +71,7 @@ body.jz main { display: block; }
 
 /* --- fixed drawing-sheet chrome --- */
 .jz-grid {
-  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  position: fixed; inset: 16px; z-index: 1; pointer-events: none;
   background-image:
     linear-gradient(var(--jz-grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--jz-grid) 1px, transparent 1px),
@@ -80,37 +80,40 @@ body.jz main { display: block; }
   background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
   opacity: 0.22;
 }
-.jz-frame  { position: fixed; inset: 16px; z-index: 40; pointer-events: none; border: 1.5px solid var(--jz-ink); }
-.jz-frame2 { position: fixed; inset: 23px; z-index: 40; pointer-events: none; border: 1px solid rgba(27, 26, 23, 0.28); }
+.jz-frame  { position: fixed; inset: 16px; z-index: 40; pointer-events: none; border: 3px solid var(--jz-ink); }
+.jz-frame2 { position: fixed; inset: 24px; z-index: 40; pointer-events: none; border: 1.5px solid rgba(27, 26, 23, 0.38); }
 
 .jz-head {
-  position: fixed; top: 16px; left: 16px; right: 16px; height: 34px; z-index: 41;
+  position: fixed; top: 16px; left: 16px; right: 16px; height: 54px; z-index: 41;
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding: 0 12px; border-bottom: 1px solid var(--jz-ink); background: var(--jz-paper);
-  font-family: var(--jz-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0 20px; border-bottom: 2.5px solid var(--jz-ink); background: var(--jz-paper);
+  font-family: var(--jz-mono); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase;
 }
-.jz-head__brand { color: var(--jz-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.jz-head__brand { color: var(--jz-ink); display: flex; align-items: center; gap: 11px; min-width: 0; }
+.jz-head__brand span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.jz-head__logo { height: 32px; width: auto; flex: 0 0 auto; display: block; }
 .jz-head__brand:hover { color: var(--jz-blue); }
-.jz-head__nav { display: flex; gap: 14px; flex: 0 0 auto; }
-.jz-head__nav a { color: rgba(27, 26, 23, 0.6); white-space: nowrap; }
-.jz-head__nav a:hover { color: var(--jz-ink); }
+.jz-head__nav { display: flex; gap: 24px; flex: 0 0 auto; font-size: 16px; }
+.jz-head__nav a { color: var(--jz-ink); white-space: nowrap; }
+.jz-head__nav a:hover { color: var(--jz-blue); }
 .jz-head__nav a[aria-current] { color: var(--jz-blue); }
 
 .jz-title {
-  position: fixed; left: 16px; right: 16px; bottom: 16px; height: 44px; z-index: 41;
-  border-top: 1px solid var(--jz-ink); background: var(--jz-paper);
+  position: fixed; left: 16px; right: 16px; bottom: 16px; height: 66px; z-index: 41;
+  border-top: 2.5px solid var(--jz-ink); background: var(--jz-paper);
   display: flex; align-items: stretch;
-  font-family: var(--jz-mono); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase;
+  font-family: var(--jz-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
 }
-.jz-title > div { display: flex; align-items: center; padding: 0 14px; border-right: 1px solid var(--jz-ink); color: rgba(27, 26, 23, 0.62); white-space: nowrap; }
-.jz-title__mark { font-family: var(--jz-disp); font-weight: 900; font-size: 18px; letter-spacing: 0.04em; color: var(--jz-ink); }
+.jz-title > div { display: flex; align-items: center; padding: 0 18px; border-right: 1px solid var(--jz-ink); color: rgba(27, 26, 23, 0.62); white-space: nowrap; }
+.jz-title__mark { font-family: var(--jz-disp); font-weight: 900; font-size: 28px; letter-spacing: 0.04em; color: var(--jz-ink); }
+.jz-title__mark img { height: 40px; width: auto; display: block; }
 .jz-title__spacer { flex: 1; border-right: 0; padding: 0; }
 .jz-title__dwg { border-right: 0; border-left: 1px solid var(--jz-ink); color: var(--jz-blue); }
 
 /* --- inner scroll region: fills the space between header rule and title block,
        so the sheet frame stays put while only the content scrolls (no repaint of
        the fixed chrome, and no full-viewport-fixed-layer compositor issues) --- */
-.jz-scroll { position: fixed; top: 50px; left: 16px; right: 16px; bottom: 60px; z-index: 20; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 0 clamp(20px, 5vw, 72px); }
+.jz-scroll { position: fixed; top: 70px; left: 16px; right: 16px; bottom: 82px; z-index: 20; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 0 clamp(20px, 5vw, 72px); }
 .jz-wrap { max-width: 1180px; margin: 0 auto; padding: 44px 0 40px; }
 
 /* --- masthead --- */
@@ -268,6 +271,8 @@ body.jz main { display: block; }
 .jz-wordmark { margin: 6px 0 0; font-family: var(--jz-disp); font-weight: 900; text-transform: uppercase; font-size: clamp(46px, 9vw, 128px); line-height: 0.82; letter-spacing: -0.02em; color: var(--jz-ink); text-wrap: balance; }
 .jz-wordmark .amp { font-family: var(--jz-body); font-weight: 400; font-style: italic; text-transform: none; color: var(--jz-blue); padding: 0 0.02em; }
 .jz-wordmark__sub { display: block; margin-top: 0.08em; font-size: 0.34em; line-height: 1; letter-spacing: 0.02em; color: var(--jz-blue); }
+.jz-wordmark--logo { margin: 4px 0 0; }
+.jz-wordmark--logo img { display: block; width: 100%; max-width: 480px; height: auto; }
 .jz-hero__note { flex: 0 0 auto; max-width: 360px; padding-bottom: 10px; }
 .jz-hero__note .jz-mast__hand { margin-top: 14px; }
 .jz-hero__lede { margin: 0; max-width: 46ch; font-family: var(--jz-body); font-size: clamp(13px, 1.2vw, 15px); line-height: 1.62; letter-spacing: -0.01em; color: var(--jz-ink); }

@@ -247,12 +247,6 @@ function buildHome() {
           <div class="jz-work__meta"><span class="dim">${esc(p.location)}</span><span class="dim">${p.year}</span></div>
         </div>
       </a>`).join('');
-  const svcRows = services.map(s => `
-      <div class="jz-row">
-        <div class="jz-row__n">${s.n} / 06</div>
-        <div class="jz-row__name">${esc(s.name)}</div>
-        <div class="jz-row__blurb">${esc(s.blurb)}</div>
-      </div>`).join('');
   const rt = (p) => esc(p.readTime.replace(/\s*read$/, ''));
   const jLead = posts[0];
   const journalLead = `
@@ -306,7 +300,7 @@ function buildHome() {
         <div class="jz-hero__head">
           <div>
             <div class="jz-eyebrow">Sheet 00 · General arrangement · Est. 1969</div>
-            <h1 class="jz-wordmark">Kumar <span class="amp">&amp;</span><br>Swamy<span class="jz-wordmark__sub">Architects · Bangalore</span></h1>
+            <h1 class="jz-wordmark jz-wordmark--logo"><img src="assets/img/logo-full.png" alt="Kumar &amp; Swamy Architects · Est. 1969 · Bangalore" width="3000" height="2553"></h1>
           </div>
           <div class="jz-hero__note">
             <p class="jz-hero__lede">${esc(site.tagline)}</p>
@@ -365,16 +359,6 @@ ${igSection}
           <a class="jz-morelink" href="projects">All projects →</a>
         </div>
         <div class="jz-works">${workCards}</div>
-      </section>
-
-      <section class="jz-sec">
-        <div class="jz-sec__head">
-          <div>
-            <div class="jz-eyebrow jz-eyebrow--sec">Scope of services · 01–06</div>
-            <h2 class="jz-h2">Six briefs,<br><em>one practice.</em></h2>
-          </div>
-        </div>
-        <div class="jz-rows">${svcRows}</div>
       </section>
 
       <section class="jz-sec">
@@ -551,13 +535,19 @@ function buildAbout() {
           <div class="jz-row__name">${esc(a.h)}</div>
           <div class="jz-row__blurb">${esc(a.p)}</div>
         </div>`).join('');
-  const main = `${jzChrome('The studio', 'S-01', 'about', 0)}
+  const svcRows = services.map(s => `
+        <div class="jz-row">
+          <div class="jz-row__n">${s.n} / 06</div>
+          <div class="jz-row__name">${esc(s.name)}</div>
+          <div class="jz-row__blurb">${esc(s.blurb)}</div>
+        </div>`).join('');
+  const main = `${jzChrome('About us', 'S-01', 'about', 0)}
   <div class="jz-scroll">
     <div class="jz-wrap jz-wrap--wide">
       <header class="jz-phead">
         <div>
           <div class="jz-eyebrow">General notes · The practice</div>
-          <h1 class="jz-h1">Studio.</h1>
+          <h1 class="jz-h1">About <em>us.</em></h1>
         </div>
         <p class="jz-lede jz-phead__intro">A family-owned practice in its third generation — a legacy of over fifty-five years and more than sixty institutions built across India. <em>Listen first, draw second.</em></p>
       </header>
@@ -588,6 +578,13 @@ function buildAbout() {
       </section>
 
       <section class="jz-sec">
+        <div class="jz-sec__head">
+          <div><div class="jz-eyebrow jz-eyebrow--sec">Scope of services · 01–06</div><h2 class="jz-h2">Six briefs,<br><em>one practice.</em></h2></div>
+        </div>
+        <div class="jz-rows">${svcRows}</div>
+      </section>
+
+      <section class="jz-sec">
         <div class="jz-band">
           <div><div class="jz-eyebrow jz-eyebrow--sec">The studio</div><h2 class="jz-h2">More than <em>an office.</em></h2></div>
           <div class="jz-band__side">
@@ -598,7 +595,7 @@ function buildAbout() {
       </section>
     </div>
   </div>`;
-  w('about.html', layout({ title: `Studio — Institutional & School Architects in Bangalore since 1969 | ${site.shortName}`, description: 'Meet Kumar & Swamy Architects: founder C R Shivakumar, the partners, and the design approach behind a Bangalore school and institutional architecture practice in its fifth decade.', pathRel: 'about', bodyClass: 'jz', bare: true, main, image: 'assets/img/founder.jpg', breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Studio', path: 'about' }] }));
+  w('about.html', layout({ title: `About Us — Institutional & School Architects in Bangalore since 1969 | ${site.shortName}`, description: 'Meet Kumar & Swamy Architects: founder C R Shivakumar, the partners, and the design approach behind a Bangalore school and institutional architecture practice in its fifth decade.', pathRel: 'about', bodyClass: 'jz', bare: true, main, image: 'assets/img/founder.jpg', breadcrumbs: [{ name: 'Home', path: '' }, { name: 'About Us', path: 'about' }] }));
 }
 
 // ---------- CONTACT ----------
@@ -752,11 +749,11 @@ function jzChrome(sheetTitle, dwgNo, current, depth) {
   <div class="jz-frame" aria-hidden="true"></div>
   <div class="jz-frame2" aria-hidden="true"></div>
   <div class="jz-head">
-    <a class="jz-head__brand" href="${homeHref(depth)}">Kumar &amp; Swamy Architects · Est. 1969 · Bangalore</a>
+    <a class="jz-head__brand" href="${homeHref(depth)}"><img class="jz-head__logo" src="${rel(depth, 'assets/img/logo-mark.png')}" alt="" width="256" height="256"><span>Kumar &amp; Swamy Architects · Est. 1969 · Bangalore</span></a>
     <nav class="jz-head__nav" aria-label="Primary">${links}</nav>
   </div>
   <div class="jz-title" aria-hidden="true">
-    <div class="jz-title__mark">K&amp;S</div>
+    <div class="jz-title__mark"><img src="${rel(depth, 'assets/img/logo-mark.png')}" alt="Kumar &amp; Swamy" width="256" height="256"></div>
     <div class="jz-title__cell jz-title__cell--hide">Sheet title — ${esc(sheetTitle)}</div>
     <div class="jz-title__cell jz-title__cell--hide">Scale — N.T.S.</div>
     <div class="jz-title__spacer"></div>

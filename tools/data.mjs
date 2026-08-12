@@ -84,7 +84,7 @@ export const nav = [
   // Index of Works taken down for now — restore this item + buildIndexPage() to bring it back.
   // { id: 'index', label: 'Index', href: 'index-of-works' },
   { id: 'projects', label: 'Projects', href: 'projects' },
-  { id: 'about', label: 'Studio', href: 'about' },
+  { id: 'about', label: 'About Us', href: 'about' },
   { id: 'blog', label: 'Journal', href: 'blog' },
   { id: 'contact', label: 'Contact', href: 'contact-kumar-swamy-architect' },
   { id: 'apply', label: 'Work with us', href: 'applytowork' }
