@@ -310,7 +310,7 @@ function buildHome() {
         <div class="jz-ticker"><div class="jz-ticker__row">${specSet}${specSet}</div></div>
         <div class="jz-metacells">
           <div><span class="k">Founded</span><span class="v">Bangalore, 1969</span></div>
-          <div><span class="k">Practice</span><span class="v">Institutional</span></div>
+          <div><span class="k">Practice</span><span class="v">Multidisciplinary</span></div>
           <div><span class="k">Built work</span><span class="v">60+ projects</span></div>
           <div><span class="k">Bengaluru</span><span class="v">Cambridge Layout</span></div>
         </div>

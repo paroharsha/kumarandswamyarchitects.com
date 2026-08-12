@@ -231,9 +231,9 @@ export const projectIndex = [
 
 // Capability keywords shown under the hero title (also strong SEO signals).
 export const specialties = [
-  'School design', 'Campus design', 'Institution design', 'Masterplanning',
-  'Education interiors', 'Sports infrastructure', 'Stadium design',
-  'Hospital design', 'Hospital interiors'
+  'Institutional architecture', 'Schools & campuses', 'Masterplanning',
+  'Infrastructure', 'Healthcare', 'Sports facilities', 'Residences',
+  'Resorts & hospitality', 'Interiors', 'Product design'
 ];
 
 export const services = [
