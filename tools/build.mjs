@@ -419,7 +419,7 @@ function buildProjects() {
       <div class="jz-works" style="margin-top:30px">${cards}</div>
     </div>
   </div>`;
-  w('projects.html', layout({ title: `School, Campus & Institutional Projects in Bangalore | ${site.shortName}`, description: 'Selected school, campus and institutional architecture by Kumar & Swamy Architects — 16 featured projects across Bangalore and India, plus sports infrastructure since 1969.', pathRel: 'projects', bodyClass: 'jz', bare: true, main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Projects', path: 'projects' }] }));
+  w('projects.html', layout({ title: `School, Campus & Institutional Projects in Bangalore | ${site.shortName}`, description: 'Selected work by Kumar & Swamy Architects — 16 featured projects across Bangalore and India: schools, campuses and institutions, sports infrastructure, healthcare, residential, resorts and interiors, since 1969.', pathRel: 'projects', bodyClass: 'jz', bare: true, main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Projects', path: 'projects' }] }));
 }
 
 // ---------- INDEX OF WORKS (full chronological record) ----------
@@ -535,9 +535,10 @@ function buildAbout() {
           <div class="jz-row__name">${esc(a.h)}</div>
           <div class="jz-row__blurb">${esc(a.p)}</div>
         </div>`).join('');
+  const svcTotal = String(services.length).padStart(2, '0');
   const svcRows = services.map(s => `
         <div class="jz-row">
-          <div class="jz-row__n">${s.n} / 06</div>
+          <div class="jz-row__n">${s.n} / ${svcTotal}</div>
           <div class="jz-row__name">${esc(s.name)}</div>
           <div class="jz-row__blurb">${esc(s.blurb)}</div>
         </div>`).join('');
@@ -579,7 +580,7 @@ function buildAbout() {
 
       <section class="jz-sec">
         <div class="jz-sec__head">
-          <div><div class="jz-eyebrow jz-eyebrow--sec">Scope of services · 01–06</div><h2 class="jz-h2">Six briefs,<br><em>one practice.</em></h2></div>
+          <div><div class="jz-eyebrow jz-eyebrow--sec">Scope of services · 01–${svcTotal}</div><h2 class="jz-h2">Eight briefs,<br><em>one practice.</em></h2></div>
         </div>
         <div class="jz-rows">${svcRows}</div>
       </section>
@@ -595,7 +596,7 @@ function buildAbout() {
       </section>
     </div>
   </div>`;
-  w('about.html', layout({ title: `About Us — Institutional & School Architects in Bangalore since 1969 | ${site.shortName}`, description: 'Meet Kumar & Swamy Architects: founder C R Shivakumar, the partners, and the design approach behind a Bangalore school and institutional architecture practice in its fifth decade.', pathRel: 'about', bodyClass: 'jz', bare: true, main, image: 'assets/img/founder.jpg', breadcrumbs: [{ name: 'Home', path: '' }, { name: 'About Us', path: 'about' }] }));
+  w('about.html', layout({ title: `About Us — Multidisciplinary Architects in Bangalore since 1969 | ${site.shortName}`, description: 'Meet Kumar & Swamy Architects — founder C R Shivakumar, the partners, and the multidisciplinary approach behind a Bangalore practice in its fifth decade, spanning institutions, infrastructure, healthcare, sport, homes, interiors and product design.', pathRel: 'about', bodyClass: 'jz', bare: true, main, image: 'assets/img/founder.jpg', breadcrumbs: [{ name: 'Home', path: '' }, { name: 'About Us', path: 'about' }] }));
 }
 
 // ---------- CONTACT ----------

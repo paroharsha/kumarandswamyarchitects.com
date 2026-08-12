@@ -7,8 +7,8 @@ export const site = {
   domain: 'https://www.kumarandswamyarchitects.com',
   founded: 1969,
   city: 'Bangalore',
-  tagline: 'An institutional architecture practice in Bangalore — interpreting the values of the schools, campuses and civic buildings we’ve shaped since 1969.',
-  description: 'Kumar & Swamy Architects is a school and institutional architecture firm in Bangalore, founded 1969 — designing schools, campuses, institutions, sports infrastructure and healthcare across India. Over 60 institutions built in three generations.',
+  tagline: 'A multidisciplinary architecture and design practice in Bangalore — from schools, campuses and civic institutions to infrastructure, healthcare, sport, homes, resorts, interiors and product, since 1969.',
+  description: 'Kumar & Swamy Architects is a multidisciplinary architecture practice in Bangalore, founded 1969 — from schools, campuses and institutions to infrastructure, healthcare, sports, residential, resorts, interiors and product design across India. 60+ institutions built in three generations.',
   email: 'kumarswamy49@gmail.com',
   // Web3Forms access key for the "Work with us" application form.
   // Generated free at https://web3forms.com by entering the email above;
@@ -19,9 +19,11 @@ export const site = {
   region: 'IN-KA',
   placename: 'Bengaluru, Karnataka',
   knowsAbout: [
-    'School architecture', 'Campus design', 'Institutional architecture', 'Educational architecture',
-    'Masterplanning', 'Education interiors', 'Sports infrastructure', 'Stadium design',
-    'Hospital architecture', 'Architecture in Bangalore'
+    'Architecture', 'School architecture', 'Campus design', 'Institutional architecture',
+    'Educational architecture', 'Masterplanning', 'Infrastructure design',
+    'Healthcare architecture', 'Hospital design', 'Sports facilities', 'Stadium design',
+    'Residential architecture', 'Resort and hospitality design', 'Interior design',
+    'Product design', 'Architecture in Bangalore'
   ],
   phones: [
     { label: '+91 63624 28416', href: 'tel:+916362428416' },
@@ -237,12 +239,14 @@ export const specialties = [
 ];
 
 export const services = [
-  { n: '01', name: 'School & Campus Design', blurb: 'Masterplans and buildings for schools and universities — from individual blocks to full multi-phase campuses.' },
-  { n: '02', name: 'Institution & Masterplanning', blurb: 'Long-horizon planning that anticipates growth, climate and culture. We think in decades, not quarters.' },
-  { n: '03', name: 'Sports Infrastructure', blurb: 'Stadiums, academies and training facilities — designed for athletes, spectators and the pace of the city.' },
-  { n: '04', name: 'Education Interiors', blurb: 'The inside of learning: libraries, classrooms, labs and common rooms tuned for attention and play.' },
+  { n: '01', name: 'Institutional & Campus Design', blurb: 'Schools, universities and civic institutions — from a single block to a full multi-phase campus masterplan.' },
+  { n: '02', name: 'Masterplanning', blurb: 'Long-horizon planning that anticipates growth, climate and culture. We think in decades, not quarters.' },
+  { n: '03', name: 'Infrastructure', blurb: 'Civic and public infrastructure designed for the scale, movement and pace of a growing city.' },
+  { n: '04', name: 'Sports Facilities', blurb: 'Stadiums, academies and training facilities — designed for athletes, spectators and the city alike.' },
   { n: '05', name: 'Healthcare', blurb: 'Hospitals and clinical interiors where clarity, calm and operational efficiency share the brief equally.' },
-  { n: '06', name: 'Revitalisation', blurb: 'Careful interventions in existing campuses — preserving what matters, modernising what must change.' }
+  { n: '06', name: 'Residential & Hospitality', blurb: 'Homes, resorts and hospitality that balance comfort, place and craft over the long life of a building.' },
+  { n: '07', name: 'Interiors', blurb: 'The inside of a building: libraries, classrooms, workplaces and public rooms tuned for real daily use.' },
+  { n: '08', name: 'Product Design', blurb: 'Furniture, fittings and bespoke elements — down to the details that carry the identity of a place.' }
 ];
 
 export const founder = {
