@@ -506,7 +506,9 @@ body.jz main { display: block; }
     border-bottom: 1px solid rgba(27, 26, 23, 0.12);
   }
   .jz-head__nav a:last-child { border-bottom: 0; }
-  .jz-title__cell--hide { display: none; }
+  /* must out-specify the base `.jz-title > div { display:flex }` rule (0,1,1),
+     otherwise these never hide and bleed off the fixed bottom bar */
+  .jz-title > div.jz-title__cell--hide { display: none; }
   .jz-mast { flex-direction: column; align-items: flex-start; gap: 18px; }
   .jz-plate { padding-right: 22px; }
   .jz-plate__note, .jz-feature__note { display: none; }
