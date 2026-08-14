@@ -97,6 +97,17 @@ body.jz main { display: block; }
 .jz-head__nav a { color: var(--jz-ink); white-space: nowrap; }
 .jz-head__nav a:hover { color: var(--jz-blue); }
 .jz-head__nav a[aria-current] { color: var(--jz-blue); }
+/* hamburger toggle — hidden on desktop, shown in the mobile breakpoint */
+.jz-head__toggle { display: none; width: 30px; height: 30px; padding: 0; margin: 0; background: none; border: 0; cursor: pointer; position: relative; flex: 0 0 auto; }
+.jz-head__toggle span,
+.jz-head__toggle span::before,
+.jz-head__toggle span::after { content: ''; position: absolute; left: 3px; right: 3px; height: 2px; background: var(--jz-ink); transition: transform .2s ease, background-color .2s ease; }
+.jz-head__toggle span { top: 50%; margin-top: -1px; }
+.jz-head__toggle span::before { top: -7px; }
+.jz-head__toggle span::after { top: 7px; }
+.jz-head.is-open .jz-head__toggle span { background: transparent; }
+.jz-head.is-open .jz-head__toggle span::before { transform: translateY(7px) rotate(45deg); }
+.jz-head.is-open .jz-head__toggle span::after { transform: translateY(-7px) rotate(-45deg); }
 
 .jz-title {
   position: fixed; left: 16px; right: 16px; bottom: 16px; height: 66px; z-index: 41;
@@ -322,6 +333,10 @@ body.jz main { display: block; }
 /* two-column feature band (about teaser, etc.) */
 .jz-band { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
 .jz-band__side { display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
+.jz-covers { margin: 0; font-family: var(--jz-mono); font-size: 12px; line-height: 1.7; letter-spacing: 0.01em; color: rgba(27, 26, 23, 0.66); }
+.jz-covers b { font-weight: 500; color: var(--jz-blue); text-transform: uppercase; letter-spacing: 0.1em; font-size: 10.5px; }
+.jz-covers a { color: var(--jz-ink); text-decoration: underline; text-decoration-color: rgba(46, 78, 126, 0.4); text-underline-offset: 2px; }
+.jz-covers a:hover { color: var(--jz-blue); }
 
 /* compact journal plates on the home page */
 .jz-jcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
@@ -458,6 +473,11 @@ body.jz main { display: block; }
   .jz-jcards { grid-template-columns: 1fr; }
   .jz-jfeat { grid-template-columns: 1fr; }
   .jz-jlead { min-height: 340px; }
+  /* once stacked, the side column has no height to stretch into, so the
+     flex-basis:0 rows collapse to zero (and clip their image) — pin an
+     intrinsic height instead so all three posts show below the hero */
+  .jz-jfeat__side { gap: 14px; }
+  .jz-jrow { flex: 0 0 auto; min-height: 116px; }
   .jz-row { grid-template-columns: 60px 1fr; gap: 6px 18px; }
   .jz-row__blurb { grid-column: 2; }
 }
@@ -468,10 +488,24 @@ body.jz main { display: block; }
 }
 @media (max-width: 680px) {
   .jz-scroll { padding-left: 18px; padding-right: 18px; }
-  .jz-head__brand { display: none; }
-  .jz-head { justify-content: flex-start; }
-  .jz-head__nav { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-  .jz-head__nav::-webkit-scrollbar { display: none; }
+  /* keep the logo mark as a tappable home button; drop only the long wordmark */
+  .jz-head__brand span { display: none; }
+  .jz-head__toggle { display: block; }
+  /* the nav becomes a dropdown panel below the header rule, toggled by the ☰ */
+  .jz-head__nav {
+    position: fixed; top: 74px; left: 16px; right: 16px;
+    flex-direction: column; gap: 0;
+    background: var(--jz-paper); border: 2.5px solid var(--jz-ink);
+    padding: 4px 0; z-index: 41;
+    max-height: calc(100dvh - 96px); overflow-y: auto;
+    display: none;
+  }
+  .jz-head.is-open .jz-head__nav { display: flex; }
+  .jz-head__nav a {
+    padding: 13px 20px; font-size: 16px;
+    border-bottom: 1px solid rgba(27, 26, 23, 0.12);
+  }
+  .jz-head__nav a:last-child { border-bottom: 0; }
   .jz-title__cell--hide { display: none; }
   .jz-mast { flex-direction: column; align-items: flex-start; gap: 18px; }
   .jz-plate { padding-right: 22px; }

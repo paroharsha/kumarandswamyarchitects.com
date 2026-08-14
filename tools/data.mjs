@@ -86,6 +86,7 @@ export const nav = [
   // Index of Works taken down for now — restore this item + buildIndexPage() to bring it back.
   // { id: 'index', label: 'Index', href: 'index-of-works' },
   { id: 'projects', label: 'Projects', href: 'projects' },
+  { id: 'services', label: 'Services', href: 'services' },
   { id: 'about', label: 'About Us', href: 'about' },
   { id: 'blog', label: 'Journal', href: 'blog' },
   { id: 'contact', label: 'Contact', href: 'contact-kumar-swamy-architect' },
@@ -238,15 +239,74 @@ export const specialties = [
   'Resorts & hospitality', 'Interiors', 'Product design'
 ];
 
+// `name`/`blurb` power the compact "Eight briefs" summary + Organization
+// makesOffer JSON-LD. `id`/`tag`/`seo`/`body`/`covers`/`projects` additionally
+// drive the dedicated /services page (one keyword-headed section per sector).
 export const services = [
-  { n: '01', name: 'Institutional & Campus Design', blurb: 'Schools, universities and civic institutions — from a single block to a full multi-phase campus masterplan.' },
-  { n: '02', name: 'Masterplanning', blurb: 'Long-horizon planning that anticipates growth, climate and culture. We think in decades, not quarters.' },
-  { n: '03', name: 'Infrastructure', blurb: 'Civic and public infrastructure designed for the scale, movement and pace of a growing city.' },
-  { n: '04', name: 'Sports Facilities', blurb: 'Stadiums, academies and training facilities — designed for athletes, spectators and the city alike.' },
-  { n: '05', name: 'Healthcare', blurb: 'Hospitals and clinical interiors where clarity, calm and operational efficiency share the brief equally.' },
-  { n: '06', name: 'Residential & Hospitality', blurb: 'Homes, resorts and hospitality that balance comfort, place and craft over the long life of a building.' },
-  { n: '07', name: 'Interiors', blurb: 'The inside of a building: libraries, classrooms, workplaces and public rooms tuned for real daily use.' },
-  { n: '08', name: 'Product Design', blurb: 'Furniture, fittings and bespoke elements — down to the details that carry the identity of a place.' }
+  {
+    n: '01', id: 'institutional-campus', tag: 'Education & Campus',
+    name: 'Institutional & Campus Design', seo: 'School & Institutional Architecture',
+    blurb: 'Schools, universities and civic institutions — from a single block to a full multi-phase campus masterplan.',
+    body: 'Five decades of schools, colleges and civic institutions across India — from a single teaching block to a full multi-phase campus masterplan. We design learning environments that hold an institution’s values in built form, planned for growth, climate and the rhythm of daily life.',
+    covers: ['Schools & K–12 campuses', 'Colleges & universities', 'Civic & cultural institutions', 'Campus masterplans'],
+    projects: ['amaatra-academy', 'canadian-international-school', 'mallya-aditi-international-school', 'national-public-school-']
+  },
+  {
+    n: '02', id: 'masterplanning', tag: 'Campus & Urban',
+    name: 'Masterplanning', seo: 'Campus & Institutional Masterplanning',
+    blurb: 'Long-horizon planning that anticipates growth, climate and culture. We think in decades, not quarters.',
+    body: 'Long-horizon planning that anticipates growth, movement, climate and culture. We phase large campuses so each stage stands complete on its own while building toward the whole — thinking in decades, not quarters.',
+    covers: ['Campus masterplans', 'Phasing & growth strategy', 'Site & landscape planning', 'Feasibility studies'],
+    projects: ['pes-group-of-institutions', 'united-world-academy', 'anthem-biosciences-campus']
+  },
+  {
+    n: '03', id: 'infrastructure', tag: 'Civic & Public',
+    name: 'Infrastructure', seo: 'Civic & Public Infrastructure',
+    blurb: 'Civic and public infrastructure designed for the scale, movement and pace of a growing city.',
+    body: 'Public buildings and civic infrastructure designed for the scale, movement and pace of a growing city — built to serve large numbers of people durably, safely and legibly.',
+    covers: ['Civic & public buildings', 'Public amenities', 'Large-span structures', 'Transport-adjacent facilities'],
+    projects: ['kanteerva-outdoor-stadium']
+  },
+  {
+    n: '04', id: 'sports-facilities', tag: 'Sport',
+    name: 'Sports Facilities', seo: 'Sports & Stadium Architecture',
+    blurb: 'Stadiums, academies and training facilities — designed for athletes, spectators and the city alike.',
+    body: 'Stadiums, academies and training facilities designed for athletes, spectators and the city alike — from field-of-play geometry and sightlines to the crowd flows that make an event work.',
+    covers: ['Stadiums & arenas', 'Sports academies', 'Training & practice facilities', 'Pavilions & clubhouses'],
+    projects: ['kanteerva-outdoor-stadium', 'dempo-football-academy']
+  },
+  {
+    n: '05', id: 'healthcare', tag: 'Health & Life Sciences',
+    name: 'Healthcare', seo: 'Healthcare & Life-Sciences Architecture',
+    blurb: 'Hospitals and clinical interiors where clarity, calm and operational efficiency share the brief equally.',
+    body: 'Hospitals, clinical interiors and research campuses where clarity, calm and operational efficiency share the brief equally — environments that support both care and the people who deliver it.',
+    covers: ['Hospitals & clinics', 'Clinical & diagnostic interiors', 'Life-sciences & lab campuses', 'Wellness facilities'],
+    projects: ['anthem-biosciences-campus']
+  },
+  {
+    n: '06', id: 'residential-hospitality', tag: 'Homes & Resorts',
+    name: 'Residential & Hospitality', seo: 'Residential & Resort Architecture',
+    blurb: 'Homes, resorts and hospitality that balance comfort, place and craft over the long life of a building.',
+    body: 'Homes, resorts and hospitality that balance comfort, place and craft over the long life of a building — private residences and getaways shaped by climate, landscape and the way people actually live.',
+    covers: ['Private residences', 'Villas & farmhouses', 'Resorts & hospitality', 'Landscape & site design'],
+    projects: []
+  },
+  {
+    n: '07', id: 'interiors', tag: 'Interior Design',
+    name: 'Interiors', seo: 'Interior Design & Fit-Out',
+    blurb: 'The inside of a building: libraries, classrooms, workplaces and public rooms tuned for real daily use.',
+    body: 'The inside of a building: libraries, classrooms, workplaces and public rooms tuned for real daily use. We carry a project’s ideas indoors — materials, light and detail working with the architecture, not against it.',
+    covers: ['Education & workplace interiors', 'Libraries & labs', 'Public & common rooms', 'Furniture & fit-out'],
+    projects: ['good-shepherds-intl.-school-revitalisation']
+  },
+  {
+    n: '08', id: 'product-design', tag: 'Product & Objects',
+    name: 'Product Design', seo: 'Product & Furniture Design',
+    blurb: 'Furniture, fittings and bespoke elements — down to the details that carry the identity of a place.',
+    body: 'Furniture, fittings and bespoke elements — down to the details that carry the identity of a place. We design objects at the scale of the hand with the same rigour we bring to buildings.',
+    covers: ['Furniture & seating', 'Lighting & fittings', 'Signage & wayfinding', 'Bespoke joinery'],
+    projects: []
+  }
 ];
 
 export const founder = {

@@ -26,6 +26,28 @@
     }
   }
 
+  // ---- Drawing-sheet header: mobile menu ----
+  var jzHead = document.querySelector('.jz-head');
+  if (jzHead) {
+    var jzToggle = jzHead.querySelector('.jz-head__toggle');
+    if (jzToggle) {
+      var jzClose = function () {
+        jzHead.classList.remove('is-open');
+        jzToggle.setAttribute('aria-expanded', 'false');
+      };
+      jzToggle.addEventListener('click', function () {
+        var open = jzHead.classList.toggle('is-open');
+        jzToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      jzHead.querySelectorAll('.jz-head__nav a').forEach(function (a) {
+        a.addEventListener('click', jzClose);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') jzClose();
+      });
+    }
+  }
+
   // ---- Scroll reveal ----
   var reveals = document.querySelectorAll('.ks-reveal');
   if (reveals.length && 'IntersectionObserver' in window) {

@@ -197,6 +197,7 @@ ${bare ? '' : footerHtml(depth)}
 function pageCurrent(p) {
   if (p.startsWith('index-of-works')) return 'index';
   if (p.startsWith('projects')) return 'projects';
+  if (p.startsWith('services')) return 'services';
   if (p.startsWith('about')) return 'about';
   if (p.startsWith('blog') || p.startsWith('post')) return 'blog';
   if (p.startsWith('contact')) return 'contact';
@@ -581,6 +582,7 @@ function buildAbout() {
       <section class="jz-sec">
         <div class="jz-sec__head">
           <div><div class="jz-eyebrow jz-eyebrow--sec">Scope of services · 01–${svcTotal}</div><h2 class="jz-h2">Eight briefs,<br><em>one practice.</em></h2></div>
+          <a class="jz-morelink" href="services">Full scope →</a>
         </div>
         <div class="jz-rows">${svcRows}</div>
       </section>
@@ -597,6 +599,74 @@ function buildAbout() {
     </div>
   </div>`;
   w('about.html', layout({ title: `About Us — Multidisciplinary Architects in Bangalore since 1969 | ${site.shortName}`, description: 'Meet Kumar & Swamy Architects — founder C R Shivakumar, the partners, and the multidisciplinary approach behind a Bangalore practice in its fifth decade, spanning institutions, infrastructure, healthcare, sport, homes, interiors and product design.', pathRel: 'about', bodyClass: 'jz', bare: true, main, image: 'assets/img/founder.jpg', breadcrumbs: [{ name: 'Home', path: '' }, { name: 'About Us', path: 'about' }] }));
+}
+
+// ---------- SERVICES / EXPERTISE ----------
+function buildServices() {
+  const projBySlug = Object.fromEntries(projects.map(p => [p.slug, p]));
+  const total = String(services.length).padStart(2, '0');
+  const sections = services.map(s => {
+    const projLine = s.projects.length
+      ? `<p class="jz-covers"><b>Selected work</b> — ${s.projects
+          .map(slug => projBySlug[slug] ? `<a href="projects/${slug}">${esc(projBySlug[slug].name)}</a>` : '')
+          .filter(Boolean).join(', ')}</p>`
+      : '';
+    return `
+      <section class="jz-sec" id="${s.id}">
+        <div class="jz-band">
+          <div>
+            <div class="jz-eyebrow jz-eyebrow--sec">${s.n} / ${total} · ${esc(s.tag)}</div>
+            <h2 class="jz-h2">${esc(s.seo)}</h2>
+          </div>
+          <div class="jz-band__side">
+            <div class="jz-body-copy"><p>${esc(s.body)}</p></div>
+            <p class="jz-covers"><b>Covers</b> — ${s.covers.map(esc).join(' · ')}</p>
+            ${projLine}
+          </div>
+        </div>
+      </section>`;
+  }).join('');
+
+  const main = `${jzChrome('Scope of services', 'E-01', 'services', 0)}
+  <div class="jz-scroll">
+    <div class="jz-wrap jz-wrap--wide">
+      <header class="jz-phead">
+        <div>
+          <div class="jz-eyebrow">General notes · Scope of services</div>
+          <h1 class="jz-h1">What we <em>do.</em></h1>
+        </div>
+        <p class="jz-lede jz-phead__intro">A multidisciplinary architecture and design practice in Bangalore. Eight briefs, one studio — from schools, campuses and civic institutions to infrastructure, healthcare, sport, homes, resorts, interiors and product design.</p>
+      </header>
+${sections}
+      <section class="jz-sec" style="border-bottom:0">
+        <div class="jz-band">
+          <div><div class="jz-eyebrow jz-eyebrow--sec">Start a conversation</div><h2 class="jz-h2">Have a brief in <em>mind?</em></h2></div>
+          <div class="jz-band__side">
+            <div class="jz-body-copy"><p>Tell us about your institution, site or idea — whatever the sector, the brief begins with your values, not our signature.</p></div>
+            <div style="display:flex;flex-wrap:wrap;gap:14px">
+              <a class="jz-btn jz-btn--blue" href="contact-kumar-swamy-architect">Get in touch →</a>
+              <a class="jz-btn" href="projects">See the projects →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>`;
+
+  const ld = {
+    '@type': 'OfferCatalog', name: `Architecture & design services — ${site.name}`,
+    itemListElement: services.map(s => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: s.seo, serviceType: s.name, description: s.body, areaServed: { '@type': 'Country', name: 'India' }, provider: { '@id': PRO_ID } }
+    }))
+  };
+
+  w('services.html', layout({
+    title: `Architecture & Design Services in Bangalore | ${site.shortName}`,
+    description: 'Architecture and design services from Kumar & Swamy Architects, Bangalore — institutional & campus design, masterplanning, infrastructure, sports facilities, healthcare, residential, resorts, interiors and product design across India since 1969.',
+    pathRel: 'services', bodyClass: 'jz', bare: true, main, extraLd: ld,
+    breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Services', path: 'services' }]
+  }));
 }
 
 // ---------- CONTACT ----------
@@ -750,8 +820,9 @@ function jzChrome(sheetTitle, dwgNo, current, depth) {
   <div class="jz-frame" aria-hidden="true"></div>
   <div class="jz-frame2" aria-hidden="true"></div>
   <div class="jz-head">
-    <a class="jz-head__brand" href="${homeHref(depth)}"><img class="jz-head__logo" src="${rel(depth, 'assets/img/logo-mark.png')}" alt="" width="256" height="256"><span>Kumar &amp; Swamy Architects · Est. 1969 · Bangalore</span></a>
-    <nav class="jz-head__nav" aria-label="Primary">${links}</nav>
+    <a class="jz-head__brand" href="${homeHref(depth)}" aria-label="Kumar &amp; Swamy Architects — home"><img class="jz-head__logo" src="${rel(depth, 'assets/img/logo-mark.png')}" alt="" width="256" height="256"><span>Kumar &amp; Swamy Architects · Est. 1969 · Bangalore</span></a>
+    <nav class="jz-head__nav" id="jz-nav" aria-label="Primary">${links}</nav>
+    <button class="jz-head__toggle" type="button" aria-label="Menu" aria-controls="jz-nav" aria-expanded="false"><span></span></button>
   </div>
   <div class="jz-title" aria-hidden="true">
     <div class="jz-title__mark"><img src="${rel(depth, 'assets/img/logo-mark.png')}" alt="Kumar &amp; Swamy" width="256" height="256"></div>
@@ -863,6 +934,7 @@ function buildSeoFiles() {
   const entries = [
     { u: '', p: '1.0', f: 'monthly' },
     { u: 'projects', p: '0.9', f: 'monthly' },
+    { u: 'services', p: '0.8', f: 'monthly' },
     { u: 'about', p: '0.7', f: 'yearly' },
     { u: 'blog', p: '0.7', f: 'weekly' },
     { u: 'contact-kumar-swamy-architect', p: '0.6', f: 'yearly' },
@@ -941,9 +1013,10 @@ buildProjects();
 // buildIndexPage();  // Index of Works taken down for now; index-of-works.html redirects to /projects (see redirects)
 projects.forEach((p, i) => buildProjectDetail(p, i));
 buildAbout();
+buildServices();
 buildContact();
 buildApply();
 buildBlog();
 buildRedirects();
 buildSeoFiles();
-console.log('Built: index, projects (+%d details), about, contact, apply, blog (+%d posts), %d redirect stubs, sitemap, robots', projects.length, posts.length, redirects.length);
+console.log('Built: index, projects (+%d details), services, about, contact, apply, blog (+%d posts), %d redirect stubs, sitemap, robots', projects.length, posts.length, redirects.length);
