@@ -214,6 +214,9 @@ body.jz main { display: block; }
 .jz-article__body li { line-height: 1.5; }
 .jz-article__body strong { font-weight: 600; }
 .jz-article__body a { text-decoration: underline; text-underline-offset: 2px; }
+.jz-article__body figure.jz-fig { margin: 34px 0; }
+.jz-article__body figure.jz-fig img { display: block; width: 100%; height: auto; border: 1px solid var(--jz-ink); background: #EFE8DB; }
+.jz-article__body figure.jz-fig figcaption { margin-top: 8px; font-family: var(--jz-mono); font-style: italic; font-size: 12px; line-height: 1.5; letter-spacing: 0.01em; color: var(--jz-blue); }
 
 /* --- flip / prev-next bar --- */
 .jz-flip { margin-top: 34px; border-top: 1px solid var(--jz-ink); padding-top: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; font-family: var(--jz-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; }

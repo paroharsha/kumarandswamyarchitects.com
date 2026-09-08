@@ -46,7 +46,7 @@ function galleryImages(slug) {
 }
 
 // ---------- tiny markdown -> html (for blog bodies) ----------
-function md(src) {
+function md(src, { depth = 0 } = {}) {
   src = src.replace(/^---[\s\S]*?---\s*/, '');           // strip frontmatter
   const lines = src.split('\n');
   let out = '', listType = null, para = [];
@@ -60,7 +60,10 @@ function md(src) {
     const line = raw.trim();
     if (!line) { flushP(); flushL(); continue; }
     const ordered = line.match(/^\d+\.\s+(.*)$/);
-    if (line.startsWith('### ')) { flushP(); flushL(); out += `<h3>${inline(line.slice(4))}</h3>\n`; }
+    // Figure: ![alt](assets/… "caption") — site-relative src, resolved against the page depth.
+    const fig = line.match(/^!\[(.*?)\]\(([^)\s]+)(?:\s+"(.*?)")?\)$/);
+    if (fig) { flushP(); flushL(); out += `<figure class="jz-fig"><img src="${rel(depth, fig[2])}${imgVer(fig[2])}" alt="${esc(fig[1])}" loading="lazy" decoding="async">${fig[3] ? `<figcaption>${inline(fig[3])}</figcaption>` : ''}</figure>\n`; }
+    else if (line.startsWith('### ')) { flushP(); flushL(); out += `<h3>${inline(line.slice(4))}</h3>\n`; }
     else if (line.startsWith('## ')) { flushP(); flushL(); out += `<h2>${inline(line.slice(3))}</h2>\n`; }
     else if (line.startsWith('> ')) { flushP(); flushL(); out += `<blockquote>${inline(line.slice(2))}</blockquote>\n`; }
     else if (line.startsWith('- ')) { flushP(); openL('ul'); out += `<li>${inline(line.slice(2))}</li>\n`; }
@@ -834,6 +837,9 @@ function jzChrome(sheetTitle, dwgNo, current, depth) {
 }
 function buildBlog() {
   const [lead, ...rest] = posts;
+  const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
+  const countWord = WORDS[posts.length] || String(posts.length);
+  const CountWord = countWord[0].toUpperCase() + countWord.slice(1);
   const noteHtml = (p, cls) => {
     const n = journalNotes[p.slug];
     return n ? `<div class="${cls}"><span>${n.split('\n').map(esc).join('<br>')}</span></div>` : '';
@@ -853,7 +859,7 @@ function buildBlog() {
     </div>
   </a>`;
 
-  // Plate grid (A-02 → A-10)
+  // Plate grid (A-02 → A-nn)
   const plates = rest.map((p, idx) => `<a class="jz-plate" href="post/${p.slug}" data-sheet="${dwg(idx + 1)}">
       <div class="jz-plate__meta"><span>${dwg(idx + 1)}</span><span class="dim">${esc(p.date)}</span><span class="dim">${esc(p.readTime.replace(/\s*read$/, ''))}</span></div>
       <h3>${esc(p.title)}</h3>
@@ -874,16 +880,16 @@ function buildBlog() {
         </div>
         <div class="jz-mast__side">
           <p>Writing from the studio — on architecture, education, and the ideas that shape the places we build.</p>
-          <div class="jz-mast__hand">ten sheets on file ↓</div>
+          <div class="jz-mast__hand">${countWord} sheets on file ↓</div>
         </div>
       </div>
       <div class="jz-hint">
-        <span class="dot">●</span><span>Ten entries, plotted newest first</span><span class="sp"></span>
+        <span class="dot">●</span><span>${CountWord} entries, plotted newest first</span><span class="sp"></span>
         <span class="jz-hint__tip">Hover the right margin of any plate for margin notes</span>
         <button type="button" class="jz-random" aria-label="Jump to a random sheet">↯ Random sheet</button>
       </div>
       ${feature}
-      <div class="jz-idxrule"><span>Sheet index</span><span class="ln"></span><span class="bl">A-02 → A-10</span></div>
+      <div class="jz-idxrule"><span>Sheet index</span><span class="ln"></span><span class="bl">A-02 → ${dwg(posts.length - 1)}</span></div>
       <div class="jz-plates">${plates}</div>
       <div class="jz-marquee" aria-hidden="true"><div class="jz-marquee__row">${marquee}</div></div>
       <div class="jz-foot">
@@ -898,7 +904,7 @@ function buildBlog() {
 
   const n = posts.length;
   posts.forEach((p, i) => {
-    const body = md(fs.readFileSync(path.join(ROOT, 'content/blog', p.file), 'utf8'));
+    const body = md(fs.readFileSync(path.join(ROOT, 'content/blog', p.file), 'utf8'), { depth: 1 });
     const prev = posts[(i - 1 + n) % n];
     const next = posts[(i + 1) % n];
     const ld = { '@type': 'BlogPosting', headline: p.title, author: { '@type': 'Person', name: p.author }, publisher: { '@id': PRO_ID }, description: p.excerpt, image: `${site.domain}/assets/img/blog/${p.slug}.jpg`, mainEntityOfPage: `${site.domain}/post/${p.slug}` };

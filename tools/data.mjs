@@ -351,6 +351,10 @@ export const roles = [
 
 // Article bodies are read from content/blog/<file> at build time.
 export const posts = [
+  { slug: 'london-is-a-collision', file: 'london-is-a-collision.md',
+    title: 'London Is a Collision',
+    author: 'Suchitra Harsha', date: 'Sep 8, 2026', readTime: '10 min read', sketch: 'tower',
+    excerpt: 'Three weeks in a city I had written off. Windows, facades and interiors, and why the master plan is a myth: a city lives and dies in its joints and details.' },
   { slug: 'designing-for-a-billion-5-ways-india-s-new-building-code-is-reimagining-the-modern-city', file: 'designing-for-a-billion.md',
     title: 'Designing for a Billion: 5 Ways India’s New Building Code is Reimagining the Modern City',
     author: 'Paromita Harsha', date: 'Apr 16, 2026', readTime: '4 min read', sketch: 'siteplan',
@@ -396,6 +400,7 @@ export const posts = [
 // Handwritten "margin notes" for the Journal drawing-sheet layout (build.mjs / buildBlog).
 // Keyed by post slug; a plate with no note simply renders without one.
 export const journalNotes = {
+  'london-is-a-collision': 'the truth is\nin the joints',
   'designing-for-a-billion-5-ways-india-s-new-building-code-is-reimagining-the-modern-city': '820 million\nby 2051 —\nplan for it',
   'architecture-that-teaches-the-reality-of-designing-modern-educational-spaces': 'the room\nteaches too',
   'inclusivity-in-architecture-design-without-bias': 'no user\nis average',
