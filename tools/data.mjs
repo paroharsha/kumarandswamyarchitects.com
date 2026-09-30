@@ -4,7 +4,9 @@
 export const site = {
   name: 'Kumar & Swamy Architects',
   shortName: 'K&S Architects',
-  domain: 'https://www.kumarandswamyarchitects.com',
+  // Must match CNAME: GitHub Pages 301s www → apex, so canonicals, og:url and
+  // sitemap entries all point at the apex host.
+  domain: 'https://kumarandswamyarchitects.com',
   founded: 1969,
   city: 'Bangalore',
   tagline: 'A multidisciplinary architecture and design practice in Bangalore — from schools, campuses and civic institutions to infrastructure, healthcare, sport, homes, resorts, interiors and product, since 1969.',
