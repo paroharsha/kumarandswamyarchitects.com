@@ -351,6 +351,10 @@ export const roles = [
 
 // Article bodies are read from content/blog/<file> at build time.
 export const posts = [
+  { slug: 'learning-architecture', file: 'learning-architecture.md',
+    title: 'Learning Architecture',
+    author: 'Harsha Shivakumar', date: 'Sep 30, 2026', readTime: '4 min read', sketch: 'courtyard', heroFull: true,
+    excerpt: 'Should architecture schools start with engineering drawing, or with people? A case for spending the first years on the human mind and its relationship with space.' },
   { slug: 'london-is-a-collision', file: 'london-is-a-collision.md',
     title: 'London Is a Collision',
     author: 'Suchitra Harsha', date: 'Sep 8, 2026', readTime: '10 min read', sketch: 'tower',
@@ -400,6 +404,7 @@ export const posts = [
 // Handwritten "margin notes" for the Journal drawing-sheet layout (build.mjs / buildBlog).
 // Keyed by post slug; a plate with no note simply renders without one.
 export const journalNotes = {
+  'learning-architecture': 'can’t be\ntaught —\nonly learned',
   'london-is-a-collision': 'the truth is\nin the joints',
   'designing-for-a-billion-5-ways-india-s-new-building-code-is-reimagining-the-modern-city': '820 million\nby 2051 —\nplan for it',
   'architecture-that-teaches-the-reality-of-designing-modern-educational-spaces': 'the room\nteaches too',

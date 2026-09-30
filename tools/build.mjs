@@ -919,7 +919,7 @@ function buildBlog() {
         <span class="jz-article__no">Dwg ${dwg(i)} of ${n}</span>
       </div>
       <div class="jz-article__head"><h1>${esc(p.title)}</h1></div>
-      <div class="jz-article__hero">${heroFill(p, { depth: 1, eager: true })}</div>
+      <div class="jz-article__hero${p.heroFull ? ' jz-article__hero--full' : ''}">${heroFill(p, { depth: 1, eager: true })}</div>
       <div class="jz-article__body">${body}</div>
       <div class="jz-flip">
         <a class="prev" href="${prev.slug}">← ${esc(clip(prev.title, 24))}</a>
