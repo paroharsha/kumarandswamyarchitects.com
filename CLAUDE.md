@@ -8,7 +8,7 @@ The website for **Kumar & Swamy Architects** (a Bangalore architecture practice,
 
 - **Repo:** https://github.com/paroharsha/kumarandswamyarchitects.com
 - **Live:** https://paroharsha.github.io/kumarandswamyarchitects.com/
-- **Eventual custom domain:** www.kumarandswamyarchitects.com
+- **Custom domain:** kumarandswamyarchitects.com (apex, per `CNAME`; GitHub Pages 301s `www` → apex). `site.domain` must match `CNAME` or every canonical points at a redirect.
 
 The design is a site-wide **"architectural drawing sheet"** system: every page is a full-screen sheet with a fixed ruled drawing border, a faint blueprint grid, a header rule (with the site nav folded into it) and a bottom **title block** (`Dwg no.` / sheet title / scale). Only an inner region scrolls. Two typefaces across the whole site — **Saira Condensed** (condensed display headings) + **IBM Plex Mono** (labels, title blocks, and body/reading text). Palette: paper `#F4EFE6`, plate `#FBF8F1`, ink `#1B1A17`, blueprint-blue `#2E4E7E` (accents, links, annotations), signal-yellow `#F2B705` (badges, hover shadows), grid-blue `#8FA6C4`. Handwritten flourishes and margin notes are set in mono italic. (Earlier the site used an editorial split-screen brand — Inter Tight / Instrument Serif / mustard-terracotta; that has been fully replaced. The original approved bundle still lives at `_design.html`, gitignored, for reference.)
 
@@ -32,7 +32,7 @@ node tools/build.mjs        # regenerates all HTML + sitemap.xml + robots.txt
 - `assets/js/site.js` — progressive enhancement only (nav scroll state, mobile menu, scroll-reveal via IntersectionObserver, projects filter). The site is fully readable without JS.
 
 ### Generated output (committed; don't edit by hand)
-`index.html`, `projects.html`, `projects/<slug>.html` (×16), `about.html` (Studio), `blog.html`, `post/<slug>.html` (×3), `contact-kumar-swamy-architect.html`, `applytowork.html`, `index-of-works.html`, redirect stubs (4 team + 7 posts), `404.html`, `sitemap.xml`, `robots.txt`, `.nojekyll`. (Served extensionless — see Conventions.)
+`index.html`, `projects.html`, `projects/<slug>.html` (×16), `about.html` (Studio), `blog.html`, `post/<slug>.html` (×3), `contact-kumar-swamy-architect.html`, `applytowork.html`, `index-of-works.html`, redirect stubs (4 team + 7 posts), `privacy.html`, `404.html`, `sitemap.xml`, `robots.txt`, `llms.txt` + `agents.md` (Markdown summaries for AI agents, built from `data.mjs`), `.nojekyll`. (Served extensionless — see Conventions.)
 
 ## Images
 
