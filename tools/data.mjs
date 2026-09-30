@@ -353,7 +353,7 @@ export const roles = [
 export const posts = [
   { slug: 'learning-architecture', file: 'learning-architecture.md',
     title: 'Learning Architecture',
-    author: 'Harsha Shivakumar', date: 'Sep 30, 2026', readTime: '4 min read', sketch: 'courtyard', heroFull: true,
+    author: 'Harsha Shivakumar', date: 'Sep 30, 2026', readTime: '4 min read', sketch: 'courtyard', heroFull: true, heroPos: '85% 78%',
     excerpt: 'Should architecture schools start with engineering drawing, or with people? A case for spending the first years on the human mind and its relationship with space.' },
   { slug: 'london-is-a-collision', file: 'london-is-a-collision.md',
     title: 'London Is a Collision',

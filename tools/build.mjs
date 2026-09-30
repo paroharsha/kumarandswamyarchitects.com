@@ -769,7 +769,9 @@ const clip = (s, n) => (s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s);
 // A hero image that fills its frame (bare <img>), falling back to the SVG sketch.
 function heroFill(p, { depth = 0, eager = false } = {}) {
   const src = `assets/img/blog/${p.slug}.jpg`;
-  if (exists(src)) return `<img src="${rel(depth, src)}${imgVer(src)}" alt="${esc(p.title)}"${eager ? '' : ' loading="lazy"'} decoding="async">`;
+  // heroPos (data.mjs): object-position focal point for cropped thumbnails, e.g. to keep a face in frame.
+  const pos = p.heroPos ? ` style="object-position:${p.heroPos}"` : '';
+  if (exists(src)) return `<img src="${rel(depth, src)}${imgVer(src)}" alt="${esc(p.title)}"${eager ? '' : ' loading="lazy"'} decoding="async"${pos}>`;
   return sketch(p.sketch, { ratio: '4/3' });
 }
 // A project photo that fills its frame (bare <img>), falling back to the sketch.
