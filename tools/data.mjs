@@ -353,6 +353,10 @@ export const roles = [
 
 // Article bodies are read from content/blog/<file> at build time.
 export const posts = [
+  { slug: 'the-case-for-adaptive-reuse-in-india', file: 'the-case-for-adaptive-reuse-in-india.md',
+    title: 'The Case for Adaptive Reuse in India',
+    author: 'Paromita Harsha', date: 'Nov 1, 2026', readTime: '5 min read', sketch: 'linear',
+    excerpt: 'Most of the buildings India will have in 2070 do not exist yet. Why the greenest square metre is usually the one already standing, and how we approach reuse on schools and campuses.' },
   { slug: 'learning-architecture', file: 'learning-architecture.md',
     title: 'Learning Architecture',
     author: 'Harsha Shivakumar', date: 'Sep 30, 2026', readTime: '4 min read', sketch: 'courtyard', heroFull: true, heroPos: '85% 78%',
@@ -406,6 +410,7 @@ export const posts = [
 // Handwritten "margin notes" for the Journal drawing-sheet layout (build.mjs / buildBlog).
 // Keyed by post slug; a plate with no note simply renders without one.
 export const journalNotes = {
+  'the-case-for-adaptive-reuse-in-india': 'reuse first,\ndemolish\nlast',
   'learning-architecture': 'can’t be\ntaught —\nonly learned',
   'london-is-a-collision': 'the truth is\nin the joints',
   'designing-for-a-billion-5-ways-india-s-new-building-code-is-reimagining-the-modern-city': '820 million\nby 2051 —\nplan for it',
