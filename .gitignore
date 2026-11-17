@@ -10,3 +10,9 @@ node_modules/
 
 # scratch / large design bundle (not for deploy)
 _design.html
+
+# Raw downloads from the office Google Drive (originals stay on the Drive)
+content/drafts/drive/anthem/
+content/drafts/drive/dempo/
+content/drafts/drive/tejas/
+content/drafts/drive/pdf/hi/
