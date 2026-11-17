@@ -32,7 +32,7 @@ node tools/build.mjs        # regenerates all HTML + sitemap.xml + robots.txt
 - `assets/js/site.js` — progressive enhancement only (nav scroll state, mobile menu, scroll-reveal via IntersectionObserver, projects filter). The site is fully readable without JS.
 
 ### Generated output (committed; don't edit by hand)
-`index.html`, `projects.html`, `projects/<slug>.html` (×16), `about.html` (Studio), `blog.html`, `post/<slug>.html` (×3), `contact-kumar-swamy-architect.html`, `applytowork.html`, `index-of-works.html`, redirect stubs (4 team + 7 posts), `privacy.html`, `404.html`, `sitemap.xml`, `robots.txt`, `llms.txt` + `agents.md` (Markdown summaries for AI agents, built from `data.mjs`), `.nojekyll`. (Served extensionless — see Conventions.)
+`index.html`, `projects.html`, `projects/<slug>.html` (×16), `about.html` (Studio), partner profiles `<slug>.html` (×4, at the old Wix team URLs: `sanchaliharsha`, `paromitaharsha`, `harshashivakumar`, `suchitraharsha`), `school-architects-bangalore.html` (school landing page), `blog.html`, `post/<slug>.html` (×3), `contact-kumar-swamy-architect.html`, `applytowork.html`, `index-of-works.html`, redirect stubs, `privacy.html`, `404.html`, `sitemap.xml`, `robots.txt`, `llms.txt` + `agents.md` (Markdown summaries for AI agents, built from `data.mjs`), `.nojekyll`. (Served extensionless — see Conventions.)
 
 ## Images
 
@@ -47,7 +47,7 @@ node tools/build.mjs        # regenerates all HTML + sitemap.xml + robots.txt
   - Projects use the **Wix long slugs** (`amaatra-academy`, `pes-group-of-institutions`, `sri-kumarans-children's-home`, `national-public-school-` (trailing hyphen), `good-shepherds-intl.-school-revitalisation` (dot) — matched verbatim; image folders under `assets/img/projects/` are named to match).
   - **Blog posts live at `/post/<slug>`** (not `/blog/`), with the full Wix slugs; the `/blog` listing stays.
   - In builders: `w('<file>.html', layout({ pathRel: '<extensionless>', … }))` and breadcrumb `path` values are extensionless. Home links use `homeHref(depth)`.
-- **Legacy Wix URLs we have no page for** get meta-refresh **redirect stubs** (`buildRedirects()` in build.mjs): 4 team pages → `/about`, 7 not-yet-migrated posts → `/blog`. Add to the `redirects` array when a Wix URL is retired.
+- **Legacy Wix URLs we have no page for** get meta-refresh **redirect stubs** (`buildRedirects()` in build.mjs). The four team URLs are real profile pages now (`buildPeople()`), not redirects. Add to the `redirects` array when a Wix URL is retired.
 - **Links are relative.** Root pages use `assets/...` and the extensionless page name; sub-pages (`projects/`, `post/`) pass `depth: 1` so the generator prefixes `../`. Keep this when adding pages.
 - **SEO matters here** (explicit client priority): every page gets a unique `<title>` + meta description, canonical URL, OG/Twitter tags, and JSON-LD (Organization site-wide, CreativeWork per project, BlogPosting per article). Maintain these for any new page.
 - Fonts load from Google Fonts — just two: **Saira Condensed** + **IBM Plex Mono** (loaded once in `layout()`'s `<head>`).
@@ -60,6 +60,13 @@ GitHub Pages serves `main` branch root. Just commit + push generated output:
 node tools/build.mjs && git add -A && git commit -m "..." && git push
 ```
 If a push fails with an HTTP 400 / RPC error (image payloads), retry — `git config http.postBuffer 524288000` is already set.
+
+## People and project credits
+
+- **Names:** each partner's `name` in `team` (data.mjs) is the one spelling used everywhere; other spellings go in `alternateName` (JSON-LD only). The founder's son is **C. S. Harsha** (formerly shown as "Harsha Shivakumar"; his URL stays `/harshashivakumar`).
+- **Profiles** (`buildPeople()`): render `summary`, `bio`, `focus`, `education`, `memberships`, `recognition`, `links` when filled in, plus journal posts whose `author` matches the name and projects whose `team` lists the slug. Each emits a `ProfilePage` + `Person` with a stable `@id` (`/<slug>#person`) that the practice (`employee`), project `creator` and post `author` reference.
+- **Project write-ups:** optional `team`, `client`, `curriculum`, `sections: [{ h, body }]` on each project. Sections render as headed blocks under the overview.
+- **`/school-architects-bangalore`** (`buildSchools()`) is generated entirely from `projects` (those with `isSchool`) and `projectIndex`; keep its claims tied to data.
 
 ## Known follow-ups
 - Project detail pages show one hero each; galleries (3–4 more shots per project) can be added from the Wix galleries.
