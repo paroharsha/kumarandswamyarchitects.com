@@ -53,6 +53,18 @@ function galleryImages(slug) {
   } catch { return []; }
 }
 
+// Drawings for a project live in assets/img/projects/<slug>/drawings/ (sorted
+// naturally); captions come from the project's optional `drawingCaptions` array.
+function drawingImages(slug) {
+  const dir = path.join(ROOT, projPhoto, slug, 'drawings');
+  try {
+    return fs.readdirSync(dir)
+      .filter(f => /\.(jpe?g|png|webp)$/i.test(f))
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
+      .map(f => `${projPhoto}${slug}/drawings/${f}`);
+  } catch { return []; }
+}
+
 // ---------- tiny markdown -> html (for blog bodies) ----------
 function md(src, { depth = 0 } = {}) {
   src = src.replace(/^---[\s\S]*?---\s*/, '');           // strip frontmatter
@@ -501,6 +513,7 @@ const yr = (p) => p.yearLabel || p.year;
 function buildProjectDetail(p, i) {
   const next = projects[(i + 1) % projects.length];
   const gallery = galleryImages(p.slug);
+  const drawings = drawingImages(p.slug);
   const overview2 = 'Like all our work, the design begins with the institution — its philosophy, its climate and the way its people actually move through a day — rather than with a fixed style of our own.';
   const people = projectTeam(p);
   const ld = { '@type': 'CreativeWork', name: p.name, dateCreated: String(p.year),
@@ -553,6 +566,13 @@ function buildProjectDetail(p, i) {
           ${gallery.map((src, n) => `<figure class="jz-plate-img"><img src="${rel(1, src)}" alt="${esc(p.name)} — view ${n + 1}" loading="lazy" decoding="async"></figure>`).join('')}
         </div>` : ''}
       </section>
+      ${drawings.length ? `<section class="jz-sec jz-drawings">
+        <div class="jz-eyebrow">Drawings · ${String(drawings.length).padStart(2, '0')} sheets</div>
+        ${drawings.map((src, n) => {
+          const cap = (p.drawingCaptions || [])[n];
+          return `<figure class="jz-drawing"><img src="${rel(1, src)}" alt="${esc(p.name)} — ${esc(cap || 'drawing ' + (n + 1))}" loading="lazy" decoding="async">${cap ? `<figcaption>${esc(cap)}</figcaption>` : ''}</figure>`;
+        }).join('')}
+      </section>` : ''}
       <div class="jz-flip">
         <a class="prev" href="../projects">← Project index</a>
         <a class="next" href="${next.slug}">Next: ${esc(clip(next.name, 22))} →</a>
