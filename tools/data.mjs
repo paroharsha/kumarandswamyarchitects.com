@@ -395,36 +395,87 @@ Good Shepherd reflects a growing part of our practice: the revitalisation of exi
 // The complete chronological record — every project, drawn from the office archive.
 // A typographic index on the home page; no detail pages or imagery required.
 // `year` is the numeric sort key; `yearLabel` is what shows (ranges, "ongoing").
+// `slug` links a row to its project page, where one exists.
 export const projectIndex = [
-  { name: 'The Mallya Aditi School',                 year: 1991, yearLabel: '1991',          location: 'Bangalore',           category: 'Education' },
-  { name: 'Sree Kanteerava Outdoor Stadium',         year: 1997, yearLabel: '1997',          location: 'Bangalore',           category: 'Sport' },
+  { slug: 'mallya-aditi-international-school', name: 'The Mallya Aditi School',                 year: 1991, yearLabel: '1991',          location: 'Bangalore',           category: 'Education' },
+  { slug: 'kanteerva-outdoor-stadium', name: 'Sree Kanteerava Outdoor Stadium',         year: 1997, yearLabel: '1997',          location: 'Bangalore',           category: 'Sport' },
   { name: '16 World Bank Hospitals',                 year: 1997, yearLabel: '1997–98',       location: 'Across Karnataka',    category: 'Healthcare' },
   { name: 'National Cricket Academy',                year: 2000, yearLabel: '2000',          location: 'Bangalore',           category: 'Sport' },
-  { name: 'Anthem Biosciences',                      year: 2001, yearLabel: '2001',          location: 'Bangalore',           category: 'Campus' },
+  { slug: 'anthem-biosciences-campus', name: 'Anthem Biosciences',                      year: 2001, yearLabel: '2001',          location: 'Bangalore',           category: 'Campus' },
   { name: 'Commercial Complex, Koramangala',         year: 2002, yearLabel: '2002',          location: 'Bangalore',           category: 'Commercial' },
-  { name: 'The Canadian International School',       year: 2004, yearLabel: '2004',          location: 'Bangalore',           category: 'Education' },
-  { name: 'Sri Kumarans Children’s Home',            year: 2006, yearLabel: '2006',          location: 'Bangalore',           category: 'Education' },
-  { name: 'SJRC Group — Three Schools',              year: 2006, yearLabel: '2006–2010',     location: 'HBR Layout · Kengeri · Sarjapur', category: 'Education' },
+  { slug: 'canadian-international-school', name: 'The Canadian International School',       year: 2004, yearLabel: '2004',          location: 'Bangalore',           category: 'Education' },
+  { slug: "sri-kumarans-children's-home", name: 'Sri Kumarans Children’s Home',            year: 2006, yearLabel: '2006',          location: 'Bangalore',           category: 'Education' },
+  { slug: 'sjr-public-schools', name: 'SJRC Group — Three Schools',              year: 2006, yearLabel: '2006–2010',     location: 'HBR Layout · Kengeri · Sarjapur', category: 'Education' },
   { name: 'Kumudvati Residential School',            year: 2006, yearLabel: '2006',          location: 'Shikaripura',         category: 'Education' },
-  { name: 'PES Engineering College & Residential School', year: 2006, yearLabel: '2006',     location: 'Shivamogga',          category: 'Campus' },
-  { name: 'Amaatra Academy',                         year: 2008, yearLabel: '2008',          location: 'Bangalore',           category: 'Education' },
+  { slug: 'pes-group-of-institutions', name: 'PES Engineering College & Residential School', year: 2006, yearLabel: '2006',     location: 'Shivamogga',          category: 'Campus' },
+  { slug: 'amaatra-academy', name: 'Amaatra Academy',                         year: 2008, yearLabel: '2008',          location: 'Bangalore',           category: 'Education' },
   { name: 'Chittoor Residential School, PES Institutions', year: 2009, yearLabel: '2009',     location: 'Chittoor',            category: 'Education' },
   { name: 'Sahyadri Engineering College',            year: 2010, yearLabel: '2010',          location: 'Mangalore',           category: 'Campus' },
-  { name: 'Cathedral Vidya School',                  year: 2010, yearLabel: '2010',          location: 'Lonavala',            category: 'Education' },
+  { slug: 'the-cathedral-vidya-school', name: 'The Cathedral Vidya School',                  year: 2010, yearLabel: '2010',          location: 'Lonavala',            category: 'Education' },
   { name: 'ARRS Residential School',                 year: 2011, yearLabel: '2011',          location: 'Salem',               category: 'Education' },
-  { name: 'Dempo Football Academy',                  year: 2011, yearLabel: '2011',          location: 'Goa',                 category: 'Sport' },
+  { slug: 'dempo-football-academy', name: 'Dempo Football Academy',                  year: 2011, yearLabel: '2011',          location: 'Goa',                 category: 'Sport' },
   { name: 'Krissar Academy',                         year: 2015, yearLabel: '2015',          location: 'Arani, Tamil Nadu',   category: 'Education' },
   { name: 'Takshashila School',                      year: 2015, yearLabel: '2015',          location: 'Veloor',              category: 'Education' },
-  { name: 'Tejas International Residential School',  year: 2015, yearLabel: '2015',          location: 'Bagalkote',           category: 'Education' },
+  { slug: 'tejas-international-school', name: 'Tejas International Residential School',  year: 2015, yearLabel: '2015',          location: 'Bagalkote',           category: 'Education' },
   { name: 'Hill Rock Academy',                       year: 2016, yearLabel: '2016',          location: 'Bangalore',           category: 'Education' },
   { name: 'Global World Academy',                    year: 2016, yearLabel: '2016',          location: 'Bangalore',           category: 'Education' },
-  { name: 'Wisdom Tree Global School',               year: 2019, yearLabel: '2019',          location: 'Bhubaneswar',         category: 'Education' },
+  { slug: 'united-world-academy', name: 'United World Academy', year: 2018, yearLabel: '2018', location: 'Bangalore', category: 'Education' },
+  { slug: 'valiants-academy', name: 'Valiants Academy', year: 2019, yearLabel: '2019', location: 'Kengeri, Bangalore', category: 'Education' },
+  { slug: 'wisdom-tree-global-school', name: 'Wisdom Tree Global School',               year: 2019, yearLabel: '2019',          location: 'Bhubaneswar',         category: 'Education' },
   { name: 'Football Academy, Muthoot Group',         year: 2020, yearLabel: '2020 – ongoing', location: 'Palakkad',           category: 'Sport' },
-  { name: 'NPS Jalahalli',                           year: 2020, yearLabel: '2020',          location: 'Bangalore',           category: 'Education' },
+  { slug: 'national-public-school-', name: 'NPS Jalahalli',                           year: 2020, yearLabel: '2020',          location: 'Bangalore',           category: 'Education' },
   { name: 'NPS Jakkur',                              year: 2022, yearLabel: '2022',          location: 'Bangalore',           category: 'Education' },
   { name: 'NPS Banashankari — Extensions & New Block', year: 2022, yearLabel: '2022',         location: 'Bangalore',           category: 'Education' },
-  { name: 'Good Shepherd International School — Interiors, Artwork & Signage', year: 2023, yearLabel: '2023', location: 'Ooty', category: 'Interiors' },
+  { slug: 'good-shepherds-intl.-school-revitalisation', name: 'Good Shepherd International School — Interiors, Artwork & Signage', year: 2023, yearLabel: '2023', location: 'Ooty', category: 'Interiors' },
   { name: 'Mother Theresa Public School',            year: 2020, yearLabel: '2020 – ongoing', location: 'Bangalore',          category: 'Education' }
+];
+
+// State for each `projectIndex` location, for the "where we've built" page.
+// A location missing here is listed under "Elsewhere in India" — Veloor is
+// left out on purpose until the office confirms which Veloor it is.
+export const placeStates = {
+  'Bangalore': 'Karnataka', 'Kengeri, Bangalore': 'Karnataka', 'HBR Layout · Kengeri · Sarjapur': 'Karnataka',
+  'Across Karnataka': 'Karnataka', 'Shikaripura': 'Karnataka', 'Shivamogga': 'Karnataka',
+  'Mangalore': 'Karnataka', 'Bagalkote': 'Karnataka',
+  'Salem': 'Tamil Nadu', 'Arani, Tamil Nadu': 'Tamil Nadu', 'Ooty': 'Tamil Nadu',
+  'Chittoor': 'Andhra Pradesh', 'Lonavala': 'Maharashtra', 'Goa': 'Goa',
+  'Bhubaneswar': 'Odisha', 'Palakkad': 'Kerala'
+};
+
+// Landing pages by type of school, worded the way school trustees search
+// (from blind searches run as trustees, Nov 2026). `rows` are projectIndex
+// names; only list a project where the site already says it is that type.
+// `intro` must stay factual; the writer can replace it with fuller copy.
+export const schoolTypes = [
+  { slug: 'residential-school-architects',
+    h1: 'Residential & boarding', h1em: 'school architects.',
+    title: 'Residential & Boarding School Architects in India',
+    nav: 'Residential & boarding schools',
+    description: 'Architects for residential and boarding schools: academic blocks, hostels, staff housing and sport on one campus. Boarding schools in Karnataka, Tamil Nadu, Andhra Pradesh and Maharashtra by Kumar & Swamy Architects, Bangalore.',
+    intro: 'A boarding school is a small town: classrooms, hostels, dining, staff housing, sport and a day that runs from morning study to lights out. We have designed residential schools for more than twenty years, for schools teaching the IB, the Canadian curriculum and others, on campuses of up to 50 acres.',
+    rows: ['The Canadian International School', 'Amaatra Academy', 'The Cathedral Vidya School', 'Tejas International Residential School', 'Kumudvati Residential School', 'PES Engineering College & Residential School', 'Chittoor Residential School, PES Institutions', 'ARRS Residential School', 'Good Shepherd International School — Interiors, Artwork & Signage'] },
+  { slug: 'international-school-architects',
+    h1: 'International & IB', h1em: 'school architects.',
+    title: 'International & IB School Architects in Bangalore',
+    nav: 'International & IB schools',
+    description: 'Architects for international and IB schools in Bangalore and across India, from Mallya Aditi International School (one of Bangalore’s first) to United World Academy and Vidya Cathedral School.',
+    intro: 'Our first school, Mallya Aditi International School, was one of Bangalore’s first international schools. Since then we have designed international schools teaching the IB, the Canadian curriculum and other international programmes, planned around how each one teaches.',
+    rows: ['The Mallya Aditi School', 'The Canadian International School', 'United World Academy', 'The Cathedral Vidya School', 'Good Shepherd International School — Interiors, Artwork & Signage'] },
+  { slug: 'school-campus-master-planning',
+    h1: 'School campus', h1em: 'master planning.',
+    title: 'School Campus Master Planning — Architects in Bangalore',
+    nav: 'Campus master planning',
+    description: 'School and education campus master planning by Kumar & Swamy Architects: campuses of 10 to 200 acres, planned in phases, with schools, colleges, hostels and sport.',
+    intro: 'Large school campuses are built over years, not at once. We plan the whole site first, then each phase so it works on its own while the campus grows: academic blocks, hostels, sport, landscape and the roads between them.',
+    minAcres: 10, rows: ['Sahyadri Engineering College'] },
+  { slug: 'school-extension-renovation-architects',
+    h1: 'School extensions', h1em: '& renovation.',
+    title: 'School Extension & Renovation Architects in Bangalore',
+    nav: 'Extensions & renovation',
+    description: 'Architects for school extensions, new academic blocks and renovation in Bangalore and beyond: new blocks, upgrades and campus-wide redesigns for schools that are already running.',
+    intro: 'Most schools grow on a site that is already in use. Our extension and renovation work includes a new extension at Mallya Aditi thirty years after the original, extensions and a new block at NPS Banashankari, and a two-year redesign of Good Shepherd International School in Ooty.',
+    posts: ['reinterpreting-our-very-first-school', 'the-case-for-adaptive-reuse-in-india'],
+    rows: ['The Mallya Aditi School', 'NPS Banashankari — Extensions & New Block', 'Good Shepherd International School — Interiors, Artwork & Signage'] },
 ];
 
 // Capability keywords shown under the hero title (also strong SEO signals).

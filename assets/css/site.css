@@ -541,3 +541,14 @@ h3.jz-dl__k { margin: 0; font-weight: 400; font-size: 10px; }
 a.jz-row { color: inherit; text-decoration: none; }
 .jz-credits { margin-top: 18px; display: flex; flex-direction: column; gap: 6px; }
 .jz-phead__intro a, .jz-band__side .jz-body-copy a { color: var(--jz-blue); text-decoration: underline; text-underline-offset: 2px; }
+
+/* Fact tables on the school pages (project, place, year, site, built-up, students). */
+.jz-tablewrap { overflow-x: auto; border: 1.5px solid var(--jz-ink); background: var(--jz-plate); }
+.jz-table { width: 100%; border-collapse: collapse; font-family: var(--jz-body); font-size: 13px; line-height: 1.45; }
+.jz-table th, .jz-table td { text-align: left; padding: 11px 14px; border-bottom: 1px solid rgba(27, 26, 23, 0.25); vertical-align: top; }
+.jz-table thead th { font-family: var(--jz-mono); font-size: 9.5px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--jz-blue); border-bottom: 1px solid var(--jz-ink); white-space: nowrap; }
+.jz-table tbody th { font-family: var(--jz-disp); font-weight: 700; font-size: 17px; line-height: 1.1; }
+.jz-table tbody th a { color: var(--jz-ink); text-decoration: underline; text-decoration-color: rgba(46, 78, 126, 0.4); text-underline-offset: 3px; }
+.jz-table tbody th a:hover { color: var(--jz-blue); }
+.jz-table tbody tr:last-child > * { border-bottom: 0; }
+.jz-table td:nth-child(3), .jz-table td:nth-child(4), .jz-table td:nth-child(5), .jz-table td:nth-child(6) { white-space: nowrap; }

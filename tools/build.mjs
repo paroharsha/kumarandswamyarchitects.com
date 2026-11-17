@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
-import { site, nav, categories, projects, projectIndex, specialties, services, founder, team, approach, studio, roles, posts, journalNotes } from './data.mjs';
+import { site, nav, categories, projects, projectIndex, placeStates, schoolTypes, specialties, services, founder, team, approach, studio, roles, posts, journalNotes } from './data.mjs';
 import { sketch } from './sketches.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -556,7 +556,7 @@ function buildProjectDetail(p, i) {
       </div>
     </div>
   </div>`;
-  w(`projects/${p.slug}.html`, layout({ title: `${p.name} — ${p.category} Architecture, ${p.location} | ${site.shortName}`, description: `${p.name}, ${p.location} (${p.year}) — ${p.category.toLowerCase()} architecture by Kumar & Swamy Architects. ${p.brief}`, pathRel: `projects/${p.slug}`, depth: 1, bodyClass: 'jz', bare: true, main, extraLd: ld, ogType: 'article', image: `assets/img/projects/${p.slug}.jpg`, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Projects', path: 'projects' }, { name: p.name, path: `projects/${p.slug}` }] }));
+  w(`projects/${p.slug}.html`, layout({ title: `${p.name}, ${p.location} — Architects: ${site.name}`, description: `${p.name}, ${p.location} (${p.year}) was designed by Kumar & Swamy Architects, Bangalore. ${p.brief}`, pathRel: `projects/${p.slug}`, depth: 1, bodyClass: 'jz', bare: true, main, extraLd: ld, ogType: 'article', image: `assets/img/projects/${p.slug}.jpg`, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Projects', path: 'projects' }, { name: p.name, path: `projects/${p.slug}` }] }));
 }
 
 // ---------- ABOUT / STUDIO ----------
@@ -814,6 +814,22 @@ ${designRows.map(([k, v]) => `          <div class="jz-dl__row"><div class="jz-d
       </section>
 
       <section class="jz-sec">
+        <div class="jz-sec__head"><div><div class="jz-eyebrow jz-eyebrow--sec">By type of school</div><h2 class="jz-h2">Find work <em>like yours.</em></h2></div></div>
+        <div class="jz-rows">${schoolTypes.map(t => `
+          <a class="jz-row" href="${t.slug}">
+            <div class="jz-row__n">→</div>
+            <div class="jz-row__name">${esc(t.nav)}</div>
+            <div class="jz-row__blurb">${esc(t.description)}</div>
+          </a>`).join('')}
+          <a class="jz-row" href="${PLACES_PATH}">
+            <div class="jz-row__n">→</div>
+            <div class="jz-row__name">Karnataka &amp; across India</div>
+            <div class="jz-row__blurb">Every school and college we have designed, grouped by state.</div>
+          </a>
+        </div>
+      </section>
+
+      <section class="jz-sec">
         <div class="jz-band">
           <div><div class="jz-eyebrow jz-eyebrow--sec">Approach</div><h2 class="jz-h2">The school <em>comes first.</em></h2></div>
           <div class="jz-band__side">
@@ -825,13 +841,8 @@ ${designRows.map(([k, v]) => `          <div class="jz-dl__row"><div class="jz-d
 
       <section class="jz-sec">
         <div class="jz-sec__head"><div><div class="jz-eyebrow jz-eyebrow--sec">The record · ${record.length} schools &amp; colleges</div><h2 class="jz-h2">Every school, <em>by year.</em></h2></div></div>
-        <div class="jz-rows">${record.map(r => `
-          <div class="jz-row">
-            <div class="jz-row__n">${esc(r.yearLabel)}</div>
-            <div class="jz-row__name">${esc(r.name)}</div>
-            <div class="jz-row__blurb">${esc(r.location)}</div>
-          </div>`).join('')}
-        </div>
+        ${factTable([...record].sort((a, b) => a.year - b.year))}
+        <p class="jz-covers" style="margin-top:16px"><a href="${PLACES_PATH}">By state: Karnataka and across India →</a></p>
       </section>
 
       <section class="jz-sec" style="border-bottom:0">
@@ -858,6 +869,163 @@ ${faq.map(([k, v]) => `          <div class="jz-dl__row"><h3 class="jz-dl__k">${
     description: `School architects in Bangalore since the early 1990s: day and residential K–12 schools, campus masterplans, extensions and interiors for CBSE, IB and Montessori schools. ${record.length} schools and colleges across India.`,
     pathRel: SCHOOLS_PATH, bodyClass: 'jz', bare: true, main, extraLd: ld,
     breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Services', path: 'services' }, { name: 'School architects in Bangalore', path: SCHOOLS_PATH }]
+  }));
+}
+
+// ---------- SCHOOL TYPE PAGES + WHERE WE'VE BUILT ----------
+// Pages by type of school (schoolTypes in data.mjs) and by state. Each is a
+// table of real projects with the facts trustees compare: site, built-up
+// area, students. No page is made for a single town — one project per page
+// would be a doorway page.
+const PLACES_PATH = 'school-architects-karnataka';
+const andList = (xs) => xs.length < 2 ? xs.join('') : xs.slice(0, -1).join(', ') + ' and ' + xs[xs.length - 1];
+const projectBySlug = Object.fromEntries(projects.map(p => [p.slug, p]));
+const statValue = (p, label) => {
+  const v = p && (p.stats || []).find(s => s.label === label)?.value;
+  return v && v !== 'Various' ? v : '';
+};
+const acres = (p) => parseFloat((statValue(p, 'Site area').match(/[\d.]+/) || [])[0]) || 0;
+function factTable(rows, depth = 0) {
+  return `<div class="jz-tablewrap"><table class="jz-table">
+          <thead><tr><th scope="col">Project</th><th scope="col">Place</th><th scope="col">Year</th><th scope="col">Site</th><th scope="col">Built-up</th><th scope="col">Students</th></tr></thead>
+          <tbody>${rows.map(r => {
+            const p = r.slug && projectBySlug[r.slug];
+            const name = p ? `<a href="${rel(depth, 'projects/' + r.slug)}">${esc(r.name)}</a>` : esc(r.name);
+            return `
+            <tr><th scope="row">${name}</th><td>${esc(r.location)}</td><td>${esc(r.yearLabel)}</td><td>${esc(statValue(p, 'Site area'))}</td><td>${esc(statValue(p, 'Built-up area'))}</td><td>${esc(statValue(p, 'Capacity'))}</td></tr>`;
+          }).join('')}
+          </tbody></table></div>`;
+}
+const schoolPageLinks = (current) => [
+  { href: SCHOOLS_PATH, label: 'School architects in Bangalore' },
+  ...schoolTypes.map(t => ({ href: t.slug, label: t.nav })),
+  { href: PLACES_PATH, label: 'Schools across Karnataka & India' },
+].filter(l => l.href !== current);
+function relatedLinksHtml(current) {
+  return `<p class="jz-covers"><b>More school work</b> — ${schoolPageLinks(current).map(l => `<a href="${l.href}">${esc(l.label)}</a>`).join(' · ')}</p>`;
+}
+const startCta = `<div class="jz-body-copy"><p>Tell us the type of school, the location, the site area, how many students you plan for and your timeline. Write to <a href="mailto:${site.email}">${esc(site.email)}</a> or call ${esc(site.phones[0].label)}.</p></div>`;
+
+function buildSchoolTypes() {
+  for (const t of schoolTypes) {
+    const named = new Set(t.rows);
+    const rows = projectIndex
+      .filter(r => named.has(r.name) || (t.minAcres && r.slug && isSchool(projectBySlug[r.slug]) && acres(projectBySlug[r.slug]) >= t.minAcres))
+      .sort((a, b) => a.year - b.year);
+    const featured = rows.map(r => r.slug && projectBySlug[r.slug]).filter(Boolean);
+    const relPosts = (t.posts || []).map(s => posts.find(p => p.slug === s)).filter(Boolean);
+    const main = `${jzChrome(clip(t.nav, 30), 'E-' + String(schoolTypes.indexOf(t) + 3).padStart(2, '0'), 'services', 0)}
+  <div class="jz-scroll">
+    <div class="jz-wrap jz-wrap--wide">
+      <header class="jz-phead">
+        <div>
+          <div class="jz-eyebrow">School architecture · ${esc(site.name)}</div>
+          <h1 class="jz-h1">${esc(t.h1)} <em>${esc(t.h1em)}</em></h1>
+        </div>
+        <p class="jz-lede jz-phead__intro">${esc(t.intro)}</p>
+      </header>
+
+      <section class="jz-sec">
+        <div class="jz-sec__head"><div><div class="jz-eyebrow jz-eyebrow--sec">The record · ${rows.length} projects</div><h2 class="jz-h2">At a <em>glance.</em></h2></div></div>
+        ${factTable(rows)}
+      </section>
+${featured.length ? `
+      <section class="jz-sec">
+        <div class="jz-sec__head"><div><div class="jz-eyebrow jz-eyebrow--sec">Project sheets</div><h2 class="jz-h2">Selected <em>work.</em></h2></div><a class="jz-morelink" href="${SCHOOLS_PATH}">All our schools →</a></div>
+        <div class="jz-works">${featured.map(p => `
+          <a class="jz-work" href="projects/${p.slug}">
+            <div class="jz-work__img">${projFill(p)}</div>
+            <div class="jz-work__body">
+              <div class="jz-work__meta"><span>${esc(p.location)}</span><span class="dim">${p.year}</span></div>
+              <div class="jz-work__name">${esc(p.name)}</div>
+              <div class="jz-row__blurb">${esc(p.brief)}</div>
+            </div>
+          </a>`).join('')}
+        </div>
+      </section>` : ''}
+${relPosts.length ? `
+      <section class="jz-sec">
+        <div class="jz-sec__head"><div><div class="jz-eyebrow jz-eyebrow--sec">From the journal</div><h2 class="jz-h2">Further <em>reading.</em></h2></div></div>
+        <div class="jz-rows">${relPosts.map(p => `
+          <a class="jz-row" href="post/${p.slug}">
+            <div class="jz-row__n">${esc(p.date)}</div>
+            <div class="jz-row__name">${esc(p.title)}</div>
+            <div class="jz-row__blurb">${esc(p.excerpt)}</div>
+          </a>`).join('')}
+        </div>
+      </section>` : ''}
+      <section class="jz-sec" style="border-bottom:0">
+        <div class="jz-band">
+          <div><div class="jz-eyebrow jz-eyebrow--sec">Start a conversation</div><h2 class="jz-h2">Planning a <em>school?</em></h2></div>
+          <div class="jz-band__side">
+            ${startCta}
+            <a class="jz-btn jz-btn--blue" href="contact-kumar-swamy-architect">Get in touch →</a>
+            ${relatedLinksHtml(t.slug)}
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>`;
+    const ld = {
+      '@type': 'CollectionPage', '@id': `${site.domain}/${t.slug}`, url: `${site.domain}/${t.slug}`,
+      name: `${t.title} — ${site.name}`, about: { '@id': PRO_ID }, isPartOf: { '@id': site.domain + '/#website' },
+      mainEntity: { '@type': 'ItemList', numberOfItems: rows.length, itemListElement: rows.map((r, n) => ({ '@type': 'ListItem', position: n + 1, name: r.name, ...(r.slug ? { url: `${site.domain}/projects/${encodeURI(r.slug)}` } : {}) })) },
+      _cur: 'services'
+    };
+    w(`${t.slug}.html`, layout({
+      title: `${t.title} | ${site.name}`, description: t.description,
+      pathRel: t.slug, bodyClass: 'jz', bare: true, main, extraLd: ld,
+      breadcrumbs: [{ name: 'Home', path: '' }, { name: 'School architects in Bangalore', path: SCHOOLS_PATH }, { name: t.nav, path: t.slug }]
+    }));
+  }
+}
+
+function buildPlaces() {
+  const schoolRows = projectIndex.filter(r => r.category === 'Education' || /school|college/i.test(r.name));
+  const groups = {};
+  for (const r of schoolRows) (groups[placeStates[r.location] || 'Elsewhere in India'] ??= []).push(r);
+  const order = Object.keys(groups).sort((a, b) => (a === 'Karnataka' ? -1 : b === 'Karnataka' ? 1 : a === 'Elsewhere in India' ? 1 : b === 'Elsewhere in India' ? -1 : groups[b].length - groups[a].length));
+  const states = order.filter(s => s !== 'Elsewhere in India');
+  const ka = groups['Karnataka'] || [];
+  const kaTowns = [...new Set(ka.map(r => r.location.replace(/^.*·.*$/, 'Bangalore').replace(/^Kengeri, /, '')))];
+  const main = `${jzChrome('Where we’ve built', 'E-07', 'services', 0)}
+  <div class="jz-scroll">
+    <div class="jz-wrap jz-wrap--wide">
+      <header class="jz-phead">
+        <div>
+          <div class="jz-eyebrow">School architecture · Where we’ve built</div>
+          <h1 class="jz-h1">School architects <em>in Karnataka &amp; across India.</em></h1>
+        </div>
+        <p class="jz-lede jz-phead__intro">From our studio in Bangalore we have designed ${schoolRows.length} schools and colleges: ${ka.length} in Karnataka (${andList(kaTowns)}) and others in ${andList(states.filter(s => s !== 'Karnataka'))}.</p>
+      </header>
+${order.map(state => `
+      <section class="jz-sec">
+        <div class="jz-sec__head"><div><div class="jz-eyebrow jz-eyebrow--sec">${groups[state].length} ${groups[state].length === 1 ? 'project' : 'projects'}</div><h2 class="jz-h2">${esc(state)}</h2></div>${state === 'Karnataka' ? `<a class="jz-morelink" href="${SCHOOLS_PATH}">Bangalore →</a>` : ''}</div>
+        ${factTable(groups[state].sort((a, b) => a.year - b.year))}
+      </section>`).join('')}
+      <section class="jz-sec" style="border-bottom:0">
+        <div class="jz-band">
+          <div><div class="jz-eyebrow jz-eyebrow--sec">Start a conversation</div><h2 class="jz-h2">Building <em>outside Bangalore?</em></h2></div>
+          <div class="jz-band__side">
+            ${startCta}
+            <a class="jz-btn jz-btn--blue" href="contact-kumar-swamy-architect">Get in touch →</a>
+            ${relatedLinksHtml(PLACES_PATH)}
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>`;
+  const ld = {
+    '@type': 'CollectionPage', '@id': `${site.domain}/${PLACES_PATH}`, url: `${site.domain}/${PLACES_PATH}`,
+    name: `School architects in Karnataka & across India — ${site.name}`, about: { '@id': PRO_ID }, isPartOf: { '@id': site.domain + '/#website' },
+    spatialCoverage: states.map(name => ({ '@type': 'AdministrativeArea', name })),
+    _cur: 'services'
+  };
+  w(`${PLACES_PATH}.html`, layout({
+    title: `School Architects in Karnataka & Across India | ${site.name}`,
+    description: `${schoolRows.length} schools and colleges designed by Kumar & Swamy Architects: ${ka.length} in Karnataka (${andList(kaTowns)}) and others in ${andList(states.filter(s => s !== 'Karnataka'))}.`,
+    pathRel: PLACES_PATH, bodyClass: 'jz', bare: true, main, extraLd: ld,
+    breadcrumbs: [{ name: 'Home', path: '' }, { name: 'School architects in Bangalore', path: SCHOOLS_PATH }, { name: 'Karnataka & across India', path: PLACES_PATH }]
   }));
 }
 
@@ -1238,6 +1406,8 @@ function agentSummary() {
     intro: `> ${site.description}`,
     pages: [
       `- [School architects in Bangalore](${u(SCHOOLS_PATH)}): the practice's school and campus work, every school by year, and how to start a project`,
+      ...schoolTypes.map(t => `- [${t.title}](${u(t.slug)}): ${t.description}`),
+      `- [School architects in Karnataka & across India](${u(PLACES_PATH)}): every school and college the practice has designed, by state, with site area, built-up area and students`,
       `- [Services](${u('services')}): the eight sectors the practice designs for, with example projects`,
       `- [Projects](${u('projects')}): ${projects.length} featured projects with location, year, site and built-up area`,
       `- [About us](${u('about')}): founder C R Shivakumar, the partners and the design approach`,
@@ -1330,6 +1500,8 @@ function buildSeoFiles() {
     { u: 'projects', p: '0.9', f: 'monthly' },
     { u: 'services', p: '0.8', f: 'monthly' },
     { u: SCHOOLS_PATH, p: '0.9', f: 'monthly' },
+    ...schoolTypes.map(t => ({ u: t.slug, p: '0.8', f: 'monthly' })),
+    { u: PLACES_PATH, p: '0.8', f: 'monthly' },
     { u: 'about', p: '0.7', f: 'yearly' },
     ...team.map(m => ({ u: m.slug, p: '0.6', f: 'monthly', img: exists(`assets/img/team/${m.photo}.jpg`) ? `assets/img/team/${m.photo}.jpg` : null, cap: `${m.name}, ${m.role}, ${site.name}` })),
     { u: 'blog', p: '0.7', f: 'weekly' },
@@ -1410,6 +1582,8 @@ buildAbout();
 buildPeople();
 buildServices();
 buildSchools();
+buildSchoolTypes();
+buildPlaces();
 buildContact();
 buildApply();
 buildBlog();
