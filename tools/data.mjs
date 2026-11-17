@@ -642,6 +642,17 @@ export const studio = {
   ]
 };
 
+// Community work shown on the Studio page. Only confirmed facts: no building
+// was designed; the firm spent time with children being treated for cancer.
+export const community = {
+  name: 'Samiksha Foundation',
+  body: [
+    'Not all of our work ends in a building. As part of the practice\u2019s charity work, our team spent time with children being treated for cancer through the Samiksha Foundation. We didn\u2019t design or build anything: the point was simply to be there with the children.',
+  ],
+  caption: 'Children\u2019s paintings, Samiksha Foundation, November 2019',
+  photos: 6,
+};
+
 export const roles = [
   { n: '01', title: 'Junior Architect', blurb: 'For early-career architects ready to take on real design responsibility within small, mentored teams.' },
   { n: '02', title: 'Internship', blurb: 'For students and recent graduates seeking hands-on studio experience across live projects.' },

@@ -6,7 +6,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { site, nav, categories, projects, projectIndex, placeStates, schoolTypes, specialties, services, founder, team, approach, studio, roles, posts, journalNotes } from './data.mjs';
+import { community, site, nav, categories, projects, projectIndex, placeStates, schoolTypes, specialties, services, founder, team, approach, studio, roles, posts, journalNotes } from './data.mjs';
 import { sketch } from './sketches.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -659,6 +659,19 @@ function buildAbout() {
           <div class="jz-band__side">
             <div class="jz-body-copy">${studio.body.map(t => `<p>${esc(t)}</p>`).join('')}</div>
             <a href="applytowork" class="jz-btn jz-btn--blue">Work with us →</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="jz-sec">
+        <div class="jz-band">
+          <div><div class="jz-eyebrow jz-eyebrow--sec">Community · ${esc(community.name)}</div><h2 class="jz-h2">Beyond <em>the studio.</em></h2></div>
+          <div class="jz-band__side">
+            <div class="jz-body-copy">${community.body.map(t => `<p>${esc(t)}</p>`).join('')}</div>
+            <figure class="jz-artgrid">
+              ${Array.from({ length: community.photos }, (_, n) => `<img src="assets/img/community/samiksha/${n + 1}.jpg" alt="${esc(community.caption)}, ${n + 1}" loading="lazy" decoding="async">`).join('')}
+              <figcaption>${esc(community.caption)}</figcaption>
+            </figure>
           </div>
         </div>
       </section>
