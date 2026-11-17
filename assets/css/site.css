@@ -323,6 +323,7 @@ body.jz main { display: block; }
 .jz-work:hover { box-shadow: 6px 6px 0 rgba(27, 26, 23, 0.16); }
 .jz-work__img { height: 186px; border-bottom: 1px solid var(--jz-ink); overflow: hidden; background: #EFE8DB; }
 .jz-work__img img, .jz-work__img .ks-sketch { width: 100%; height: 100%; object-fit: cover; display: block; }
+.jz-work__img--sq { height: auto; aspect-ratio: 1 / 1; }
 .jz-work__body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; }
 .jz-work__meta { display: flex; justify-content: space-between; gap: 10px; font-family: var(--jz-mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--jz-blue); }
 .jz-work__meta .dim { color: rgba(27, 26, 23, 0.55); }

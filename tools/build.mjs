@@ -590,7 +590,7 @@ function buildProjectDetail(p, i) {
 function buildAbout() {
   const teamCards = team.map((m, i) => `
         <a class="jz-work" href="${m.slug}">
-          <div class="jz-work__img">${media(`assets/img/team/${m.photo}.jpg`, { ratio: '1/1', alt: `${m.name}, ${m.role.toLowerCase()} at ${site.name}` })}</div>
+          <div class="jz-work__img jz-work__img--sq">${media(`assets/img/team/${m.photo}.jpg`, { ratio: '1/1', alt: `${m.name}, ${m.role.toLowerCase()} at ${site.name}` })}</div>
           <div class="jz-work__body">
             <div class="jz-work__meta"><span>T-${String(i + 1).padStart(2, '0')}</span><span class="dim">${esc(m.role)}</span></div>
             <div class="jz-work__name">${esc(m.name)}</div>
