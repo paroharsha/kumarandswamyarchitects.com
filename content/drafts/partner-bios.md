@@ -57,7 +57,7 @@ She writes for the firm's journal on cities and policy, including *Designing for
 Outside architecture, Paromita is a digital and mixed-media artist. Her work is at paroharsha.com.
 
 - **Focus:** educational and commercial architecture, art and design
-- **Education:** **[? B.Arch, college, year]**; certificate in modern art, MoMA
+- **Education:** MSt in Sustainability Leadership for the Built Environment, University of Cambridge (CISL, Wolfson College), expected 2028; certificate in modern art, MoMA
 - **Teaching:** Bangalore School of Design (interior design, art history)
 - **Links:** paroharsha.com
 - **Journal:** Designing for a Billion; The Case for Adaptive Reuse in India
