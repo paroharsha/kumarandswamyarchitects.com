@@ -110,7 +110,7 @@ export const categories = ['All', 'Education', 'Campus', 'Sport', 'Revitalisatio
 //   sections  [{ h: 'The brief', body: `paragraphs…` }, …] — headed sections under
 //             the overview. See the writing guide in the PR for the headings to use.
 export const projects = [
-  { slug: 'mallya-aditi-international-school', name: 'Mallya Aditi International School', location: 'Bangalore, Karnataka', year: 1990, category: 'Education', sketch: 'courtyard', featured: true,
+  { slug: 'mallya-aditi-international-school', name: 'Mallya Aditi International School', location: 'Bangalore, Karnataka', year: 1991, category: 'Education', sketch: 'courtyard', featured: true,
     brief: "Our first school: a campus of connected courtyards in place of corridors, with every classroom open to light and air.",
     overview: `Built on a five-acre site in Yelahanka, in north Bangalore, Mallya Aditi International School was our first school and our first venture into institutional architecture. We won the commission through a design competition in 1990, and the campus was conceived to hold 600 students across just over one lakh square feet of built space. It was among the first international schools in Bangalore, at a time when the city had few precedents for what such a school should look or feel like. That absence of a template turned out to be a gift: it let us ask, from first principles, what a child's day at school should be like.
 
@@ -126,7 +126,7 @@ In 2021, three decades after the school first opened, we returned to add a first
 
 Revisiting our first school after thirty years was a rare privilege. It confirmed that the core idea — a school built around open, connected courtyards rather than corridors — has aged well, and that a building designed around how children actually move, gather and learn can keep serving them for generations.`,
     stats: [{ label: 'Site area', value: '5 acres' }, { label: 'Built-up area', value: '1,00,000 sft' }, { label: 'Capacity', value: '600' }] },
-  { slug: 'canadian-international-school', name: 'Canadian International School', location: 'Bangalore, Karnataka', year: 2006, category: 'Education', sketch: 'linear', featured: true,
+  { slug: 'canadian-international-school', name: 'Canadian International School', location: 'Bangalore, Karnataka', year: 2004, category: 'Education', sketch: 'linear', featured: true,
     brief: "A 14-acre residential IB campus in Yelahanka, roofed in a bespoke blue Mangalore tile made to match the school's logo.",
     overview: `Set on a 14-acre campus in Yelahanka, in north Bangalore, Canadian International School is a residential school offering the Canadian curriculum to around 600 students. The school was founded in 1996 and moved to this campus, which we designed, in 2006. It was one of the first residential schools we designed, and it asked a different question of us: how do you design a place where children not only learn, but live?
 
@@ -144,7 +144,7 @@ That idea — that a school's identity should be legible in its buildings, not o
 
 The project also gave us early experience of the particular demands of residential education: planning for pastoral care as well as teaching, for evenings and weekends as well as school hours, and for a community of students and staff who live together on one site. It is experience we have drawn on in many residential campuses since, from The Cathedral Vidya School in Lonavala to Amaatra Academy in Bangalore.`,
     stats: [{ label: 'Site area', value: '14 acres' }, { label: 'Built-up area', value: '2,50,000 sft' }, { label: 'Capacity', value: '600' }] },
-  { slug: "sri-kumarans-children's-home", name: 'Sri Kumarans Children’s Home', location: 'Bangalore, Karnataka', year: 2008, category: 'Education', sketch: 'linear',
+  { slug: "sri-kumarans-children's-home", name: 'Sri Kumarans Children’s Home', location: 'Bangalore, Karnataka', year: 2006, category: 'Education', sketch: 'linear',
     brief: "A 35-acre campus for 7,000 students, broken into smaller clusters of buildings and courts so a school the size of a town still feels knowable.",
     overview: `Sri Kumarans Children's Home occupies a 35-acre campus in Malasandra, on the northern edge of Bangalore. With around 7,000 students and a built-up area of roughly five lakh square feet, it is one of the largest schools in the city and one of the largest educational projects we have undertaken. The campus belongs to the Sri Kumaran group of institutions, whose first school opened in 1959, and it is home to both the group's CBSE and ICSE schools. Designing at that scale brings its own problems, and its own opportunities.
 
@@ -162,7 +162,7 @@ Because the campus houses both a CBSE and an ICSE school, it was planned to meet
 
 Since it opened, Sri Kumarans has grown into one of Bangalore's most prominent schools. For us, it showed that the principles we had developed on much smaller campuses — courtyards, daylight, clear movement and spaces scaled to children — hold true at a very large scale, as long as the plan is broken down into places that individual children can know and call their own.`,
     stats: [{ label: 'Site area', value: '35 acres' }, { label: 'Built-up area', value: '5,00,000 sft' }, { label: 'Capacity', value: '7000' }] },
-  { slug: 'amaatra-academy', name: 'Amaatra Academy', location: 'Bangalore, Karnataka', year: 2012, category: 'Education', sketch: 'courtyard', featured: true,
+  { slug: 'amaatra-academy', name: 'Amaatra Academy', location: 'Bangalore, Karnataka', year: 2008, category: 'Education', sketch: 'courtyard', featured: true,
     brief: "A residential college-preparatory academy for 1,600 students, zoned so that serious study and the ease of home sit side by side.",
     overview: `Amaatra Academy is a college preparatory school with residential facilities, established by the PES group of institutions in Bangalore. It occupies a nine-acre campus planned for 1,600 students, with a total built-up area of around 3.5 lakh square feet. Our relationship with PES goes back many years — we also masterplanned their 50-acre campus in Shimoga — and Amaatra was a chance to bring that experience to a school in the city.
 
@@ -196,7 +196,7 @@ The school was built to the Central Board of Secondary Education's affiliation n
 
 At Valiants, the building itself becomes part of the curriculum. Children are not only taught inside it; they learn from it — from the way its spaces are arranged, the way light moves through it, and the way it invites them to explore. It is one of the clearest expressions in our work of a belief that runs through all our educational projects: that architecture can be an active partner in how children learn.`,
     stats: [{ label: 'Site area', value: '5 acres' }, { label: 'Built-up area', value: '70,000 sft' }, { label: 'Capacity', value: '600' }] },
-  { slug: 'the-cathedral-vidya-school', name: 'The Cathedral Vidya School', location: 'Lonavala, Maharashtra', year: 2008, category: 'Education', sketch: 'pitched',
+  { slug: 'the-cathedral-vidya-school', name: 'The Cathedral Vidya School', location: 'Lonavala, Maharashtra', year: 2010, category: 'Education', sketch: 'pitched',
     brief: "A hillside IB school in the Western Ghats, its pitched roofs and buildings following the contours of the land.",
     overview: `Set in the hills of Lonavala, between Mumbai and Pune, The Cathedral Vidya School was a residential school on a 14-acre campus. It was set up as an affiliate of the Cathedral and John Connon School in Mumbai, one of the city's oldest schools, to bring that tradition to a new setting outside the city. We designed the campus for 1,200 students, with a built-up area of around three lakh square feet, purpose-built for the International Baccalaureate curriculum.
 
@@ -212,7 +212,7 @@ As a residential campus, the school also had to give its students comfortable pl
 
 With a generous allocation of space for every student, the campus gave each child access to everything a complete education requires, while keeping the calm, unhurried quality that a hill setting allows. The school closed in 2022, but the campus remains one of our clearest examples of how a demanding international curriculum and a demanding natural setting can come together in architecture that is rigorous in its programme, comfortable in its climate and deeply connected to its landscape.`,
     stats: [{ label: 'Site area', value: '14 acres' }, { label: 'Built-up area', value: '3,00,000 sft' }, { label: 'Capacity', value: '1200' }] },
-  { slug: 'pes-group-of-institutions', name: 'PES Group of Institutions', location: 'Shimoga, Karnataka', year: 2007, category: 'Campus', school: true, sketch: 'siteplan',
+  { slug: 'pes-group-of-institutions', name: 'PES Group of Institutions', location: 'Shimoga, Karnataka', year: 2006, category: 'Campus', school: true, sketch: 'siteplan',
     brief: "A 50-acre masterplan bringing an engineering college, a K-12 school, hostels and sport together, planned in phases so it could grow as one place.",
     overview: `The PES campus in Shimoga is a 50-acre masterplan that brings several institutions together on one site: an engineering college, a K-12 school, extensive sports facilities, two residential blocks, an auditorium, and private spaces for the client's own meetings. With a built-up area of around six lakh square feet, the campus serves some 4,500 people. It is one of the most ambitious masterplans we have undertaken, and the start of a long relationship with the PES group that later led to Amaatra Academy in Bangalore.
 
@@ -228,7 +228,7 @@ The two residential facilities give students and faculty a comfortable home on c
 
 Together, these elements make PES a complete educational environment, where students can move from early schooling through to higher education on one campus, supported by sport, culture and residential life. For us, the project showed the value of thinking at the scale of the masterplan: getting the big structure right first, so that each building, and each phase of growth, contributes to a campus that feels like a single, considered place.`,
     stats: [{ label: 'Site area', value: '50 acres' }, { label: 'Built-up area', value: '6,00,000 sft' }, { label: 'Capacity', value: '4500' }] },
-  { slug: 'tejas-international-school', name: 'Tejas International School', location: 'Bagalkote, Karnataka', year: 2016, category: 'Education', sketch: 'linear',
+  { slug: 'tejas-international-school', name: 'Tejas International School', location: 'Bagalkote, Karnataka', year: 2015, category: 'Education', sketch: 'linear',
     brief: "A school in one of Karnataka's hottest regions that stays up to 4°C cooler inside with no air conditioning, through deep shade, shaded courtyards and local stone.",
     overview: `Tejas International School is in Bagalkot, in north Karnataka, and is owned and managed by Mr. Murugesh Nirani. Its 14-acre campus holds around two lakh square feet of built space for 700 students. The school opened in 2017 as Tejas International Residential School, a CBSE school for both day scholars and boarders. Of all our schools, it is perhaps the one most shaped by its climate.
 
@@ -262,7 +262,7 @@ Making that contrast work required careful coordination. The rhythm of the exter
 
 Beyond the main building, the ten-acre campus provides room for sport, play and outdoor activity, giving the school's 1,500 students space to move, gather and grow. United World Academy is an unusual project in our portfolio, and a demonstration that a school can draw on very different architectural languages and still form a coherent, purposeful whole — one grounded in how its students learn.`,
     stats: [{ label: 'Site area', value: '10 acres' }, { label: 'Built-up area', value: '1,60,000 sft' }, { label: 'Capacity', value: '1500' }] },
-  { slug: 'wisdom-tree-global-school', name: 'Wisdom Tree Global School', location: 'Bhubaneswar, Odisha', year: 2020, category: 'Education', sketch: 'pitched',
+  { slug: 'wisdom-tree-global-school', name: 'Wisdom Tree Global School', location: 'Bhubaneswar, Odisha', year: 2019, category: 'Education', sketch: 'pitched',
     brief: "A 12-acre CBSE campus in Bhubaneswar where we designed the architecture, interiors and landscape as one, with incidental learning built in.",
     overview: `The DN Wisdom Tree Global School is set on a 12-acre campus at Sundarpur, on the quiet outskirts of Bhubaneswar in Odisha, and was inaugurated in 2022. It provides a learning environment for 1,600 students within a built-up area of around 1,60,000 square feet. It was also one of the most complete commissions we have taken on: beyond the architecture, we were responsible for the interior design and the landscape architecture of the whole campus.
 
@@ -282,7 +282,7 @@ The campus was built to CBSE's affiliation norms, with classrooms of at least 50
 
 Wisdom Tree reflects our belief that a school is more than a collection of classrooms. It is an environment that teaches — through its spaces, its landscape and its details — and when architecture, interiors and landscape are designed as one, that environment can be remarkably rich: a place where curiosity is encouraged at every turn, and where learning continues long after the lesson ends.`,
     stats: [{ label: 'Site area', value: '12 acres' }, { label: 'Built-up area', value: '1,60,000 sft' }, { label: 'Capacity', value: '1600' }] },
-  { slug: 'dempo-football-academy', name: 'Dempo Football Academy', location: 'Ella, Goa', year: 2018, category: 'Sport', sketch: 'stadium', featured: true,
+  { slug: 'dempo-football-academy', name: 'Dempo Football Academy', location: 'Ella, Goa', year: 2011, category: 'Sport', sketch: 'stadium', featured: true,
     brief: "A residential football academy in Goa, with a FIFA-size pitch and spectator pavilion, built economically in local laterite.",
     overview: `The Dempo Football Academy in Ella, Goa, was established under the vision of Mr. Srinivas Dempo, owner of Goa's ISL football team. Goa is one of India's great footballing states, with a passion for the game that runs deep in its towns and villages, and the academy was conceived to nurture the next generation of players. On a 12-acre site, it brings together an educational institution, a specialised football academy with advanced training facilities, a regulation FIFA-size pitch with a spectator pavilion, and a range of supporting amenities. The academy accommodates 120 students within a built-up area of around one lakh square feet. Its first phase opened in 2017, taking in its first intake of young players on full scholarship.
 
@@ -316,7 +316,7 @@ Kanteerva was drawn entirely by hand. When we marked fifty years of Kumar & Swam
 
 Since its completion, Kanteerva has hosted many of Karnataka's most significant athletics meets and sporting events, and it has become a cornerstone of the state's sporting infrastructure. Generations of athletes have trained and competed there, and countless spectators have watched from its stands. For us it remains a source of great pride: a building that has served its city for decades, and that still stands as a symbol of sporting excellence in the region.`,
     stats: [{ label: 'Site area', value: '7-8 acres' }, { label: 'Built-up area', value: '1,00,000 sft' }, { label: 'Capacity', value: '25,000' }] },
-  { slug: 'anthem-biosciences-campus', name: 'Anthem Biosciences Campus', location: 'Bangalore, Karnataka', year: 2005, category: 'Campus', sketch: 'tower',
+  { slug: 'anthem-biosciences-campus', name: 'Anthem Biosciences Campus', location: 'Bangalore, Karnataka', year: 2001, category: 'Campus', sketch: 'tower',
     brief: "A biosciences factory and office campus set in a landscaped masterplan, with daylight and green views wherever the work allows.",
     overview: `This five-acre campus in Bangalore houses the factory and offices of Anthem Biosciences, a contract research, development and manufacturing organisation that serves pharmaceutical and biotech companies. With a built-up area of around 60,000 square feet and space for some 300 people, it took a question we had long asked in schools into a new setting: how does the place where people spend their days affect how they feel, and how well they work?
 
@@ -334,7 +334,7 @@ Much of our practice is devoted to schools, where we design spaces that inspire 
 
 The Anthem campus demonstrates that an industrial facility does not need to look or feel industrial. With a thoughtful masterplan, a generous landscape and close attention to the experience of the people inside, a factory and office complex can become a genuinely good place to work — one that serves both the operational needs of the business and the wellbeing of the people who keep it running.`,
     stats: [{ label: 'Site area', value: '5 acres' }, { label: 'Built-up area', value: '60,000 sft' }, { label: 'Capacity', value: '300' }] },
-  { slug: 'sjr-public-schools', name: 'SJR Public Schools', location: 'Bangalore, Karnataka', year: 2010, category: 'Education', sketch: 'linear',
+  { slug: 'sjr-public-schools', name: 'SJR Public Schools', location: 'Bangalore, Karnataka', year: 2006, yearLabel: '2006–2010', category: 'Education', sketch: 'linear',
     brief: "Three compact city schools for over 4,000 students: multi-storey, daylit and robust enough for decades of heavy use.",
     overview: `This project brings together three SJR schools we designed across Bangalore. Each sits on a different site in a different part of the city, with its own scale and character, but they share a common purpose: to provide high-quality school buildings for large numbers of students on compact urban sites.
 
@@ -352,7 +352,7 @@ Each school was also built to the norms of its board: the Kengeri school to thos
 
 Schools like these play a vital role in a growing city. They serve large and diverse communities of families, and they shape the daily experience of thousands of children. For us, designing them matters as much as designing any landmark. The SJR schools show that good architecture does not depend on a generous site or a lavish budget. With careful planning and clear priorities, even a dense urban school can give its students daylight, fresh air, room to play and a building they can be proud of.`,
     stats: [{ label: 'Site area', value: 'Various' }, { label: 'Built-up area', value: 'Various' }, { label: 'Capacity', value: 'Various' }] },
-  { slug: 'national-public-school-', name: 'National Public School, Jalahalli', location: 'Bangalore, Karnataka', year: 2018, category: 'Education', sketch: 'courtyard',
+  { slug: 'national-public-school-', name: 'National Public School, Jalahalli', location: 'Bangalore, Karnataka', year: 2020, category: 'Education', sketch: 'courtyard',
     brief: "An understated CBSE school on a two-acre city site, organised vertically around clear circulation and daylit classrooms.",
     overview: `National Public School in Jalahalli, in north-west Bangalore, is a compact city school designed for 1,200 students. Its two-acre site holds a built-up area of around two lakh square feet — a far higher density than most of our campuses, and one that shaped every decision in the design.
 
@@ -372,7 +372,7 @@ The materials and detailing follow the same understated approach. Finishes were 
 
 National Public School, Jalahalli, is a reminder that not every school needs to be a statement. Sometimes the best answer to a brief is a building that does its job exceptionally well — clear in its planning, comfortable in its rooms and focused on the needs of students and teachers. On a compact urban site with a clear academic mission, that kind of disciplined, understated architecture is exactly what the school required.`,
     stats: [{ label: 'Site area', value: '2 acres' }, { label: 'Built-up area', value: '2,00,000 sft' }, { label: 'Capacity', value: '1200' }] },
-  { slug: 'good-shepherds-intl.-school-revitalisation', name: 'Good Shepherd’s International School', location: 'Ooty, Tamil Nadu', year: 2022, category: 'Revitalisation', sketch: 'pitched',
+  { slug: 'good-shepherds-intl.-school-revitalisation', name: 'Good Shepherd’s International School', location: 'Ooty, Tamil Nadu', year: 2023, category: 'Revitalisation', sketch: 'pitched',
     brief: "A child-centred revitalisation of a 180-acre residential school in the Nilgiris: new dormitory, dining and library interiors, and inclusive signage.",
     overview: `Good Shepherd International School in Ooty is one of India's premier residential schools. Its 180-acre campus in the Nilgiris holds a wide range of buildings and facilities for students and staff — more than 1,50,000 square feet of built space serving a community of around 850 students. Founded in 1977, the school spans two campuses: Fernhill, built around the former summer palace of the Maharaja of Baroda, for its youngest students, and Palada for the middle and senior school. When the school approached us, it was not to build a new campus but to rethink an existing one: to reimagine its spaces — its interiors and its signage — with a more child-centric approach.
 
@@ -384,7 +384,7 @@ Interiors came first. Many of the school's spaces had been designed for function
 
 Signage came second. Wayfinding is often overlooked, but on a large campus it shapes how confidently children move around. We developed a new signage system for the school, designed to be clear, legible and friendly, so that students — especially new and younger ones — can find their way without anxiety. Good signage also strengthens a school's identity, giving the campus a consistent visual language.
 
-Coming two years after the National Education Policy 2020, the work reflects the policy's focus on the wellbeing of the learner and on joyful, engaging places to learn. The new wayfinding in particular was designed to be inclusive, easy for every child to read and use, in keeping with the policy's emphasis on inclusion.
+Coming soon after the National Education Policy 2020, the work reflects the policy's focus on the wellbeing of the learner and on joyful, engaging places to learn. The new wayfinding in particular was designed to be inclusive, easy for every child to read and use, in keeping with the policy's emphasis on inclusion.
 
 The work was carried out over two years, with spaces across the campus redesigned in turn. Working within a functioning school requires careful phasing, so that changes can be made without disrupting the daily life of students and staff. We worked closely with the school throughout, fitting the programme around its calendar and priorities.
 
@@ -405,7 +405,7 @@ export const projectIndex = [
   { name: 'Commercial Complex, Koramangala',         year: 2002, yearLabel: '2002',          location: 'Bangalore',           category: 'Commercial' },
   { slug: 'canadian-international-school', name: 'The Canadian International School',       year: 2004, yearLabel: '2004',          location: 'Bangalore',           category: 'Education' },
   { slug: "sri-kumarans-children's-home", name: 'Sri Kumarans Children’s Home',            year: 2006, yearLabel: '2006',          location: 'Bangalore',           category: 'Education' },
-  { slug: 'sjr-public-schools', name: 'SJRC Group — Three Schools',              year: 2006, yearLabel: '2006–2010',     location: 'HBR Layout · Kengeri · Sarjapur', category: 'Education' },
+  { slug: 'sjr-public-schools', name: 'SJR Public Schools — Three Campuses',              year: 2006, yearLabel: '2006–2010',     location: 'HBR Layout · Kengeri · Sarjapur', category: 'Education' },
   { name: 'Kumudvati Residential School',            year: 2006, yearLabel: '2006',          location: 'Shikaripura',         category: 'Education' },
   { slug: 'pes-group-of-institutions', name: 'PES Engineering College & Residential School', year: 2006, yearLabel: '2006',     location: 'Shivamogga',          category: 'Campus' },
   { slug: 'amaatra-academy', name: 'Amaatra Academy',                         year: 2008, yearLabel: '2008',          location: 'Bangalore',           category: 'Education' },

@@ -247,7 +247,7 @@ function buildHome() {
   const works = projects.slice(0, 10).map(p => `
     <a href="projects/${p.slug}" class="home-c__scroll-card">
       ${proj(p, { ratio: '4/3' })}
-      <div class="meta"><span>${esc(p.location)}</span><span>${p.year}</span></div>
+      <div class="meta"><span>${esc(p.location)}</span><span>${yr(p)}</span></div>
       <div class="name">${esc(p.name)}</div>
     </a>`).join('');
   const svc = services.map(s => `
@@ -266,7 +266,7 @@ function buildHome() {
         <div class="jz-work__body">
           <div class="jz-work__meta"><span>P-${String(projects.indexOf(p) + 1).padStart(2, '0')}</span><span class="dim">${esc(p.category)}</span></div>
           <div class="jz-work__name">${esc(p.name)}</div>
-          <div class="jz-work__meta"><span class="dim">${esc(p.location)}</span><span class="dim">${p.year}</span></div>
+          <div class="jz-work__meta"><span class="dim">${esc(p.location)}</span><span class="dim">${yr(p)}</span></div>
         </div>
       </a>`).join('');
   const rt = (p) => esc(p.readTime.replace(/\s*read$/, ''));
@@ -351,7 +351,7 @@ function buildHome() {
           <div class="jz-photoplate__top"><span data-board="cat">${esc(feat.category)} · ${esc(feat.location)}</span><span data-board="ref2">Ref. ${featNo}</span></div>
           <div class="jz-photoplate__bot">
             <div class="jz-photoplate__name" data-board="name">${esc(feat.name)}</div>
-            <div class="jz-photoplate__meta"><span data-board="loc">${esc(feat.location)}</span><span data-board="year">${feat.year}</span><span>Built</span></div>
+            <div class="jz-photoplate__meta"><span data-board="loc">${esc(feat.location)}</span><span data-board="year">${yr(feat)}</span><span>Built</span></div>
           </div>
         </a>
         <script type="application/json" id="jz-board-data">${featJson}</script>
@@ -421,7 +421,7 @@ function buildProjects() {
           <div class="jz-work__body">
             <div class="jz-work__meta"><span>P-${String(i + 1).padStart(2, '0')}</span><span class="dim">${esc(p.category)}</span></div>
             <div class="jz-work__name">${esc(p.name)}</div>
-            <div class="jz-work__meta"><span class="dim">${esc(p.location)}</span><span class="dim">${p.year}</span></div>
+            <div class="jz-work__meta"><span class="dim">${esc(p.location)}</span><span class="dim">${yr(p)}</span></div>
           </div>
         </a>`).join('');
   const cnt = String(projects.length).padStart(2, '0');
@@ -488,6 +488,9 @@ function buildIndexPage() {
 }
 
 // ---------- PROJECT DETAIL ----------
+// display year: a range label where one exists (e.g. SJR 2006–2010), else the design year
+const yr = (p) => p.yearLabel || p.year;
+
 function buildProjectDetail(p, i) {
   const next = projects[(i + 1) % projects.length];
   const gallery = galleryImages(p.slug);
@@ -526,7 +529,7 @@ function buildProjectDetail(p, i) {
       <div class="jz-detail__title"><h1 class="jz-h1">${esc(p.name)}</h1></div>
       <div class="jz-metacells">
         <div><span class="k">Location</span><span class="v">${esc(p.location)}</span></div>
-        <div><span class="k">Year</span><span class="v">${p.year}</span></div>
+        <div><span class="k">Year</span><span class="v">${yr(p)}</span></div>
         <div><span class="k">Typology</span><span class="v">${esc(p.category)}</span></div>
         <div><span class="k">Status</span><span class="v">Built</span></div>
       </div>
@@ -551,7 +554,7 @@ function buildProjectDetail(p, i) {
       </div>
     </div>
   </div>`;
-  w(`projects/${p.slug}.html`, layout({ title: `${p.name}, ${p.location} — Architects: ${site.name}`, description: `${p.name}, ${p.location} (${p.year}) was designed by Kumar & Swamy Architects, Bangalore. ${p.brief}`, pathRel: `projects/${p.slug}`, depth: 1, bodyClass: 'jz', bare: true, main, extraLd: ld, ogType: 'article', image: `assets/img/projects/${p.slug}.jpg`, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Projects', path: 'projects' }, { name: p.name, path: `projects/${p.slug}` }] }));
+  w(`projects/${p.slug}.html`, layout({ title: `${p.name}, ${p.location} — Architects: ${site.name}`, description: `${p.name}, ${p.location} (${yr(p)}) was designed by Kumar & Swamy Architects, Bangalore. ${p.brief}`, pathRel: `projects/${p.slug}`, depth: 1, bodyClass: 'jz', bare: true, main, extraLd: ld, ogType: 'article', image: `assets/img/projects/${p.slug}.jpg`, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Projects', path: 'projects' }, { name: p.name, path: `projects/${p.slug}` }] }));
 }
 
 // ---------- ABOUT / STUDIO ----------
@@ -664,7 +667,7 @@ function buildPeople() {
         <a class="jz-work" href="projects/${p.slug}">
           <div class="jz-work__img">${projFill(p)}</div>
           <div class="jz-work__body">
-            <div class="jz-work__meta"><span>${esc(p.category)}</span><span class="dim">${p.year}</span></div>
+            <div class="jz-work__meta"><span>${esc(p.category)}</span><span class="dim">${yr(p)}</span></div>
             <div class="jz-work__name">${esc(p.name)}</div>
             <div class="jz-work__meta"><span class="dim">${esc(p.location)}</span></div>
           </div>
@@ -765,7 +768,7 @@ function buildSchools() {
         <a class="jz-work" href="projects/${p.slug}">
           <div class="jz-work__img">${projFill(p)}</div>
           <div class="jz-work__body">
-            <div class="jz-work__meta"><span>${esc(p.location)}</span><span class="dim">${p.year}</span></div>
+            <div class="jz-work__meta"><span>${esc(p.location)}</span><span class="dim">${yr(p)}</span></div>
             <div class="jz-work__name">${esc(p.name)}</div>
             <div class="jz-work__meta"><span class="dim">${[site_ && site_ !== 'Various' ? site_ : '', cap && cap !== 'Various' ? `${cap} students` : ''].filter(Boolean).join(' · ')}</span></div>
           </div>
@@ -931,7 +934,7 @@ ${featured.length ? `
           <a class="jz-work" href="projects/${p.slug}">
             <div class="jz-work__img">${projFill(p)}</div>
             <div class="jz-work__body">
-              <div class="jz-work__meta"><span>${esc(p.location)}</span><span class="dim">${p.year}</span></div>
+              <div class="jz-work__meta"><span>${esc(p.location)}</span><span class="dim">${yr(p)}</span></div>
               <div class="jz-work__name">${esc(p.name)}</div>
               <div class="jz-row__blurb">${esc(p.brief)}</div>
             </div>
@@ -1412,7 +1415,7 @@ function agentSummary() {
       `- [Privacy](${u('privacy')}): what the site collects and which third parties it uses`,
     ].join('\n'),
     services: services.map(s => `- [${s.name}](${u('services')}#${s.id}): ${s.blurb}`).join('\n'),
-    projects: projects.map(p => `- [${p.name}](${u('projects/' + encodeURI(p.slug))}): ${p.category}, ${p.location}, ${p.year}`).join('\n'),
+    projects: projects.map(p => `- [${p.name}](${u('projects/' + encodeURI(p.slug))}): ${p.category}, ${p.location}, ${yr(p)}`).join('\n'),
     people: team.map(m => `- [${m.name}](${u(m.slug)}): ${m.role}${m.alternateName.length ? ` (also written ${m.alternateName.join(', ')})` : ''}${m.summary ? `. ${m.summary}` : ''}`).join('\n'),
     posts: posts.map(p => `- [${p.title}](${u('post/' + p.slug)}): ${p.author}, ${p.date}. ${p.excerpt}`).join('\n'),
     contact,
