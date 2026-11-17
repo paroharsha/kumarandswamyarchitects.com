@@ -777,8 +777,8 @@ function buildSchools() {
         </a>`;
   }).join('');
   const designRows = [
-    ['Day & residential schools', `K–12 schools for a few hundred to several thousand students, including boarding campuses with hostels and staff housing: ${link('canadian-international-school')}, ${link('amaatra-academy')}, ${link('vidya-cathedral-school')}, ${link("sri-kumarans-children's-home")} (7,000 students).`],
-    ['Any curriculum', `CBSE, IB, the Canadian curriculum and Montessori — the plan follows the way each school teaches: ${link('valiants-academy')} (Montessori to grade 6, CBSE to grade 12), ${link('united-world-academy')} and ${link('vidya-cathedral-school')} (IB).`],
+    ['Day & residential schools', `K–12 schools for a few hundred to several thousand students, including boarding campuses with hostels and staff housing: ${link('canadian-international-school')}, ${link('amaatra-academy')}, ${link('the-cathedral-vidya-school')}, ${link("sri-kumarans-children's-home")} (7,000 students).`],
+    ['Any curriculum', `CBSE, IB, the Canadian curriculum and Montessori — the plan follows the way each school teaches: ${link('valiants-academy')} (Montessori to grade 6, CBSE to grade 12), ${link('united-world-academy')} and ${link('the-cathedral-vidya-school')} (IB).`],
     ['Campus masterplans', `Multi-institution campuses planned in phases, such as the 50-acre ${link('pes-group-of-institutions')} campus in Shimoga, with a K–12 school, an engineering college, hostels and an auditorium.`],
     ['Extensions & revitalisation', `New blocks and careful upgrades to working schools: <a href="post/reinterpreting-our-very-first-school">a new extension to Mallya Aditi</a>, thirty years after we designed it, and the campus-wide ${link('good-shepherds-intl.-school-revitalisation', 'revitalisation of Good Shepherd International School')}, Ooty.`],
     ['Climate-led design', `Shade, cross-ventilation and local materials before machines: at ${link('tejas-international-school')} in Bagalkote the interiors stay up to 4°C cooler than outside with no air conditioning.`],
@@ -1383,6 +1383,8 @@ ${entries.map(e => `  <url><loc>${site.domain}/${e.u}</loc><lastmod>${e.mod || s
 const redirects = [
   // Index of Works taken down for now → Projects (remove this line + restore buildIndexPage() to bring it back)
   { from: 'index-of-works.html', to: 'projects', depth: 0 },
+  // Project renamed (Vidya Cathedral → The Cathedral Vidya School)
+  { from: 'projects/vidya-cathedral-school.html', to: 'projects/the-cathedral-vidya-school', depth: 1 },
 ];
 function buildRedirects() {
   for (const r of redirects) {
