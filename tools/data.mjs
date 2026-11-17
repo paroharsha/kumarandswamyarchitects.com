@@ -679,7 +679,7 @@ export const posts = [
     excerpt: 'India’s urban population is projected to reach 820 million by 2051. How the National Building Code 2016 is rethinking our cities at scale.' },
   { slug: 'architecture-that-teaches-the-reality-of-designing-modern-educational-spaces', file: 'architecture-that-teaches.md',
     title: 'Architecture That Teaches: The Reality of Designing Modern Educational Spaces',
-    author: 'Kumar and Swamy Architects', date: 'Apr 8, 2026', readTime: '2 min read', sketch: 'courtyard',
+    author: 'Sanchali Harsha', date: 'Apr 8, 2026', readTime: '2 min read', sketch: 'courtyard',
     excerpt: 'Physical space is a silent partner in every classroom. Notes on the real-world challenges and rewards of designing modern educational spaces.' },
   { slug: 'inclusivity-in-architecture-design-without-bias', file: 'inclusivity-in-architecture.md',
     title: 'Inclusivity in Architecture — Design Without Bias',

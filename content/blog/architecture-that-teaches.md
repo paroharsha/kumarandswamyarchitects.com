@@ -1,6 +1,6 @@
 ---
 title: "Architecture That Teaches: The Reality of Designing Modern Educational Spaces"
-author: Kumar and Swamy Architects
+author: Sanchali Harsha
 date: Apr 8
 readTime: 2 min read
 ---
