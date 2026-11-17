@@ -183,7 +183,8 @@ const proServiceLd = {
 };
 const websiteLd = { '@type': 'WebSite', '@id': site.domain + '/#website', url: site.domain + '/', name: site.name, publisher: { '@id': PRO_ID }, inLanguage: 'en' };
 
-function layout({ title, description, pathRel, depth = 0, bodyClass = '', main, extraLd = null, ogType = 'website', image = 'assets/img/projects/amaatra-academy.jpg', breadcrumbs = null, bare = false, headExtra = '', robots = 'index, follow, max-image-preview:large', base = '' }) {
+function layout({ title, description, pathRel, depth = 0, bodyClass = '', main, extraLd = null, ogType = 'website', image = 'assets/img/projects/amaatra-academy.jpg', breadcrumbs = null, bare = false, headExtra = '', robots = 'index, follow, max-image-preview:large', base = '', cta = 'default' }) {
+  if (bare && cta !== false) main = withSiteFoot(main, depth, cta);
   const canonical = site.domain + '/' + pathRel;
   const imgAbs = /^https?:/.test(image) ? image : site.domain + '/' + image;
   const graph = [proServiceLd, websiteLd];
@@ -420,12 +421,6 @@ ${igSection}
       </section>
 
       <div class="jz-marquee" aria-hidden="true"><div class="jz-marquee__row">${marquee}</div></div>
-      <div class="jz-foot">
-        <div>${esc(site.address).replace(', Bengaluru', '<br>Bengaluru')}</div>
-        <div>${esc(site.email)}<br>${esc(site.phones[0].label)}</div>
-        <div><a href="${site.social.instagram}" target="_blank" rel="noopener">Instagram ↗</a><br><a href="${site.social.facebook}" target="_blank" rel="noopener">Facebook ↗</a></div>
-        <div>© 1969–2026 ${esc(site.name)}<br><a href="privacy">Privacy</a></div>
-      </div>
     </div>
   </div>`;
   w('index.html', layout({ title: `School & Institutional Architecture in Bangalore | ${site.name}`, description: site.description, pathRel: '', bodyClass: 'jz', bare: true, main }));
@@ -573,6 +568,13 @@ function buildProjectDetail(p, i) {
           return `<figure class="jz-drawing"><img src="${rel(1, src)}" alt="${esc(p.name)} — ${esc(cap || 'drawing ' + (n + 1))}" loading="lazy" decoding="async">${cap ? `<figcaption>${esc(cap)}</figcaption>` : ''}</figure>`;
         }).join('')}
       </section>` : ''}
+      ${(() => {
+        const about = posts.filter(x => (x.projects || []).includes(p.slug));
+        return about.length ? `<section class="jz-sec jz-related">
+        <div class="jz-eyebrow">From the journal · ${String(about.length).padStart(2, '0')}</div>
+        <div class="jz-related__list">${about.map(x => `<a class="jz-related__item" href="../post/${x.slug}"><span class="jz-related__k">${esc(x.date)}</span><span class="jz-related__t">${esc(x.title)}</span><span class="jz-related__p">${esc(x.excerpt)}</span><span class="ar">Read →</span></a>`).join('')}</div>
+      </section>` : '';
+      })()}
       <div class="jz-flip">
         <a class="prev" href="../projects">← Project index</a>
         <a class="next" href="${next.slug}">Next: ${esc(clip(next.name, 22))} →</a>
@@ -1165,7 +1167,7 @@ function buildContact() {
       </section>
     </div>
   </div>`;
-  w('contact-kumar-swamy-architect.html', layout({ title: `Contact — School & Campus Architects in Bangalore | ${site.shortName}`, description: `Contact Kumar & Swamy Architects, school and institutional architects in Bangalore — ${site.address}. ${site.email}.`, pathRel: 'contact-kumar-swamy-architect', bodyClass: 'jz', bare: true, main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Contact', path: 'contact-kumar-swamy-architect' }] }));
+  w('contact-kumar-swamy-architect.html', layout({ title: `Contact — School & Campus Architects in Bangalore | ${site.shortName}`, description: `Contact Kumar & Swamy Architects, school and institutional architects in Bangalore — ${site.address}. ${site.email}.`, pathRel: 'contact-kumar-swamy-architect', bodyClass: 'jz', bare: true, cta: 'contact', main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Contact', path: 'contact-kumar-swamy-architect' }] }));
 }
 
 // ---------- APPLY ----------
@@ -1221,7 +1223,7 @@ function buildApply() {
       </section>
     </div>
   </div>`;
-  w('applytowork.html', layout({ title: `Careers — Architecture Jobs in Bangalore | ${site.shortName}`, description: 'Work with Kumar & Swamy Architects in Bangalore. Open roles: Junior Architect, Internship, Interiors Architect — apply to join our institutional architecture studio.', pathRel: 'applytowork', bodyClass: 'jz', bare: true, main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Apply', path: 'applytowork' }] }));
+  w('applytowork.html', layout({ title: `Careers — Architecture Jobs in Bangalore | ${site.shortName}`, description: 'Work with Kumar & Swamy Architects in Bangalore. Open roles: Junior Architect, Internship, Interiors Architect — apply to join our institutional architecture studio.', pathRel: 'applytowork', bodyClass: 'jz', bare: true, cta: 'apply', main, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Apply', path: 'applytowork' }] }));
 }
 
 // ---------- BLOG INDEX + ARTICLES (the "drawing sheet" Journal zine) ----------
@@ -1301,6 +1303,59 @@ function jzChrome(sheetTitle, dwgNo, current, depth) {
     <div class="jz-title__dwg">Dwg no. ${esc(dwgNo)}</div>
   </div>`;
 }
+
+// ---------- SITE FOOT (closing prompt + footer, on every drawing sheet) ----------
+// Every page ends by pointing somewhere useful: a page-appropriate "next step"
+// prompt, then the practice's address, the site map and social links.
+const CTAS = {
+  default: { eyebrow: 'Next step', h: 'Planning a school or <em>campus?</em>',
+    p: 'Tell us about your institution — a new campus, an extension, a master plan or a renovation. Every project starts with a conversation.',
+    links: [['Get in touch →', 'contact-kumar-swamy-architect', 'jz-btn--blue'], ['See our work →', 'projects', '']] },
+  contact: { eyebrow: 'Before you write', h: 'See what we’ve <em>built.</em>',
+    p: 'Fifty-seven years of schools, campuses and institutions across India — have a look at the work, or read how we think about it.',
+    links: [['Our projects →', 'projects', 'jz-btn--blue'], ['School architecture →', SCHOOLS_PATH, ''], ['The journal →', 'blog', '']] },
+  apply: { eyebrow: 'Get to know us', h: 'Who you’d <em>work with.</em>',
+    p: 'Meet the partners and the studio, and see the kind of projects that cross our drawing boards.',
+    links: [['The studio →', 'about', 'jz-btn--blue'], ['Our projects →', 'projects', '']] }
+};
+function jzFoot(depth, cta) {
+  const c = CTAS[cta] || CTAS.default;
+  const links = [...nav, { label: 'School architecture', href: SCHOOLS_PATH }, { label: 'Privacy', href: 'privacy' }]
+    .map(it => `<a href="${rel(depth, it.href)}">${esc(it.label)}</a>`).join('');
+  return `
+      <section class="jz-cta">
+        <div>
+          <div class="jz-eyebrow jz-eyebrow--sec">${c.eyebrow}</div>
+          <h2 class="jz-h2">${c.h}</h2>
+        </div>
+        <div class="jz-cta__side">
+          <p>${c.p}</p>
+          <div class="jz-cta__btns">${c.links.map(([l, h, cls]) => `<a class="jz-btn ${cls}" href="${rel(depth, h)}">${l}</a>`).join('')}</div>
+        </div>
+      </section>
+      <footer class="jz-foot">
+        <div>${esc(site.address).replace(', Bengaluru', '<br>Bengaluru')}<br><a href="${site.google}" target="_blank" rel="noopener">Find us on Google ↗</a></div>
+        <div><a href="mailto:${site.email}">${esc(site.email)}</a><br>${site.phones.map(p => `<a href="${p.href}">${esc(p.label)}</a>`).join('<br>')}</div>
+        <nav class="jz-foot__map" aria-label="Site map">${links}</nav>
+        <div><a href="${site.social.instagram}" target="_blank" rel="noopener">Instagram ↗</a><br><a href="${site.social.facebook}" target="_blank" rel="noopener">Facebook ↗</a><br>© 1969–2026 ${esc(site.name)}</div>
+      </footer>`;
+}
+// Insert the foot at the end of the sheet's inner .jz-scroll region (before the
+// <article>/<div class="jz-wrap"> closes, so it shares the content column).
+function withSiteFoot(main, depth, cta) {
+  const start = main.indexOf('<div class="jz-scroll">');
+  if (start < 0) return main;
+  const re = /<(\/?)(div|article)\b[^>]*>/g;
+  re.lastIndex = start + 1;
+  let d = 1, m, lastInnerClose = -1;
+  while ((m = re.exec(main))) {
+    d += m[1] ? -1 : 1;
+    if (d === 1 && m[1]) lastInnerClose = m.index;
+    if (d === 0) break;
+  }
+  if (!m || lastInnerClose < 0) return main;
+  return main.slice(0, lastInnerClose) + jzFoot(depth, cta) + '\n    ' + main.slice(lastInnerClose);
+}
 function buildBlog() {
   const [lead, ...rest] = posts;
   const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
@@ -1358,11 +1413,6 @@ function buildBlog() {
       <div class="jz-idxrule"><span>Sheet index</span><span class="ln"></span><span class="bl">A-02 → ${dwg(posts.length - 1)}</span></div>
       <div class="jz-plates">${plates}</div>
       <div class="jz-marquee" aria-hidden="true"><div class="jz-marquee__row">${marquee}</div></div>
-      <div class="jz-foot">
-        <div>${esc(site.address).replace(', Bengaluru', '<br>Bengaluru')}</div>
-        <div>${esc(site.email)}<br>${esc(site.phones[0].label)}</div>
-        <div>© 1969–2026 ${esc(site.name)}<br><a href="privacy">Privacy</a></div>
-      </div>
     </div>
   </div>
   <div class="jz-plot" aria-hidden="true"><div class="jz-plot__grid"></div><div class="jz-plot__bar"></div><div class="jz-plot__label">Plotting sheet A-01 …</div></div>`;
@@ -1387,6 +1437,20 @@ function buildBlog() {
       <div class="jz-article__head"><h1>${esc(p.title)}</h1></div>
       <div class="jz-article__hero${p.heroFull ? ' jz-article__hero--full' : ''}">${heroFill(p, { depth: 1, eager: true })}</div>
       <div class="jz-article__body">${body}</div>
+      ${(() => {
+        const rel1 = (p.projects || []).map(sl => projects.find(x => x.slug === sl)).filter(Boolean);
+        return rel1.length ? `<section class="jz-related">
+        <div class="jz-eyebrow">Projects in this article · ${String(rel1.length).padStart(2, '0')}</div>
+        <div class="jz-works">${rel1.map(x => `<a class="jz-work" href="../projects/${x.slug}">
+          <div class="jz-work__img">${projFill(x, { depth: 1 })}</div>
+          <div class="jz-work__body">
+            <div class="jz-work__meta"><span>P-${String(projects.indexOf(x) + 1).padStart(2, '0')}</span><span class="dim">${esc(x.category)}</span></div>
+            <div class="jz-work__name">${esc(x.name)}</div>
+            <div class="jz-work__meta"><span class="dim">${esc(x.location)}</span><span class="dim">${yr(x)}</span></div>
+          </div>
+        </a>`).join('')}</div>
+      </section>` : '';
+      })()}
       <div class="jz-flip">
         <a class="prev" href="${prev.slug}">← ${esc(clip(prev.title, 24))}</a>
         <a class="next" href="${next.slug}">${esc(clip(next.title, 24))} →</a>
