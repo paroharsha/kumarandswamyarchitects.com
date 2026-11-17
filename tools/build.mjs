@@ -130,6 +130,20 @@ function footerHtml(depth) {
 // Site identity node — a ProfessionalService (architecture firm) with strong
 // local-SEO signals: geo, areaServed, knowsAbout, NAP. Reused on every page.
 const PRO_ID = site.domain + '/#practice';
+// People: one stable @id per partner (on their profile page), referenced from the
+// practice, project credits and journal bylines so search engines join them up.
+const teamBySlug = Object.fromEntries(team.map(m => [m.slug, m]));
+const teamByName = Object.fromEntries(team.map(m => [m.name, m]));
+const personUrl = (m) => `${site.domain}/${m.slug}`;
+const personRef = (m) => ({ '@type': 'Person', '@id': personUrl(m) + '#person', name: m.name, url: personUrl(m) });
+const projectTeam = (p) => (p.team || []).map(s => teamBySlug[s]).filter(Boolean);
+const authorRef = (name) => teamByName[name] ? personRef(teamByName[name]) : { '@type': 'Person', name };
+// An author's name, linked to their profile when they are a partner.
+const authorHtml = (name, depth) => teamByName[name]
+  ? `<a href="${rel(depth, teamByName[name].slug)}">${esc(name)}</a>`
+  : esc(name);
+const SCHOOLS_PATH = 'school-architects-bangalore';
+const isSchool = (p) => p.school || ['Education', 'Revitalisation'].includes(p.category);
 const proServiceLd = {
   '@type': ['ProfessionalService', 'Organization'], '@id': PRO_ID,
   name: site.name, alternateName: site.shortName, url: site.domain + '/',
@@ -138,6 +152,7 @@ const proServiceLd = {
   contactPoint: [{ '@type': 'ContactPoint', contactType: 'enquiries', email: site.email, telephone: '+91-63624-28416', areaServed: 'IN', availableLanguage: 'English', hoursAvailable: { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '10:00', closes: '19:00' } }],
   image: site.domain + '/assets/img/projects/amaatra-academy.jpg',
   founder: { '@type': 'Person', name: 'C R Shivakumar' },
+  employee: team.map(personRef),
   address: { '@type': 'PostalAddress', streetAddress: 'MF 2/8 BDA Building, Cambridge Layout', addressLocality: 'Bengaluru', addressRegion: 'Karnataka', postalCode: '560008', addressCountry: 'IN' },
   geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
   hasMap: site.google,
@@ -376,7 +391,8 @@ ${igSection}
           </div>
           <div class="jz-band__side">
             <div class="jz-body-copy">
-              <p>Founded by C R Shivakumar in Bangalore, the studio has grown across three generations — carrying one ethic: listen first, draw second.</p>
+              <p>Founded by C R Shivakumar in Bangalore, the studio has grown across three generations — carrying one ethic: listen first, draw second. Today it is led by its partners, ${team.map(m => `<a href="${m.slug}">${esc(m.name)}</a>`).join(', ').replace(/, ([^,]*)$/, ' and $1')}.</p>
+              <p>Schools have been the heart of the practice since the early 1990s — <a href="${SCHOOLS_PATH}">our school architecture in Bangalore</a>.</p>
               <p>A small team of architects and interns work out of a studio that does not limit itself to the office. We travel, read, listen to music, watch film — because you cannot design for people without first knowing them.</p>
             </div>
             <a class="jz-btn jz-btn--blue" href="about">Meet the studio →</a>
@@ -417,7 +433,7 @@ function buildProjects() {
           <div class="jz-eyebrow">Sheet index · Built work</div>
           <h1 class="jz-h1">Our <em>work.</em></h1>
         </div>
-        <p class="jz-lede jz-phead__intro">Over 60 schools and institutions across the country, alongside our sporting infrastructure and commercial projects — a selection of featured work.</p>
+        <p class="jz-lede jz-phead__intro">Over 60 schools and institutions across the country, alongside our sporting infrastructure and commercial projects — a selection of featured work. <a href="${SCHOOLS_PATH}">See all our school architecture →</a></p>
       </header>
       <div class="jz-filters">
         <span class="jz-filters__label">Filter</span>${filters}
@@ -476,14 +492,32 @@ function buildProjectDetail(p, i) {
   const next = projects[(i + 1) % projects.length];
   const gallery = galleryImages(p.slug);
   const overview2 = 'Like all our work, the design begins with the institution — its philosophy, its climate and the way its people actually move through a day — rather than with a fixed style of our own.';
+  const people = projectTeam(p);
   const ld = { '@type': 'CreativeWork', name: p.name, dateCreated: String(p.year),
-    locationCreated: { '@type': 'Place', name: p.location }, creator: { '@id': PRO_ID }, description: p.brief,
+    locationCreated: { '@type': 'Place', name: p.location },
+    creator: people.length ? [{ '@id': PRO_ID }, ...people.map(personRef)] : { '@id': PRO_ID },
+    description: p.brief,
     about: `${p.category} architecture`, keywords: `${p.category} architecture, ${p.location}, Kumar & Swamy Architects` };
+  if (p.client) ld.funder = { '@type': 'Organization', name: p.client };
   ld._cur = 'projects';
   const no = 'P-' + String(i + 1).padStart(2, '0');
+  const paras = (txt) => txt.trim().split(/\n\s*\n/).map(para => `<p>${esc(para.trim())}</p>`).join('');
   const overviewHtml = p.overview
-    ? p.overview.trim().split(/\n\s*\n/).map(para => `<p>${esc(para.trim())}</p>`).join('')
+    ? paras(p.overview)
     : `<p>${esc(p.brief)}</p><p>${esc(overview2)}</p>`;
+  const sectionsHtml = (p.sections || []).map(s => `
+      <section class="jz-sec">
+        <div class="jz-overview">
+          <h2 class="jz-eyebrow">${esc(s.h)}</h2>
+          <div class="jz-overview__body jz-body-copy">${paras(s.body)}</div>
+        </div>
+      </section>`).join('');
+  const credits = [
+    p.client ? `<p class="jz-covers"><b>Client</b> — ${esc(p.client)}</p>` : '',
+    p.curriculum ? `<p class="jz-covers"><b>Curriculum</b> — ${esc(p.curriculum)}</p>` : '',
+    people.length ? `<p class="jz-covers"><b>Project team</b> — ${people.map(m => `<a href="../${m.slug}">${esc(m.name)}</a>`).join(', ')}, ${esc(site.name)}</p>` : `<p class="jz-covers"><b>Architects</b> — ${esc(site.name)}, Bangalore</p>`,
+    isSchool(p) ? `<p class="jz-covers"><a href="../${SCHOOLS_PATH}">More of our school architecture →</a></p>` : ''
+  ].join('');
   const main = `${jzChrome(clip(p.name, 30), no, 'projects', 1)}
   <div class="jz-scroll">
     <div class="jz-wrap jz-wrap--wide">
@@ -504,10 +538,10 @@ function buildProjectDetail(p, i) {
       ${p.stats && p.stats.length ? `<div class="jz-metacells" style="margin-top:22px">${p.stats.map(s => `<div><span class="k">${esc(s.label)}</span><span class="v">${esc(s.value)}</span></div>`).join('')}</div>` : ''}
       <section class="jz-sec" style="margin-top:34px">
         <div class="jz-overview">
-          <div class="jz-eyebrow">Overview</div>
-          <div class="jz-overview__body jz-body-copy">${overviewHtml}</div>
+          <h2 class="jz-eyebrow">Overview</h2>
+          <div class="jz-overview__body jz-body-copy">${overviewHtml}<div class="jz-credits">${credits}</div></div>
         </div>
-      </section>
+      </section>${sectionsHtml}
       ${gallery.length ? `<section class="jz-sec">
         <div class="jz-eyebrow" style="margin-bottom:16px">Gallery · ${String(gallery.length).padStart(2, '0')} plates</div>
         <div class="jz-gallery">
@@ -528,14 +562,15 @@ function buildProjectDetail(p, i) {
 // ---------- ABOUT / STUDIO ----------
 function buildAbout() {
   const teamCards = team.map((m, i) => `
-        <div class="jz-work">
-          <div class="jz-work__img">${media(`assets/img/team/${slugify(m.name)}.jpg`, { ratio: '1/1', alt: m.name })}</div>
+        <a class="jz-work" href="${m.slug}">
+          <div class="jz-work__img">${media(`assets/img/team/${m.photo}.jpg`, { ratio: '1/1', alt: `${m.name}, ${m.role.toLowerCase()} at ${site.name}` })}</div>
           <div class="jz-work__body">
-            <div class="jz-work__meta"><span>T-${String(i + 1).padStart(2, '0')}</span><span class="dim">Partner</span></div>
+            <div class="jz-work__meta"><span>T-${String(i + 1).padStart(2, '0')}</span><span class="dim">${esc(m.role)}</span></div>
             <div class="jz-work__name">${esc(m.name)}</div>
-            <div class="jz-work__role">${esc(m.role)}</div>
+            ${m.summary ? `<div class="jz-row__blurb">${esc(m.summary)}</div>` : ''}
+            <div class="jz-work__role">Profile →</div>
           </div>
-        </div>`).join('');
+        </a>`).join('');
   const appRows = approach.items.map(a => `
         <div class="jz-row">
           <div class="jz-row__n">${a.n} / 06</div>
@@ -607,6 +642,225 @@ function buildAbout() {
   w('about.html', layout({ title: `About Us — Multidisciplinary Architects in Bangalore since 1969 | ${site.shortName}`, description: 'Meet Kumar & Swamy Architects — founder C R Shivakumar, the partners, and the multidisciplinary approach behind a Bangalore practice in its fifth decade, spanning institutions, infrastructure, healthcare, sport, homes, interiors and product design.', pathRel: 'about', bodyClass: 'jz', bare: true, main, image: 'assets/img/founder.jpg', breadcrumbs: [{ name: 'Home', path: '' }, { name: 'About Us', path: 'about' }] }));
 }
 
+// ---------- PARTNER PROFILES ----------
+// One page per partner at the old Wix team URL (/<slug>). Renders whatever is
+// filled in for the person in data.mjs; with nothing filled in it still names
+// them, their role, their journal writing and any projects credited to them.
+const LINK_LABELS = { website: 'Website', linkedin: 'LinkedIn', instagram: 'Instagram', archello: 'Archello' };
+function buildPeople() {
+  team.forEach((m, i) => {
+    // Initialled names (C. S. Harsha) read better whole than as a first name.
+    const first = /^[A-Z]\.\s/.test(m.name) ? m.name : m.name.split(' ')[0];
+    const written = posts.filter(p => p.author === m.name);
+    const credited = projects.filter(p => (p.team || []).includes(m.slug));
+    const links = Object.entries(m.links || {}).filter(([, u]) => u);
+    const summary = m.summary || `${m.name} is a ${m.role.toLowerCase()} at ${site.name}, the school and institutional architecture practice founded in Bangalore in ${site.founded}.`;
+    const photo = `assets/img/team/${m.photo}.jpg`;
+    const facts = [
+      ['Role', `${esc(m.role)}, <a href="about">${esc(site.name)}</a>`],
+      m.focus.length && ['Focus', m.focus.map(esc).join(' · ')],
+      m.education.length && ['Education', m.education.map(esc).join('<br>')],
+      m.memberships.length && ['Memberships', m.memberships.map(esc).join('<br>')],
+      m.recognition.length && ['Recognition', m.recognition.map(esc).join('<br>')],
+      m.alternateName.length && ['Also known as', m.alternateName.map(esc).join(' · ')],
+      links.length && ['Elsewhere', links.map(([k, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener me">${LINK_LABELS[k] || esc(k)} ↗</a>`).join('')],
+    ].filter(Boolean);
+    const workCards = credited.map(p => `
+        <a class="jz-work" href="projects/${p.slug}">
+          <div class="jz-work__img">${projFill(p)}</div>
+          <div class="jz-work__body">
+            <div class="jz-work__meta"><span>${esc(p.category)}</span><span class="dim">${p.year}</span></div>
+            <div class="jz-work__name">${esc(p.name)}</div>
+            <div class="jz-work__meta"><span class="dim">${esc(p.location)}</span></div>
+          </div>
+        </a>`).join('');
+    const postRows = written.map(p => `
+        <a class="jz-row" href="post/${p.slug}">
+          <div class="jz-row__n">${esc(p.date)}</div>
+          <div class="jz-row__name">${esc(p.title)}</div>
+          <div class="jz-row__blurb">${esc(p.excerpt)}</div>
+        </a>`).join('');
+    const no = 'T-' + String(i + 1).padStart(2, '0');
+    const main = `${jzChrome(clip(m.name, 30), no, 'about', 0)}
+  <div class="jz-scroll">
+    <div class="jz-wrap jz-wrap--wide">
+      <div class="jz-detail__top">
+        <a class="jz-back" href="about">← About us</a>
+        <span class="jz-detail__crumbs">Partners &amp; family · ${no}</span>
+      </div>
+      <header class="jz-phead">
+        <div>
+          <div class="jz-eyebrow">${esc(m.role)} · ${esc(site.name)}</div>
+          <h1 class="jz-h1">${esc(m.name)}</h1>
+        </div>
+        <p class="jz-lede jz-phead__intro">${esc(summary)}</p>
+      </header>
+
+      <section class="jz-sec">
+        <div class="jz-band jz-band--top">
+          <div class="jz-portrait">${media(photo, { ratio: '3/4', alt: `${m.name}, ${m.role.toLowerCase()} at ${site.name}`, fallback: 'tower', eager: true })}</div>
+          <div class="jz-band__side">
+            ${m.bio.length ? `<div class="jz-eyebrow jz-eyebrow--sec">Profile</div>
+            <h2 class="jz-h2">About <em>${esc(first)}.</em></h2>
+            <div class="jz-body-copy">${m.bio.map(t => `<p>${esc(t)}</p>`).join('')}</div>` : ''}
+            <div class="jz-dl" style="width:100%">
+${facts.map(([k, v]) => `              <div class="jz-dl__row"><div class="jz-dl__k">${k}</div><div class="jz-dl__v jz-dl__v--prose">${v}</div></div>`).join('\n')}
+            </div>
+          </div>
+        </div>
+      </section>
+${credited.length ? `
+      <section class="jz-sec">
+        <div class="jz-sec__head"><div><div class="jz-eyebrow jz-eyebrow--sec">Project credits</div><h2 class="jz-h2">Selected <em>work.</em></h2></div></div>
+        <div class="jz-works">${workCards}</div>
+      </section>` : ''}
+${written.length ? `
+      <section class="jz-sec">
+        <div class="jz-sec__head"><div><div class="jz-eyebrow jz-eyebrow--sec">The journal</div><h2 class="jz-h2">Writing.</h2></div><a class="jz-morelink" href="blog">All writing →</a></div>
+        <div class="jz-rows">${postRows}</div>
+      </section>` : ''}
+      <section class="jz-sec" style="border-bottom:0">
+        <div class="jz-band">
+          <div><div class="jz-eyebrow jz-eyebrow--sec">The practice</div><h2 class="jz-h2">${esc(site.name)}</h2></div>
+          <div class="jz-band__side">
+            <div class="jz-body-copy"><p>${esc(site.tagline)}</p></div>
+            <div style="display:flex;flex-wrap:wrap;gap:14px">
+              <a class="jz-btn jz-btn--blue" href="about">Meet the studio →</a>
+              <a class="jz-btn" href="${SCHOOLS_PATH}">Our school architecture →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>`;
+    const person = {
+      ...personRef(m),
+      ...(m.alternateName.length ? { alternateName: m.alternateName } : {}),
+      jobTitle: m.role,
+      worksFor: { '@id': PRO_ID },
+      description: summary,
+      ...(exists(photo) ? { image: `${site.domain}/${photo}` } : {}),
+      ...(m.focus.length ? { knowsAbout: m.focus } : {}),
+      ...(m.memberships.length ? { memberOf: m.memberships.map(name => ({ '@type': 'Organization', name })) } : {}),
+      ...(m.recognition.length ? { award: m.recognition } : {}),
+      ...(links.length ? { sameAs: links.map(([, u]) => u) } : {}),
+    };
+    const ld = { '@type': 'ProfilePage', '@id': personUrl(m), url: personUrl(m), name: `${m.name} — ${site.name}`, mainEntity: person, _cur: 'about' };
+    w(`${m.slug}.html`, layout({
+      title: `${m.name} — ${m.role}, ${site.name}, Bangalore`,
+      description: summary,
+      pathRel: m.slug, bodyClass: 'jz', bare: true, main, extraLd: ld, ogType: 'profile',
+      image: exists(photo) ? photo : undefined,
+      breadcrumbs: [{ name: 'Home', path: '' }, { name: 'About Us', path: 'about' }, { name: m.name, path: m.slug }]
+    }));
+  });
+}
+
+// ---------- SCHOOL ARCHITECTS IN BANGALORE (landing page) ----------
+// Everything on this page is drawn from data.mjs, so it stays true as projects change.
+function buildSchools() {
+  const schools = projects.filter(isSchool);
+  const record = projectIndex.filter(p => p.category === 'Education' || /school|college/i.test(p.name));
+  const bySlug = Object.fromEntries(projects.map(p => [p.slug, p]));
+  const link = (slug, label) => bySlug[slug] ? `<a href="projects/${slug}">${esc(label || bySlug[slug].name)}</a>` : esc(label || slug);
+  const statOf = (p, label) => (p.stats || []).find(s => s.label === label)?.value;
+  const cards = schools.map(p => {
+    const cap = statOf(p, 'Capacity'), site_ = statOf(p, 'Site area');
+    return `
+        <a class="jz-work" href="projects/${p.slug}">
+          <div class="jz-work__img">${projFill(p)}</div>
+          <div class="jz-work__body">
+            <div class="jz-work__meta"><span>${esc(p.location)}</span><span class="dim">${p.year}</span></div>
+            <div class="jz-work__name">${esc(p.name)}</div>
+            <div class="jz-work__meta"><span class="dim">${[site_ && site_ !== 'Various' ? site_ : '', cap && cap !== 'Various' ? `${cap} students` : ''].filter(Boolean).join(' · ')}</span></div>
+          </div>
+        </a>`;
+  }).join('');
+  const designRows = [
+    ['Day & residential schools', `K–12 schools for a few hundred to several thousand students, including boarding campuses with hostels and staff housing: ${link('canadian-international-school')}, ${link('amaatra-academy')}, ${link('vidya-cathedral-school')}, ${link("sri-kumarans-children's-home")} (7,000 students).`],
+    ['Any curriculum', `CBSE, IB, the Canadian curriculum and Montessori — the plan follows the way each school teaches: ${link('valiants-academy')} (Montessori to grade 6, CBSE to grade 12), ${link('united-world-academy')} and ${link('vidya-cathedral-school')} (IB).`],
+    ['Campus masterplans', `Multi-institution campuses planned in phases, such as the 50-acre ${link('pes-group-of-institutions')} campus in Shimoga, with a K–12 school, an engineering college, hostels and an auditorium.`],
+    ['Extensions & revitalisation', `New blocks and careful upgrades to working schools: <a href="post/reinterpreting-our-very-first-school">a new extension to Mallya Aditi</a>, thirty years after we designed it, and the campus-wide ${link('good-shepherds-intl.-school-revitalisation', 'revitalisation of Good Shepherd International School')}, Ooty.`],
+    ['Climate-led design', `Shade, cross-ventilation and local materials before machines: at ${link('tejas-international-school')} in Bagalkote the interiors stay up to 4°C cooler than outside with no air conditioning.`],
+    ['Interiors, landscape & signage', `Classrooms, libraries, landscape and wayfinding designed with the buildings, as at ${link('wisdom-tree-global-school')}, Bhubaneswar.`],
+  ];
+  const faq = [
+    ['Where do you work?', `Our studio is in Cambridge Layout, Bengaluru. Most of our schools are in Bangalore and across Karnataka, and we have also built schools in Maharashtra, Tamil Nadu, Andhra Pradesh and Odisha.`],
+    ['Do you extend schools that are already running?', `Yes. Extensions, new blocks and revitalisation make up a large part of our school work, including ${link('national-public-school-', 'National Public School')} campuses, Mallya Aditi and Good Shepherd International School.`],
+    ['Who will we work with?', `A family practice in its third generation, led by its partners — ${team.map(m => `<a href="${m.slug}">${esc(m.name)}</a>`).join(', ')}. Interiors, landscape and signage can be designed by the same studio as the buildings.`],
+    ['How do we start?', `Write to <a href="mailto:${site.email}">${esc(site.email)}</a> or call ${esc(site.phones[0].label)}. It helps to tell us the type of school, the location, the site area, how many students you plan for and your timeline.`],
+  ];
+  const main = `${jzChrome('School architecture', 'E-02', 'services', 0)}
+  <div class="jz-scroll">
+    <div class="jz-wrap jz-wrap--wide">
+      <header class="jz-phead">
+        <div>
+          <div class="jz-eyebrow">Education &amp; campus · Bangalore</div>
+          <h1 class="jz-h1">School architects <em>in Bangalore.</em></h1>
+        </div>
+        <p class="jz-lede jz-phead__intro">${esc(site.name)} has designed schools and educational campuses from Bangalore since the early 1990s, starting with Mallya Aditi International School. Across three generations the practice has built more than sixty institutions — ${record.length} of them schools and colleges listed below — for day schools, residential schools and multi-institution campuses across India.</p>
+      </header>
+
+      <section class="jz-sec">
+        <div class="jz-sec__head"><div><div class="jz-eyebrow jz-eyebrow--sec">Scope</div><h2 class="jz-h2">What we <em>design.</em></h2></div></div>
+        <div class="jz-dl">
+${designRows.map(([k, v]) => `          <div class="jz-dl__row"><div class="jz-dl__k">${esc(k)}</div><div class="jz-dl__v jz-dl__v--prose">${v}</div></div>`).join('\n')}
+        </div>
+      </section>
+
+      <section class="jz-sec">
+        <div class="jz-sec__head"><div><div class="jz-eyebrow jz-eyebrow--sec">Selected work · ${String(schools.length).padStart(2, '0')}</div><h2 class="jz-h2">Schools we’ve <em>designed.</em></h2></div><a class="jz-morelink" href="projects">All projects →</a></div>
+        <div class="jz-works">${cards}</div>
+      </section>
+
+      <section class="jz-sec">
+        <div class="jz-band">
+          <div><div class="jz-eyebrow jz-eyebrow--sec">Approach</div><h2 class="jz-h2">The school <em>comes first.</em></h2></div>
+          <div class="jz-band__side">
+            <div class="jz-body-copy"><p>“${esc(approach.quote)}”</p></div>
+            <a class="jz-btn" href="about">Our design approach →</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="jz-sec">
+        <div class="jz-sec__head"><div><div class="jz-eyebrow jz-eyebrow--sec">The record · ${record.length} schools &amp; colleges</div><h2 class="jz-h2">Every school, <em>by year.</em></h2></div></div>
+        <div class="jz-rows">${record.map(r => `
+          <div class="jz-row">
+            <div class="jz-row__n">${esc(r.yearLabel)}</div>
+            <div class="jz-row__name">${esc(r.name)}</div>
+            <div class="jz-row__blurb">${esc(r.location)}</div>
+          </div>`).join('')}
+        </div>
+      </section>
+
+      <section class="jz-sec" style="border-bottom:0">
+        <div class="jz-sec__head"><div><div class="jz-eyebrow jz-eyebrow--sec">Questions</div><h2 class="jz-h2">Planning a <em>school?</em></h2></div></div>
+        <div class="jz-dl">
+${faq.map(([k, v]) => `          <div class="jz-dl__row"><h3 class="jz-dl__k">${esc(k)}</h3><div class="jz-dl__v jz-dl__v--prose">${v}</div></div>`).join('\n')}
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:26px">
+          <a class="jz-btn jz-btn--blue" href="contact-kumar-swamy-architect">Get in touch →</a>
+          <a class="jz-btn" href="services#institutional-campus">Institutional &amp; campus design →</a>
+        </div>
+      </section>
+    </div>
+  </div>`;
+  const ld = {
+    '@type': 'CollectionPage', '@id': `${site.domain}/${SCHOOLS_PATH}`, url: `${site.domain}/${SCHOOLS_PATH}`,
+    name: `School architects in Bangalore — ${site.name}`,
+    about: { '@id': PRO_ID }, isPartOf: { '@id': site.domain + '/#website' },
+    mainEntity: { '@type': 'ItemList', numberOfItems: schools.length, itemListElement: schools.map((p, n) => ({ '@type': 'ListItem', position: n + 1, url: `${site.domain}/projects/${encodeURI(p.slug)}`, name: p.name })) },
+    _cur: 'services'
+  };
+  w(`${SCHOOLS_PATH}.html`, layout({
+    title: `School Architects in Bangalore — K-12 & Campus Design | ${site.name}`,
+    description: `School architects in Bangalore since the early 1990s: day and residential K–12 schools, campus masterplans, extensions and interiors for CBSE, IB and Montessori schools. ${record.length} schools and colleges across India.`,
+    pathRel: SCHOOLS_PATH, bodyClass: 'jz', bare: true, main, extraLd: ld,
+    breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Services', path: 'services' }, { name: 'School architects in Bangalore', path: SCHOOLS_PATH }]
+  }));
+}
+
 // ---------- SERVICES / EXPERTISE ----------
 function buildServices() {
   const projBySlug = Object.fromEntries(projects.map(p => [p.slug, p]));
@@ -628,6 +882,7 @@ function buildServices() {
             <div class="jz-body-copy"><p>${esc(s.body)}</p></div>
             <p class="jz-covers"><b>Covers</b> — ${s.covers.map(esc).join(' · ')}</p>
             ${projLine}
+            ${s.id === 'institutional-campus' ? `<p class="jz-covers"><a href="${SCHOOLS_PATH}">School architects in Bangalore — all our schools →</a></p>` : ''}
           </div>
         </div>
       </section>`;
@@ -912,14 +1167,14 @@ function buildBlog() {
     const body = md(fs.readFileSync(path.join(ROOT, 'content/blog', p.file), 'utf8'), { depth: 1 });
     const prev = posts[(i - 1 + n) % n];
     const next = posts[(i + 1) % n];
-    const ld = { '@type': 'BlogPosting', headline: p.title, author: { '@type': 'Person', name: p.author }, publisher: { '@id': PRO_ID }, description: p.excerpt, image: `${site.domain}/assets/img/blog/${p.slug}.jpg`, mainEntityOfPage: `${site.domain}/post/${p.slug}` };
+    const ld = { '@type': 'BlogPosting', headline: p.title, author: authorRef(p.author), publisher: { '@id': PRO_ID }, description: p.excerpt, image: `${site.domain}/assets/img/blog/${p.slug}.jpg`, mainEntityOfPage: `${site.domain}/post/${p.slug}` };
     ld._cur = 'blog';
     const main2 = `${jzChrome(clip(p.title, 30), dwg(i), 'blog', 1)}
   <div class="jz-scroll">
     <article class="jz-article">
       <div class="jz-article__top">
         <a class="jz-back" href="../blog">← Sheet index</a>
-        <span class="jz-article__byline">${esc(p.author)} · ${esc(p.date)} · ${esc(p.readTime)}</span>
+        <span class="jz-article__byline">${authorHtml(p.author, 1)} · ${esc(p.date)} · ${esc(p.readTime)}</span>
         <span class="sp"></span>
         <span class="jz-article__no">Dwg ${dwg(i)} of ${n}</span>
       </div>
@@ -982,6 +1237,7 @@ function agentSummary() {
   return {
     intro: `> ${site.description}`,
     pages: [
+      `- [School architects in Bangalore](${u(SCHOOLS_PATH)}): the practice's school and campus work, every school by year, and how to start a project`,
       `- [Services](${u('services')}): the eight sectors the practice designs for, with example projects`,
       `- [Projects](${u('projects')}): ${projects.length} featured projects with location, year, site and built-up area`,
       `- [About us](${u('about')}): founder C R Shivakumar, the partners and the design approach`,
@@ -992,6 +1248,7 @@ function agentSummary() {
     ].join('\n'),
     services: services.map(s => `- [${s.name}](${u('services')}#${s.id}): ${s.blurb}`).join('\n'),
     projects: projects.map(p => `- [${p.name}](${u('projects/' + encodeURI(p.slug))}): ${p.category}, ${p.location}, ${p.year}`).join('\n'),
+    people: team.map(m => `- [${m.name}](${u(m.slug)}): ${m.role}${m.alternateName.length ? ` (also written ${m.alternateName.join(', ')})` : ''}${m.summary ? `. ${m.summary}` : ''}`).join('\n'),
     posts: posts.map(p => `- [${p.title}](${u('post/' + p.slug)}): ${p.author}, ${p.date}. ${p.excerpt}`).join('\n'),
     contact,
   };
@@ -1007,6 +1264,11 @@ Established ${site.founded} in ${site.city}, India. Architecture, masterplanning
 ## Pages
 
 ${a.pages}
+
+## People
+
+- C R Shivakumar: founder (1969)
+${a.people}
 
 ## Services
 
@@ -1067,7 +1329,9 @@ function buildSeoFiles() {
     { u: '', p: '1.0', f: 'monthly' },
     { u: 'projects', p: '0.9', f: 'monthly' },
     { u: 'services', p: '0.8', f: 'monthly' },
+    { u: SCHOOLS_PATH, p: '0.9', f: 'monthly' },
     { u: 'about', p: '0.7', f: 'yearly' },
+    ...team.map(m => ({ u: m.slug, p: '0.6', f: 'monthly', img: exists(`assets/img/team/${m.photo}.jpg`) ? `assets/img/team/${m.photo}.jpg` : null, cap: `${m.name}, ${m.role}, ${site.name}` })),
     { u: 'blog', p: '0.7', f: 'weekly' },
     { u: 'contact-kumar-swamy-architect', p: '0.6', f: 'yearly' },
     { u: 'applytowork', p: '0.5', f: 'monthly' },
@@ -1119,11 +1383,6 @@ ${entries.map(e => `  <url><loc>${site.domain}/${e.u}</loc><lastmod>${e.mod || s
 const redirects = [
   // Index of Works taken down for now → Projects (remove this line + restore buildIndexPage() to bring it back)
   { from: 'index-of-works.html', to: 'projects', depth: 0 },
-  // Team profile pages → Studio
-  { from: 'suchitraharsha.html', to: 'about', depth: 0 },
-  { from: 'sanchaliharsha.html', to: 'about', depth: 0 },
-  { from: 'harshashivakumar.html', to: 'about', depth: 0 },
-  { from: 'paromitaharsha.html', to: 'about', depth: 0 },
 ];
 function buildRedirects() {
   for (const r of redirects) {
@@ -1146,7 +1405,9 @@ buildProjects();
 // buildIndexPage();  // Index of Works taken down for now; index-of-works.html redirects to /projects (see redirects)
 projects.forEach((p, i) => buildProjectDetail(p, i));
 buildAbout();
+buildPeople();
 buildServices();
+buildSchools();
 buildContact();
 buildApply();
 buildBlog();
@@ -1154,4 +1415,4 @@ buildPrivacy();
 buildAgentFiles();
 buildRedirects();
 buildSeoFiles();
-console.log('Built: index, projects (+%d details), services, about, contact, apply, blog (+%d posts), %d redirect stubs, sitemap, robots', projects.length, posts.length, redirects.length);
+console.log('Built: index, projects (+%d details), services, school page, about (+%d profiles), contact, apply, blog (+%d posts), %d redirect stubs, sitemap, robots', projects.length, team.length, posts.length, redirects.length);

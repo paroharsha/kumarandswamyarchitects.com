@@ -80,7 +80,8 @@ export const site = {
     'https://www.instagram.com/kumar_and_swamy_architects',
     'https://www.facebook.com/kumarswamy49',
     'https://archinect.com/kumarandswamy',
-    'https://www.indiamart.com/kumar-swamy-architects'
+    'https://www.indiamart.com/kumar-swamy-architects',
+    'https://educationworld.in/kumar-and-swamy-architects/'
   ]
 };
 
@@ -98,6 +99,16 @@ export const nav = [
 export const categories = ['All', 'Education', 'Campus', 'Sport', 'Revitalisation'];
 
 // sketch = which axonometric/plan SVG illustrates the card (placeholder until photos land)
+//
+// Optional fields for fuller project write-ups (rendered when present):
+//   school    true for a Campus project that is a school (Education and
+//             Revitalisation projects count as schools already)
+//   team      partner slugs from `team` below, e.g. ['harshashivakumar', 'paromitaharsha'].
+//             Shown as "Project team" and credited as creators in the JSON-LD.
+//   client    who commissioned it, e.g. 'PES Group of Institutions'
+//   curriculum e.g. 'CBSE', 'IB', 'Montessori to grade 6, CBSE to grade 12'
+//   sections  [{ h: 'The brief', body: `paragraphs…` }, …] — headed sections under
+//             the overview. See the writing guide in the PR for the headings to use.
 export const projects = [
   { slug: 'mallya-aditi-international-school', name: 'Mallya Aditi International School', location: 'Bangalore, Karnataka', year: 1990, category: 'Education', sketch: 'courtyard', featured: true,
     brief: 'A campus arranged as a series of courtyards and shaded verandahs — learning spaces that open to the monsoon and the sun in equal measure.',
@@ -141,7 +152,7 @@ The campus has been meticulously designed and purpose-built to accommodate the r
 
 With a substantial capacity to accommodate 1200 students, the institution boasts an extensive built-up area of approximately 3 Lakh square feet. This generous space allocation ensures that every student has access to the comprehensive facilities and learning spaces necessary for a complete educational experience, while maintaining comfortable living arrangements that promote both academic excellence and personal growth.`,
     stats: [{ label: 'Site area', value: '14 acres' }, { label: 'Built-up area', value: '3,00,000 sft' }, { label: 'Capacity', value: '1200' }] },
-  { slug: 'pes-group-of-institutions', name: 'PES Group of Institutions', location: 'Shimoga, Karnataka', year: 2007, category: 'Campus', sketch: 'siteplan',
+  { slug: 'pes-group-of-institutions', name: 'PES Group of Institutions', location: 'Shimoga, Karnataka', year: 2007, category: 'Campus', school: true, sketch: 'siteplan',
     brief: 'A multi-faculty masterplan, planned in phases so the institution could grow without losing the coherence of its first idea.',
     overview: `Situated on an expansive and meticulously planned 50-acre campus in Shimoga, this distinguished educational complex represents a masterful integration of diverse institutional facilities within its comprehensive masterplan. The thoughtfully designed grounds serve as a testament to the institution's unwavering commitment to fostering a holistic educational and developmental environment that nurtures the growth and success of its entire community. The carefully considered layout and architectural elements work in harmony to create spaces that inspire learning, collaboration, and personal development.
 
@@ -151,7 +162,7 @@ The campus boasts an impressive array of purpose-built facilities designed to su
     brief: 'A school for a hotter, drier climate — deep shade, cross-ventilation and durable local materials shaping the plan.',
     overview: `This esteemed international school, under the dedicated ownership and management of Mr. Murgesh Nirani, is strategically positioned in the historic city of Bagalkot, Karnataka. The location presents unique architectural challenges, as it sits within one of North Karnataka's most climatically demanding regions, where Bagalkot endures persistent high temperatures and pronounced arid conditions that extend throughout all seasons of the year. Through the implementation of sophisticated architectural design solutions and meticulous analysis of environmental factors, our team has achieved exceptional results in natural climate control within the building envelope. Based on comprehensive documentation provided by the client, the interior spaces maintain temperatures that are notably lower - up to 4 degrees Celsius - compared to the external environment. What makes this achievement particularly remarkable is that these optimal thermal conditions are attained solely through the application of passive cooling strategies and innovative architectural design principles, completely eliminating the need for conventional air conditioning systems or mechanical ventilation methods. This successful implementation of sustainable design principles not only showcases our dedication to environmentally conscious architecture but also demonstrates our expertise in creating comfortable, conducive learning environments that thrive even in the most challenging climatic conditions. The project stands as a testament to how thoughtful architectural design can effectively address environmental challenges while maintaining optimal comfort for building occupants.`,
     stats: [{ label: 'Site area', value: '14 acres' }, { label: 'Built-up area', value: '2,00,000 sft' }, { label: 'Capacity', value: '700' }] },
-  { slug: 'united-world-academy', name: 'United World Academy', location: 'Bangalore, Karnataka', year: 2018, category: 'Campus', sketch: 'tower',
+  { slug: 'united-world-academy', name: 'United World Academy', location: 'Bangalore, Karnataka', year: 2018, category: 'Campus', school: true, sketch: 'tower',
     brief: 'A vertical academy stacking learning, sport and assembly where land is scarce and aspiration is not.',
     overview: `Nestled in the vibrant neighborhood of Sarjapur, Bangalore, this prestigious educational institution spans an impressive ten-acre campus with a meticulously designed built-up area of 1,60,000 square feet. The expansive facility has been thoughtfully planned to accommodate and nurture a diverse student body of 1,500 learners, providing them with an enriching educational environment that promotes both academic excellence and personal growth.
 
@@ -319,11 +330,31 @@ export const founder = {
   ]
 };
 
+// Partners. Each gets a profile page at /<slug> (the old Wix team URLs, kept for
+// their search history). `name` is the one spelling used everywhere on the site;
+// `alternateName` lists other spellings people search for, so search engines
+// treat them as the same person. `photo` is the file in assets/img/team/.
+//
+// Fields to fill in (profile pages render whatever is present):
+//   summary  one sentence: who they are, their role, what they focus on
+//   bio      paragraphs, 250–400 words in all (see the writing guide in the PR)
+//   focus    short list of specialisms, e.g. ['School design', 'Campus masterplanning']
+//   education / memberships / recognition   short lists of plain strings
+//   links    { website, linkedin, instagram, archello } — full URLs
+// Project credits come from `team` on each project; journal posts from `author`.
 export const team = [
-  { name: 'Sanchali Harsha', role: 'Partner' },
-  { name: 'Paromita Harsha', role: 'Partner' },
-  { name: 'Harsha Shivakumar', role: 'Partner' },
-  { name: 'Suchitra Harsha', role: 'Partner' }
+  { slug: 'sanchaliharsha', name: 'Sanchali Harsha', role: 'Partner', photo: 'sanchali-harsha',
+    alternateName: [],
+    summary: '', bio: [], focus: [], education: [], memberships: [], recognition: [], links: {} },
+  { slug: 'paromitaharsha', name: 'Paromita Harsha', role: 'Partner', photo: 'paromita-harsha',
+    alternateName: [],
+    summary: '', bio: [], focus: [], education: [], memberships: [], recognition: [], links: {} },
+  { slug: 'harshashivakumar', name: 'C. S. Harsha', role: 'Partner', photo: 'harsha-shivakumar',
+    alternateName: ['Harsha Shivakumar', 'C S Harsha', 'C.S. Harsha', 'CS Harsha'],
+    summary: '', bio: [], focus: [], education: [], memberships: [], recognition: [], links: {} },
+  { slug: 'suchitraharsha', name: 'Suchitra Harsha', role: 'Partner', photo: 'suchitra-harsha',
+    alternateName: [],
+    summary: '', bio: [], focus: [], education: [], memberships: [], recognition: [], links: {} }
 ];
 
 export const approach = {
@@ -359,7 +390,7 @@ export const posts = [
     excerpt: 'Most of the buildings India will have in 2070 do not exist yet. Why the greenest square metre is usually the one already standing, and how we approach reuse on schools and campuses.' },
   { slug: 'learning-architecture', file: 'learning-architecture.md',
     title: 'Learning Architecture',
-    author: 'Harsha Shivakumar', date: 'Sep 30, 2026', readTime: '4 min read', sketch: 'courtyard', heroFull: true, heroPos: '85% 78%',
+    author: 'C. S. Harsha', date: 'Sep 30, 2026', readTime: '4 min read', sketch: 'courtyard', heroFull: true, heroPos: '85% 78%',
     excerpt: 'Should architecture schools start with engineering drawing, or with people? A case for spending the first years on the human mind and its relationship with space.' },
   { slug: 'london-is-a-collision', file: 'london-is-a-collision.md',
     title: 'London Is a Collision',

@@ -1,6 +1,6 @@
 ---
 title: "Learning Architecture"
-author: Harsha Shivakumar
+author: C. S. Harsha
 date: Sep 30, 2026
 readTime: 4 min read
 ---

@@ -6,6 +6,7 @@ Established 1969 in Bangalore, India. Architecture, masterplanning and interiors
 
 ## Pages
 
+- [School architects in Bangalore](https://kumarandswamyarchitects.com/school-architects-bangalore): the practice's school and campus work, every school by year, and how to start a project
 - [Services](https://kumarandswamyarchitects.com/services): the eight sectors the practice designs for, with example projects
 - [Projects](https://kumarandswamyarchitects.com/projects): 16 featured projects with location, year, site and built-up area
 - [About us](https://kumarandswamyarchitects.com/about): founder C R Shivakumar, the partners and the design approach
@@ -13,6 +14,14 @@ Established 1969 in Bangalore, India. Architecture, masterplanning and interiors
 - [Work with us](https://kumarandswamyarchitects.com/applytowork): open roles and the application form
 - [Journal](https://kumarandswamyarchitects.com/blog): essays by the partners on school design and architecture
 - [Privacy](https://kumarandswamyarchitects.com/privacy): what the site collects and which third parties it uses
+
+## People
+
+- C R Shivakumar: founder (1969)
+- [Sanchali Harsha](https://kumarandswamyarchitects.com/sanchaliharsha): Partner
+- [Paromita Harsha](https://kumarandswamyarchitects.com/paromitaharsha): Partner
+- [C. S. Harsha](https://kumarandswamyarchitects.com/harshashivakumar): Partner (also written Harsha Shivakumar, C S Harsha, C.S. Harsha, CS Harsha)
+- [Suchitra Harsha](https://kumarandswamyarchitects.com/suchitraharsha): Partner
 
 ## Services
 
@@ -47,7 +56,7 @@ Established 1969 in Bangalore, India. Architecture, masterplanning and interiors
 ## Journal
 
 - [The Case for Adaptive Reuse in India](https://kumarandswamyarchitects.com/post/the-case-for-adaptive-reuse-in-india): Paromita Harsha, Nov 1, 2026. Most of the buildings India will have in 2070 do not exist yet. Why the greenest square metre is usually the one already standing, and how we approach reuse on schools and campuses.
-- [Learning Architecture](https://kumarandswamyarchitects.com/post/learning-architecture): Harsha Shivakumar, Sep 30, 2026. Should architecture schools start with engineering drawing, or with people? A case for spending the first years on the human mind and its relationship with space.
+- [Learning Architecture](https://kumarandswamyarchitects.com/post/learning-architecture): C. S. Harsha, Sep 30, 2026. Should architecture schools start with engineering drawing, or with people? A case for spending the first years on the human mind and its relationship with space.
 - [London Is a Collision](https://kumarandswamyarchitects.com/post/london-is-a-collision): Suchitra Harsha, Sep 8, 2026. Three weeks in a city I had written off. Windows, facades and interiors, and why the master plan is a myth: a city lives and dies in its joints and details.
 - [Designing for a Billion: 5 Ways India’s New Building Code is Reimagining the Modern City](https://kumarandswamyarchitects.com/post/designing-for-a-billion-5-ways-india-s-new-building-code-is-reimagining-the-modern-city): Paromita Harsha, Apr 16, 2026. India’s urban population is projected to reach 820 million by 2051. How the National Building Code 2016 is rethinking our cities at scale.
 - [Architecture That Teaches: The Reality of Designing Modern Educational Spaces](https://kumarandswamyarchitects.com/post/architecture-that-teaches-the-reality-of-designing-modern-educational-spaces): Kumar and Swamy Architects, Apr 8, 2026. Physical space is a silent partner in every classroom. Notes on the real-world challenges and rewards of designing modern educational spaces.
