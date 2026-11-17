@@ -161,6 +161,19 @@ const authorRef = (name) => teamByName[name] ? personRef(teamByName[name]) : { '
 const authorHtml = (name, depth) => teamByName[name]
   ? `<a href="${rel(depth, teamByName[name].slug)}">${esc(name)}</a>`
   : esc(name);
+// A small round author picture for post bylines: the partner's headshot, the
+// practice's mark for studio posts, else the author's initials.
+const authorAvatar = (name, depth) => {
+  const m = teamByName[name];
+  const photo = m && `assets/img/team/${m.photo}.jpg`;
+  const inner = photo && exists(photo)
+    ? `<img src="${rel(depth, photo)}" alt="" width="64" height="64" decoding="async">`
+    : name === 'Kumar and Swamy Architects'
+      ? `<img class="jz-avatar__mark" src="${rel(depth, 'assets/img/logo-mark.png')}" alt="" width="64" height="64" decoding="async">`
+      : `<span>${esc(name.split(/\s+/).filter(w => /^[A-Za-z]/.test(w) && !/^[A-Z]\.$/.test(w)).map(w => w[0]).slice(0, 2).join(''))}</span>`;
+  const tag = m ? `a href="${rel(depth, m.slug)}" tabindex="-1" aria-hidden="true"` : 'span aria-hidden="true"';
+  return `<${tag} class="jz-avatar">${inner}</${m ? 'a' : 'span'}>`;
+};
 const SCHOOLS_PATH = 'school-architects-bangalore';
 const isSchool = (p) => p.school || ['Education', 'Revitalisation'].includes(p.category);
 const proServiceLd = {
@@ -1430,7 +1443,7 @@ function buildBlog() {
     <article class="jz-article">
       <div class="jz-article__top">
         <a class="jz-back" href="../blog">← Sheet index</a>
-        <span class="jz-article__byline">${authorHtml(p.author, 1)} · ${esc(p.date)} · ${esc(p.readTime)}</span>
+        <span class="jz-article__byline">${authorAvatar(p.author, 1)}${authorHtml(p.author, 1)} · ${esc(p.date)} · ${esc(p.readTime)}</span>
         <span class="sp"></span>
         <span class="jz-article__no">Dwg ${dwg(i)} of ${n}</span>
       </div>
