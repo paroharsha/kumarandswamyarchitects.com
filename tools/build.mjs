@@ -506,12 +506,8 @@ function buildProjectDetail(p, i) {
     ? paras(p.overview)
     : `<p>${esc(p.brief)}</p><p>${esc(overview2)}</p>`;
   const sectionsHtml = (p.sections || []).map(s => `
-      <section class="jz-sec">
-        <div class="jz-overview">
-          <h2 class="jz-eyebrow">${esc(s.h)}</h2>
-          <div class="jz-overview__body jz-body-copy">${paras(s.body)}</div>
-        </div>
-      </section>`).join('');
+          <h2 class="jz-eyebrow jz-split__h">${esc(s.h)}</h2>
+          <div class="jz-body-copy">${paras(s.body)}</div>`).join('');
   const credits = [
     p.client ? `<p class="jz-covers"><b>Client</b> — ${esc(p.client)}</p>` : '',
     p.curriculum ? `<p class="jz-covers"><b>Curriculum</b> — ${esc(p.curriculum)}</p>` : '',
@@ -536,18 +532,17 @@ function buildProjectDetail(p, i) {
       </div>
       <div class="jz-detail__hero">${projFill(p, { depth: 1, eager: true })}</div>
       ${p.stats && p.stats.length ? `<div class="jz-metacells" style="margin-top:22px">${p.stats.map(s => `<div><span class="k">${esc(s.label)}</span><span class="v">${esc(s.value)}</span></div>`).join('')}</div>` : ''}
-      <section class="jz-sec" style="margin-top:34px">
-        <div class="jz-overview">
+      <section class="jz-sec jz-split${gallery.length ? '' : ' jz-split--solo'}" style="margin-top:34px">
+        <div class="jz-split__text">
           <h2 class="jz-eyebrow">Overview</h2>
-          <div class="jz-overview__body jz-body-copy">${overviewHtml}<div class="jz-credits">${credits}</div></div>
+          <div class="jz-body-copy">${overviewHtml}</div>${sectionsHtml}
+          <div class="jz-credits">${credits}</div>
         </div>
-      </section>${sectionsHtml}
-      ${gallery.length ? `<section class="jz-sec">
-        <div class="jz-eyebrow" style="margin-bottom:16px">Gallery · ${String(gallery.length).padStart(2, '0')} plates</div>
-        <div class="jz-gallery">
-          ${gallery.map((src, n) => `<div class="tile"><img src="${rel(1, src)}" alt="${esc(p.name)} — view ${n + 1}" loading="lazy" decoding="async"></div>`).join('')}
-        </div>
-      </section>` : ''}
+        ${gallery.length ? `<div class="jz-split__plates${gallery.length <= 3 ? ' jz-split__plates--sticky' : ''}">
+          <div class="jz-eyebrow">Gallery · ${String(gallery.length).padStart(2, '0')} plates</div>
+          ${gallery.map((src, n) => `<figure class="jz-plate-img"><img src="${rel(1, src)}" alt="${esc(p.name)} — view ${n + 1}" loading="lazy" decoding="async"></figure>`).join('')}
+        </div>` : ''}
+      </section>
       <div class="jz-flip">
         <a class="prev" href="../projects">← Project index</a>
         <a class="next" href="${next.slug}">Next: ${esc(clip(next.name, 22))} →</a>
