@@ -582,16 +582,45 @@ export const founder = {
 export const team = [
   { slug: 'sanchaliharsha', name: 'Sanchali Harsha', role: 'Partner', photo: 'sanchali-harsha',
     alternateName: [],
-    summary: '', bio: [], focus: [], education: [], memberships: [], recognition: [], links: {} },
+    summary: "Sanchali Harsha is a partner at Kumar & Swamy Architects in Bangalore. She has led the practice since 2004, specialising in school design shaped by how children learn.",
+    bio: [
+      "Sanchali Harsha grew up all over India. Her father, S. K. Ghosal, was an IAS officer whose postings took the family across the country, and the places she lived in shaped her early understanding of Indian architecture and culture. She met Harsha Shivakumar while they were both studying architecture, and in 1990 the two of them won the design competition for Mallya Aditi International School, the practice's first school.",
+      "Before taking on the leadership of Kumar & Swamy, Sanchali worked in retail design, most notably for Levi's. There she designed and oversaw the brand's retail spaces across Southeast Asia, work that earned two awards.",
+      "She joined the leadership of Kumar & Swamy in 2004, and since then her work has centred on educational architecture. She brings an understanding of child psychology to how schools are planned: where children feel at ease, how spaces support different ways of learning, and how a building can encourage curiosity. She was a lead architect on the Mallya Aditi first-floor extension, designed in 2018 and completed in 2021."
+    ],
+    focus: ["School design","Child-centred learning environments","Retail design"], education: [], memberships: [], recognition: ["Two awards for Levi's retail design in Southeast Asia"],
+    links: {} },
   { slug: 'paromitaharsha', name: 'Paromita Harsha', role: 'Partner', photo: 'paromita-harsha',
     alternateName: [],
-    summary: '', bio: [], focus: [], education: [], memberships: [], recognition: [], links: {} },
+    summary: "Paromita Harsha is an architect, artist and partner at Kumar & Swamy Architects in Bangalore, working on educational and commercial projects.",
+    bio: [
+      "Paromita Harsha is a third-generation architect at Kumar & Swamy, the practice her grandfather founded in 1969. She grew up around the firm’s drawings and building sites, and joined the practice in early 2018.",
+      "At Kumar & Swamy she works on educational and commercial projects across India. Her work balances the practical demands of a brief with a strong visual sensibility, drawing on modern and contemporary art. She completed a certificate course in modern art appreciation and history at the Museum of Modern Art (MoMA), and has taught interior design and art history at the Bangalore School of Design.",
+      "She writes for the firm’s journal on cities and policy, including Designing for a Billion, on India’s new building code, and The Case for Adaptive Reuse in India. Outside architecture, she is a digital and mixed-media artist."
+    ],
+    focus: ["Educational architecture","Commercial architecture","Art and design"], education: ["Certificate in modern art appreciation and history, Museum of Modern Art (MoMA)"], memberships: [], recognition: [],
+    links: {"website":"https://www.paroharsha.com/"} },
   { slug: 'harshashivakumar', name: 'C. S. Harsha', role: 'Partner', photo: 'harsha-shivakumar',
     alternateName: ['Harsha Shivakumar', 'C S Harsha', 'C.S. Harsha', 'CS Harsha'],
-    summary: '', bio: [], focus: [], education: [], memberships: [], recognition: [], links: {} },
+    summary: "C. S. Harsha is a partner at Kumar & Swamy Architects in Bangalore, where he has led the practice’s school and institutional work since 1990.",
+    bio: [
+      "C. S. Harsha, also known as Harsha Shivakumar, was born and raised in Bangalore, the son of C R Shivakumar, who founded Kumar & Swamy in 1969. He completed his degree in architecture in 1990. That same year he and Sanchali Harsha, a fellow student, entered the design competition for Mallya Aditi International School and won it. It became the practice’s first school, and the start of the educational work it is now known for.",
+      "Over the three decades since, Harsha has led the firm’s work on schools and campuses across India. In 2018 he and Sanchali returned to Mallya Aditi to design a lightweight steel first floor over the original load-bearing building, completed in 2021.",
+      "His approach starts from the child rather than the building: how children move through a school, where they gather, and how light and air reach every room. Mallya Aditi, organised around courtyards instead of corridors, set out that approach, and it runs through the practice’s later schools. He has written about architecture and education in the firm’s journal, most recently in Learning Architecture.",
+      "Outside the studio, Harsha is a patron of classical music and often hosts concerts at home. He is a keen motorcyclist who rides across South India, plays golf at the Karnataka Golf Association, and travels widely."
+    ],
+    focus: ["School and campus architecture","Masterplanning"], education: [], memberships: [], recognition: ["Winner, design competition for Mallya Aditi International School (1990, with Sanchali Harsha)"],
+    links: {} },
   { slug: 'suchitraharsha', name: 'Suchitra Harsha', role: 'Partner', photo: 'suchitra-harsha',
     alternateName: [],
-    summary: '', bio: [], focus: [], education: [], memberships: [], recognition: [], links: {} }
+    summary: "Suchitra Harsha is an interior and product designer and a partner at Kumar & Swamy Architects in Bangalore, focused on learning environments.",
+    bio: [
+      "Suchitra Harsha trained as an interior and product designer at LISAA School of Design in Bangalore. As a third-generation designer in a family of architects, she spent much of her childhood on her parents’ building sites, which gave her an early, practical sense of how buildings come together.",
+      "She has designed residential and commercial interiors across Bangalore. At Kumar & Swamy her focus is educational design, driven by a commitment to improving the quality of education in India, and to how classrooms, libraries and shared spaces can make learning more engaging.",
+      "She writes for the firm’s journal, including London Is a Collision, a series on architecture and the city. Outside work she is a keen reader with a large personal library, follows live jazz, and travels widely, drawing on other cultures and their buildings in her design work."
+    ],
+    focus: ["Interior design","Product design","Learning environments"], education: ["Interior and product design, LISAA School of Design, Bangalore"], memberships: [], recognition: [],
+    links: {} }
 ];
 
 export const approach = {
