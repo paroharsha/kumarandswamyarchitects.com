@@ -1,6 +1,6 @@
 ---
 title: "Designing Flexible and Adaptable Learning Spaces"
-author: Kumar and Swamy Architects
+author: Sanchali Harsha
 date: May 22, 2025
 readTime: 3 min read
 ---

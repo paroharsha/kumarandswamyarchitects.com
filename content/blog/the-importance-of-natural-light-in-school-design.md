@@ -1,6 +1,6 @@
 ---
 title: "The Importance of Natural Light in School Design"
-author: Kumar and Swamy Architects
+author: Paromita Harsha
 date: Nov 21, 2024
 readTime: 4 min read
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Reinterpreting Our Very First School"
-author: Kumar and Swamy Architects
+author: Paromita Harsha
 date: Feb 11, 2021
 readTime: 1 min read
 ---

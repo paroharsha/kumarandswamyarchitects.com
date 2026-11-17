@@ -1,6 +1,6 @@
 ---
 title: "Vivitsa World School: The Architecture"
-author: Kumar and Swamy Architects
+author: Sanchali Harsha
 date: Dec 6, 2024
 readTime: 2 min read
 ---

@@ -1,6 +1,6 @@
 ---
 title: "50 Years of Kumar & Swamy"
-author: Kumar and Swamy Architects
+author: Paromita Harsha
 date: Oct 11, 2022
 readTime: 1 min read
 ---

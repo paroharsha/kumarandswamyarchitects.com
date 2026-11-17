@@ -1,6 +1,6 @@
 ---
 title: "The Impact of Colour on Learning: A Guide to Selecting Colours for School Interiors"
-author: Kumar and Swamy Architects
+author: Sanchali Harsha
 date: Jan 28, 2025
 readTime: 4 min read
 ---
