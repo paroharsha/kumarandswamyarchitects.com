@@ -5,10 +5,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { site, nav, categories, projects, projectIndex, placeStates, schoolTypes, specialties, services, founder, team, approach, studio, roles, posts, journalNotes } from './data.mjs';
 import { sketch } from './sketches.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// Cache-busting: append a short hash of each asset's contents, so browsers
+// fetch the new stylesheet/script as soon as it changes (GitHub Pages lets
+// them cache assets for 10 minutes otherwise).
+const assetVer = (p) => createHash('sha1').update(fs.readFileSync(path.join(__dirname, '..', p))).digest('hex').slice(0, 8);
+const CSS_V = assetVer('assets/css/site.css');
+const JS_V = assetVer('assets/js/site.js');
 const ROOT = path.resolve(__dirname, '..');
 const w = (rel, html) => { const p = path.join(ROOT, rel); fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, html); };
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -201,7 +208,7 @@ function layout({ title, description, pathRel, depth = 0, bodyClass = '', main, 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;500;600;700;900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="${rel(depth, 'assets/css/site.css')}">${headExtra}
+<link rel="stylesheet" href="${rel(depth, 'assets/css/site.css')}?v=${CSS_V}">${headExtra}
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
 </head>
 <body class="${bodyClass}">
@@ -211,7 +218,7 @@ ${navHtml(bodyClass.includes('home') ? 'home' : (extraLd && extraLd._cur) || pag
 ${main}
 </main>
 ${bare ? '' : footerHtml(depth)}
-<script src="${rel(depth, 'assets/js/site.js')}"></script>
+<script src="${rel(depth, 'assets/js/site.js')}?v=${JS_V}"></script>
 </body>
 </html>`;
 }
