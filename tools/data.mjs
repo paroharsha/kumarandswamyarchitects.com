@@ -54,6 +54,13 @@ export const site = {
   })();
 </script>`
   },
+  // Comments on journal posts: a name + note box, no sign-in. Notes live in a
+  // Firestore database (Firebase free plan) and are read/written from the page.
+  // One-time setup: create a Firebase project, add a Firestore database, publish
+  // the rules in tools/firestore.rules, then put the Project ID here and rebuild.
+  // To remove a comment: Firebase console → Firestore → posts/<slug>/comments.
+  // While this is blank, posts keep the giscus widget configured below.
+  comments: { firebaseProject: 'ksa-journal-comments' },
   // Comments + reactions on journal posts, via giscus (https://giscus.app).
   // Free, no ads, privacy-friendly — every thread is stored in this repo's
   // GitHub Discussions. To switch it on (one-time):

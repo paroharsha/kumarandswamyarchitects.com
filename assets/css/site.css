@@ -389,6 +389,16 @@ body.jz main { display: block; }
 .jz-comments__head .jz-h2 { font-size: clamp(26px, 3.4vw, 44px); }
 .jz-comments__sub { margin: 12px 0 0; font-family: var(--jz-mono); font-size: 11px; letter-spacing: 0.04em; color: rgba(27, 26, 23, 0.62); }
 .jz-comments__mount { border: 1.5px solid var(--jz-ink); background: var(--jz-plate); padding: 16px 18px; box-shadow: 6px 6px 0 rgba(27, 26, 23, 0.1); }
+.jz-cform { margin-bottom: 30px; }
+.jz-cform__status[data-state="error"] { color: #A3321F; }
+.jz-cform__status[data-state="ok"] { color: var(--jz-blue); }
+.jz-clist__count { margin-bottom: 10px; }
+.jz-clist { border-top: 1px solid var(--jz-ink); }
+.jz-clist__empty { margin: 0; padding: 16px 0; font-family: var(--jz-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--jz-blue); }
+.jz-citem { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 0 14px; padding: 16px 0; border-bottom: 1px solid rgba(27, 26, 23, 0.18); }
+.jz-citem__meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-family: var(--jz-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(27, 26, 23, 0.6); }
+.jz-citem__name { color: var(--jz-ink); font-weight: 600; }
+.jz-citem__text { margin: 6px 0 0; font-family: var(--jz-body); font-size: 14px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
 .jz-comments__soon { border: 1.5px dashed var(--jz-blue); background: var(--jz-plate); padding: 22px 24px; font-family: var(--jz-mono); font-size: 12px; line-height: 1.6; letter-spacing: 0.03em; color: var(--jz-blue); }
 .giscus, .giscus-frame { width: 100%; }
 .giscus-frame { border: 0; color-scheme: light; }

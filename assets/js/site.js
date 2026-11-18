@@ -232,4 +232,96 @@
       }
     } catch (e) { /* keep the server-rendered default */ }
   }
+  // Journal comments: a name + note box backed by a Firestore collection (REST).
+  var cbox = document.querySelector('[data-comments]');
+  if (cbox && window.fetch) {
+    var capi = cbox.getAttribute('data-comments');
+    var cform = cbox.querySelector('.jz-cform');
+    var clist = cbox.querySelector('.jz-clist');
+    var ccount = cbox.querySelector('.jz-clist__count');
+    var cstatus = cbox.querySelector('.jz-cform__status');
+    var cname = cform.querySelector('[name="name"]');
+    var ctext = cform.querySelector('[name="text"]');
+    var cbtn = cform.querySelector('button[type="submit"]');
+    var ctotal = 0;
+    var say = function (msg, state) { cstatus.textContent = msg; cstatus.setAttribute('data-state', state || ''); };
+    var str = function (d, k) { return (d.fields && d.fields[k] && d.fields[k].stringValue) || ''; };
+    var initials = function (n) { return n.split(/\s+/).filter(Boolean).map(function (w) { return w.charAt(0); }).slice(0, 2).join('').toUpperCase(); };
+    var item = function (d) {
+      var name = str(d, 'name'), text = str(d, 'text');
+      var el = document.createElement('article'); el.className = 'jz-citem';
+      var av = document.createElement('span'); av.className = 'jz-avatar'; av.setAttribute('aria-hidden', 'true');
+      var ini = document.createElement('span'); ini.textContent = initials(name); av.appendChild(ini);
+      var body = document.createElement('div');
+      var meta = document.createElement('div'); meta.className = 'jz-citem__meta';
+      var nm = document.createElement('span'); nm.className = 'jz-citem__name'; nm.textContent = name;
+      var when = document.createElement('span');
+      var t = new Date(d.createTime);
+      when.textContent = isNaN(t) ? '' : t.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      meta.appendChild(nm); meta.appendChild(when);
+      var p = document.createElement('p'); p.className = 'jz-citem__text'; p.textContent = text;
+      body.appendChild(meta); body.appendChild(p);
+      el.appendChild(av); el.appendChild(body);
+      return el;
+    };
+    var setCount = function () {
+      ccount.hidden = !ctotal;
+      ccount.textContent = 'Comments · ' + (ctotal < 10 ? '0' : '') + ctotal;
+    };
+    var empty = function (msg) {
+      clist.textContent = '';
+      var p = document.createElement('p'); p.className = 'jz-clist__empty'; p.textContent = msg; clist.appendChild(p);
+    };
+    var loadAll = function (token, acc, pages) {
+      return fetch(capi + '?pageSize=300' + (token ? '&pageToken=' + encodeURIComponent(token) : ''))
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (j) {
+          acc = acc.concat(j.documents || []);
+          return j.nextPageToken && pages < 5 ? loadAll(j.nextPageToken, acc, pages + 1) : acc;
+        });
+    };
+    loadAll('', [], 0).then(function (docs) {
+      docs = docs.filter(function (d) { return str(d, 'name') && str(d, 'text'); });
+      docs.sort(function (a, b) { return a.createTime < b.createTime ? 1 : -1; });
+      ctotal = docs.length; setCount();
+      if (!ctotal) return empty('No comments yet. Be the first to leave a note.');
+      clist.textContent = '';
+      docs.forEach(function (d) { clist.appendChild(item(d)); });
+    }).catch(function () { empty('Comments could not be loaded just now. Please try again later.'); });
+
+    try { cname.value = localStorage.getItem('ks-comment-name') || ''; } catch (e) { /* storage unavailable */ }
+
+    cform.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (cform.querySelector('[name="botcheck"]').checked) return;
+      var name = cname.value.replace(/\s+/g, ' ').trim().slice(0, 60);
+      var text = ctext.value.trim().slice(0, 2000);
+      if (!name) { say('Please add your name.', 'error'); cname.focus(); return; }
+      if (!text) { say('Please write a comment.', 'error'); ctext.focus(); return; }
+      cbtn.disabled = true; say('Posting…', '');
+      fetch(capi, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields: { name: { stringValue: name }, text: { stringValue: text } } })
+      }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (d) {
+          if (!ctotal) clist.textContent = '';
+          clist.insertBefore(item(d), clist.firstChild);
+          ctotal += 1; setCount();
+          ctext.value = '';
+          say('Thank you. Your comment is posted.', 'ok');
+          try { localStorage.setItem('ks-comment-name', name); } catch (err) { /* storage unavailable */ }
+          var key = cbox.getAttribute('data-notify');
+          if (key) {
+            fetch('https://api.web3forms.com/submit', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+              body: JSON.stringify({ access_key: key, subject: 'New journal comment — ' + cbox.getAttribute('data-post'), from_name: 'Kumar & Swamy Architects website', name: name, comment: text, page: location.origin + location.pathname })
+            }).catch(function () { /* notification only */ });
+          }
+        })
+        .catch(function () { say('Sorry, that did not go through. Please try again.', 'error'); })
+        .then(function () { cbtn.disabled = false; });
+    });
+  }
 })();

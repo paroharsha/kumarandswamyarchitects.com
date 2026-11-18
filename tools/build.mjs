@@ -1297,6 +1297,35 @@ function giscusBlock() {
       </script>
     </section>`;
 }
+// Comments on a post: a name + note box that needs no sign-in. Notes are kept in
+// a Firestore collection (site.comments.firebaseProject) and read/written over
+// its REST API by assets/js/site.js; each new note is also emailed to the office
+// through Web3Forms so it can be moderated. Falls back to giscus until the
+// Firebase project id is filled in.
+function commentsBlock(p) {
+  const c = site.comments || {};
+  if (!c.firebaseProject) return giscusBlock();
+  const api = `https://firestore.googleapis.com/v1/projects/${c.firebaseProject}/databases/(default)/documents/posts/${encodeURIComponent(p.slug)}/comments`;
+  return `<section class="jz-comments" id="comments" data-comments="${api}" data-post="${esc(p.title)}" data-notify="${site.applyFormKey || ''}">
+      <div class="jz-comments__head">
+        <div class="jz-eyebrow jz-eyebrow--sec">Margin notes · Discussion</div>
+        <h2 class="jz-h2">Join the <em>conversation.</em></h2>
+        <p class="jz-comments__sub">Leave your name and a note. No sign-in needed.</p>
+      </div>
+      <form class="jz-form jz-cform" novalidate>
+        <input type="checkbox" name="botcheck" class="jz-form__botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="jz-field"><label for="c-name">Your name</label><input id="c-name" name="name" type="text" maxlength="60" autocomplete="name" required></div>
+        <div class="jz-field jz-field--full"><label for="c-text">Your comment</label><textarea id="c-text" name="text" rows="4" maxlength="2000" required></textarea></div>
+        <div class="jz-form__foot">
+          <button type="submit" class="jz-btn jz-btn--blue">Post comment →</button>
+          <p class="jz-form__note jz-cform__status" role="status" aria-live="polite">Your name and comment appear publicly on this page.</p>
+        </div>
+      </form>
+      <div class="jz-clist__count jz-eyebrow" hidden></div>
+      <div class="jz-clist"><p class="jz-clist__empty">Loading comments…</p></div>
+      <noscript><p class="jz-clist__empty">Comments need JavaScript switched on.</p></noscript>
+    </section>`;
+}
 // Fixed drawing-sheet chrome shared by the index and every article sheet.
 function jzChrome(sheetTitle, dwgNo, current, depth) {
   const links = nav.map(it => `<a href="${rel(depth, it.href)}"${it.id === current ? ' aria-current="page"' : ''}>${esc(it.label)}</a>`).join('');
@@ -1470,7 +1499,7 @@ function buildBlog() {
         <span class="sp"></span>
         <span class="lab">Dwg ${dwg(i)} — The Journal</span>
       </div>
-      ${giscusBlock()}
+      ${commentsBlock(p)}
     </article>
   </div>`;
     w(`post/${p.slug}.html`, layout({ title: `${p.title} | ${site.shortName} Journal`, description: p.excerpt, pathRel: `post/${p.slug}`, depth: 1, bodyClass: 'jz', bare: true, main: main2, extraLd: ld, ogType: 'article', image: `assets/img/blog/${p.slug}.jpg`, breadcrumbs: [{ name: 'Home', path: '' }, { name: 'Journal', path: 'blog' }, { name: p.title, path: `post/${p.slug}` }] }));
@@ -1482,7 +1511,7 @@ function buildPrivacy() {
   const rows = [
     ['What we collect', 'The site sets no cookies of its own and runs no analytics or advertising trackers. We only receive what you choose to send us: an email, a phone call, or an application through the “Work with us” form (name, email, phone, the role you are applying for, a link to your résumé or portfolio, and your message).'],
     ['How we use it', 'To reply to your enquiry or assess your application. We do not sell or share it, and we do not add you to a mailing list.'],
-    ['Third-party services', `Some features load from other providers, each under its own privacy policy: application forms are delivered to our inbox by <a href="https://web3forms.com/privacy" target="_blank" rel="noopener">Web3Forms ↗</a>; journal comments and reactions use <a href="https://github.com/giscus/giscus/blob/main/PRIVACY-POLICY.md" target="_blank" rel="noopener">giscus ↗</a> and require a GitHub sign-in; the contact map is embedded from Google Maps and the fonts are served by Google Fonts; the Instagram feed is shown via Behold. The site is hosted on GitHub Pages, which keeps standard server logs.`],
+    ['Third-party services', `Some features load from other providers, each under its own privacy policy: application forms are delivered to our inbox by <a href="https://web3forms.com/privacy" target="_blank" rel="noopener">Web3Forms ↗</a>; ${(site.comments || {}).firebaseProject ? `journal comments are stored with <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Google Firebase ↗</a>, and the name and comment you post are shown publicly on that article;` : `journal comments and reactions use <a href="https://github.com/giscus/giscus/blob/main/PRIVACY-POLICY.md" target="_blank" rel="noopener">giscus ↗</a> and require a GitHub sign-in;`} the contact map is embedded from Google Maps and the fonts are served by Google Fonts; the Instagram feed is shown via Behold. The site is hosted on GitHub Pages, which keeps standard server logs.`],
     ['Keeping and deleting it', `We keep enquiries and applications only as long as they are useful for the conversation or role. To see, correct or delete anything you have sent us, write to <a href="mailto:${site.email}">${site.email}</a>.`],
   ];
   const main = `${jzChrome('Privacy', 'G-01', '', 0)}
