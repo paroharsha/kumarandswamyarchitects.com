@@ -264,7 +264,11 @@ function buildHome() {
   // "On the board" rotates daily, client-side (static site — can't pick per-request
   // server-side). Pool = every project that has a real hero photo, kept in the
   // canonical project order so the day-based pick is deterministic for all visitors.
-  const featPool = projects.filter(p => exists(`assets/img/projects/${p.slug}.jpg`));
+  // site.boardPin (data.mjs) fixes the board on one project instead of rotating:
+  // the pool shrinks to that single project, so the client-side pick agrees.
+  const featAll = projects.filter(p => exists(`assets/img/projects/${p.slug}.jpg`));
+  const featPinned = featAll.filter(p => p.slug === site.boardPin);
+  const featPool = featPinned.length ? featPinned : featAll;
   const featData = featPool.map(p => ({
     slug: p.slug, name: p.name, location: p.location, year: p.year, category: p.category,
     ref: String(projects.indexOf(p) + 1).padStart(3, '0'),

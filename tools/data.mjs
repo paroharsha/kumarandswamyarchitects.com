@@ -54,6 +54,9 @@ export const site = {
   })();
 </script>`
   },
+  // Home page "On the board": slug of the project to feature permanently.
+  // Leave blank ('') to go back to rotating through the projects daily.
+  boardPin: 'valiants-academy',
   // Comments on journal posts: a name + note box, no sign-in. Notes live in a
   // Firestore database (Firebase free plan) and are read/written from the page.
   // One-time setup: create a Firebase project, add a Firestore database, publish
